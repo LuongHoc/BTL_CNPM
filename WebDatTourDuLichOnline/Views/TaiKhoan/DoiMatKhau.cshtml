@@ -1,0 +1,47 @@
+﻿@model WebDatTourDuLichOnline.Models.DoiMatKhauViewModel
+
+@{
+    ViewData["Title"] = "Đổi mật khẩu";
+}
+
+<h2 class="mb-4">Đổi mật khẩu</h2>
+
+@if (ViewBag.ThongBao != null)
+{
+    <div class="alert alert-success">@ViewBag.ThongBao</div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DoiMatKhau" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="MatKhauCu" class="form-label"></label>
+                <input asp-for="MatKhauCu" class="form-control" />
+                <span asp-validation-for="MatKhauCu" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MatKhauMoi" class="form-label"></label>
+                <input asp-for="MatKhauMoi" class="form-control" />
+                <span asp-validation-for="MatKhauMoi" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="XacNhanMatKhauMoi" class="form-label"></label>
+                <input asp-for="XacNhanMatKhauMoi" class="form-control" />
+                <span asp-validation-for="XacNhanMatKhauMoi" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+            <a asp-action="HoSo" class="btn btn-secondary ms-2">Quay lại hồ sơ</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

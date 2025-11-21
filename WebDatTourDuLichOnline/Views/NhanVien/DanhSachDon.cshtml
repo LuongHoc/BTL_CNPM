@@ -1,0 +1,764 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.DonDatTour>
+
+@{
+    ViewData["Title"] = "Đơn đặt tour (nhân viên)";
+    string trangThai = ViewBag.TrangThai as string ?? "TatCa";
+    string keyword = ViewBag.Keyword as string ?? "";
+}
+
+<!-- Page Header -->
+<div class="page-header-orders">
+    <div class="header-content-orders">
+        <div class="header-icon-orders">
+            <i class="bi bi-receipt"></i>
+        </div>
+        <div>
+            <h1 class="page-title-orders">Quản lý đơn đặt tour</h1>
+            <p class="page-subtitle-orders">Xem và quản lý tất cả đơn đặt tour của khách hàng</p>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-orders-section">
+    <form method="get" class="filter-orders-form">
+        <div class="filter-orders-header">
+            <i class="bi bi-funnel me-2"></i>
+            <h3>Tìm kiếm và lọc đơn</h3>
+        </div>
+        <div class="filter-orders-body">
+            <div class="filter-input-group">
+                <label class="filter-label">
+                    <i class="bi bi-search me-2"></i>
+                    Từ khóa
+                </label>
+                <input type="text" name="keyword" class="filter-input" value="@keyword" placeholder="Mã đơn hoặc tên khách" />
+            </div>
+
+            <div class="filter-input-group">
+                <label class="filter-label">
+                    <i class="bi bi-tag me-2"></i>
+                    Trạng thái đơn
+                </label>
+                <select name="trangThai" class="filter-select">
+                    <option value="TatCa" selected="@(trangThai == "TatCa" || string.IsNullOrEmpty(trangThai))">-- Tất cả --</option>
+                    <option value="ChoXacNhan" selected="@(trangThai == "ChoXacNhan")">Chờ xác nhận</option>
+                    <option value="DaXacNhan" selected="@(trangThai == "DaXacNhan")">Đã xác nhận</option>
+                    <option value="DaHuy" selected="@(trangThai == "DaHuy")">Đã hủy</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="btn-filter-search">
+                    <i class="bi bi-search me-2"></i>
+                    Tìm / Lọc
+                </button>
+                <a href="@Url.Action("DanhSachDon", "NhanVien")" class="btn-filter-reset">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Xóa lọc
+                </a>
+                <a href="@Url.Action("DanhSachDon", "NhanVien", new { trangThai = "ChoXacNhan" })" class="btn-filter-pending">
+                    <i class="bi bi-hourglass-split me-2"></i>
+                    Đơn chờ xác nhận
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Orders Table -->
+<div class="orders-table-container">
+    <div class="orders-table-header">
+        <h3>
+            <i class="bi bi-list-ul me-2"></i>
+            Danh sách đơn đặt tour
+            <span class="orders-count">(@Model.Count() đơn)</span>
+        </h3>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-orders-state">
+            <div class="empty-orders-icon">
+                <i class="bi bi-inbox"></i>
+            </div>
+            <h4>Không tìm thấy đơn nào</h4>
+            <p>Không có đơn đặt tour nào phù hợp với bộ lọc hiện tại.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-tag"></i>
+                                <span>Mã đơn</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-calendar"></i>
+                                <span>Ngày đặt</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-person"></i>
+                                <span>Khách hàng</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-pin-map"></i>
+                                <span>Tour</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-people"></i>
+                                <span>Số khách</span>
+                            </div>
+                        </th>
+                        <th class="text-end">
+                            <div class="th-orders-content justify-content-end">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Tổng tiền</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-credit-card"></i>
+                                <span>TT thanh toán</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-check-circle"></i>
+                                <span>TT đơn</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-orders-content">
+                                <i class="bi bi-gear"></i>
+                                <span>Cập nhật</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.OrderByDescending(x => x.NgayDat))
+                    {
+                        <tr class="order-row">
+                            <td>
+                                <div class="order-code">
+                                    <i class="bi bi-tag-fill"></i>
+                                    <strong>@d.MaDon</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="order-date">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <span>@d.NgayDat.ToString("dd/MM/yyyy")</span>
+                                    <small>@d.NgayDat.ToString("HH:mm")</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="customer-info">
+                                    <div class="customer-avatar">
+                                        @(d.KhachHang?.HoTen?.Substring(0, 1).ToUpper() ?? "?")
+                                    </div>
+                                    <div class="customer-details">
+                                        <div class="customer-name">@d.KhachHang?.HoTen</div>
+                                        <div class="customer-phone">
+                                            <i class="bi bi-telephone"></i>
+                                            @d.KhachHang?.SoDienThoai
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tour-name">@d.Tour?.TenTour</div>
+                            </td>
+                            <td>
+                                <div class="guest-count">
+                                    <span class="adult-count">
+                                        <i class="bi bi-person"></i>
+                                        @d.SoNguoiLon NL
+                                    </span>
+                                    <span class="child-count">
+                                        <i class="bi bi-person-hearts"></i>
+                                        @d.SoTreEm TE
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <div class="total-amount">@d.TongTien.ToString("N0") đ</div>
+                            </td>
+                            <td>
+                                @if (d.TrangThaiThanhToan == "DaThanhToan")
+                                {
+                                    <span class="payment-badge paid">
+                                        <i class="bi bi-check-circle"></i>
+                                        Đã thanh toán
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="payment-badge unpaid">
+                                        <i class="bi bi-x-circle"></i>
+                                        Chưa thanh toán
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (d.TrangThaiDon == "DaXacNhan")
+                                {
+                                    <span class="status-badge confirmed">
+                                        <i class="bi bi-check-circle"></i>
+                                        Đã xác nhận
+                                    </span>
+                                }
+                                else if (d.TrangThaiDon == "ChoXacNhan")
+                                {
+                                    <span class="status-badge pending">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        Chờ xác nhận
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge canceled">
+                                        <i class="bi bi-x-circle"></i>
+                                        Đã hủy
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <form asp-action="CapNhatDon" method="post" class="update-form">
+                                    <input type="hidden" name="id" value="@d.DonDatTourId" />
+
+                                    <div class="update-selects">
+                                        <select name="trangThaiDon" class="update-select">
+                                            <option value="ChoXacNhan" selected="@(d.TrangThaiDon == "ChoXacNhan")">Chờ</option>
+                                            <option value="DaXacNhan" selected="@(d.TrangThaiDon == "DaXacNhan")">Đã XN</option>
+                                            <option value="DaHuy" selected="@(d.TrangThaiDon == "DaHuy")">Đã hủy</option>
+                                        </select>
+
+                                        <select name="trangThaiThanhToan" class="update-select">
+                                            <option value="ChuaThanhToan" selected="@(d.TrangThaiThanhToan == "ChuaThanhToan")">Chưa TT</option>
+                                            <option value="DaThanhToan" selected="@(d.TrangThaiThanhToan == "DaThanhToan")">Đã TT</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn-update-order">
+                                        <i class="bi bi-check-lg"></i>
+                                        Lưu
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<style>
+    /* ====== PAGE HEADER ORDERS ====== */
+    .page-header-orders {
+        padding: 2rem;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .header-content-orders {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .header-icon-orders {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .page-title-orders {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .page-subtitle-orders {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin: 0.5rem 0 0;
+    }
+
+    /* ====== FILTER ORDERS SECTION ====== */
+    .filter-orders-section {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+
+    .filter-orders-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-bottom: 2px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+    }
+
+        .filter-orders-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .filter-orders-header i {
+            color: #3b82f6;
+            font-size: 1.25rem;
+        }
+
+    .filter-orders-body {
+        padding: 2rem;
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .filter-input-group {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .filter-label {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .filter-label i {
+            color: #3b82f6;
+        }
+
+    .filter-input,
+    .filter-select {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+        .filter-input:focus,
+        .filter-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+    .filter-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-filter-search,
+    .btn-filter-reset,
+    .btn-filter-pending {
+        padding: 0.875rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-filter-search {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+        .btn-filter-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+    .btn-filter-reset {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        color: #64748b;
+    }
+
+        .btn-filter-reset:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+    .btn-filter-pending {
+        background: rgba(245, 158, 11, 0.1);
+        border: 2px solid #f59e0b;
+        color: #d97706;
+    }
+
+        .btn-filter-pending:hover {
+            background: #f59e0b;
+            color: #fff;
+        }
+
+    /* ====== ORDERS TABLE CONTAINER ====== */
+    .orders-table-container {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .orders-table-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+        .orders-table-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+    .orders-count {
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    /* Empty State */
+    .empty-orders-state {
+        padding: 5rem 2rem;
+        text-align: center;
+    }
+
+    .empty-orders-icon {
+        font-size: 5rem;
+        color: #cbd5e1;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-orders-state h4 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-orders-state p {
+        font-size: 1rem;
+        color: #64748b;
+    }
+
+    /* ====== ORDERS TABLE ====== */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .orders-table thead {
+            background: #f8fafc;
+        }
+
+        .orders-table th {
+            padding: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+    .th-orders-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .th-orders-content i {
+            color: #94a3b8;
+        }
+
+    .orders-table tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+        .orders-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+    .orders-table td {
+        padding: 1.25rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .order-code {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #3b82f6;
+        font-weight: 600;
+    }
+
+    .order-date {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+        .order-date i {
+            color: #3b82f6;
+            margin-right: 0.25rem;
+        }
+
+        .order-date small {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+    .customer-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .customer-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .customer-name {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+    }
+
+    .customer-phone {
+        font-size: 0.85rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .tour-name {
+        font-weight: 500;
+        color: #1e293b;
+        max-width: 200px;
+    }
+
+    .guest-count {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .adult-count,
+    .child-count {
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .adult-count {
+        background: rgba(59, 130, 246, 0.1);
+        color: #2563eb;
+    }
+
+    .child-count {
+        background: rgba(245, 158, 11, 0.1);
+        color: #d97706;
+    }
+
+    .total-amount {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #10b981;
+    }
+
+    .payment-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .payment-badge.paid {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .payment-badge.unpaid {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .status-badge.confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .status-badge.canceled {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+    /* Update Form */
+    .update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .update-selects {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .update-select {
+        flex: 1;
+        padding: 0.5rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+        .update-select:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+
+    .btn-update-order {
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+        .btn-update-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+    /* ====== RESPONSIVE ====== */
+    @@media (max-width: 768px) {
+        .filter-orders-body {
+            flex-direction: column;
+        }
+
+        .filter-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .btn-filter-search,
+        .btn-filter-reset,
+        .btn-filter-pending {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .orders-table {
+            font-size: 0.85rem;
+        }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.75rem 0.5rem;
+            }
+    }
+</style>
+
+<script>
+    // Auto submit on status change
+    document.querySelectorAll('.update-form select').forEach(select => {
+        select.addEventListener('change', function() {
+            // Optional: You can add auto-submit here if needed
+            // this.closest('form').submit();
+        });
+    });
+</script>

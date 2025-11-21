@@ -1,0 +1,664 @@
+﻿@model WebDatTourDuLichOnline.Models.NhanVienViewModel
+
+@{
+    ViewData["Title"] = "Thêm nhân viên";
+}
+
+<!-- Page Header -->
+<div class="page-header-add-staff">
+    <div class="header-content-add">
+        <div class="header-icon-add">
+            <i class="bi bi-person-plus"></i>
+        </div>
+        <div>
+            <h1 class="page-title-add">Thêm nhân viên mới</h1>
+            <p class="page-subtitle-add">Tạo tài khoản và thêm thông tin nhân viên vào hệ thống</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Form -->
+<div class="add-staff-container">
+    <div class="row g-4">
+        <!-- Form Column -->
+        <div class="col-lg-8">
+            <form asp-action="ThemNhanVien" method="post" id="addStaffForm">
+
+                <!-- Personal Info Card -->
+                <div class="form-card-add">
+                    <div class="form-card-header-add">
+                        <div class="form-card-icon-add personal">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h3>Thông tin cá nhân</h3>
+                    </div>
+                    <div class="form-card-body-add">
+                        <div class="form-group-add">
+                            <label asp-for="HoTen" class="form-label-add">
+                                <i class="bi bi-person me-2"></i>
+                                Họ và tên
+                                <span class="required-star-add">*</span>
+                            </label>
+                            <input asp-for="HoTen" class="form-control-add" placeholder="Nhập họ và tên đầy đủ" />
+                            <span asp-validation-for="HoTen" class="validation-message-add"></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group-add">
+                                    <label asp-for="Email" class="form-label-add">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        Email
+                                    </label>
+                                    <input asp-for="Email" class="form-control-add" type="email" placeholder="example@email.com" />
+                                    <span asp-validation-for="Email" class="validation-message-add"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group-add">
+                                    <label asp-for="SoDienThoai" class="form-label-add">
+                                        <i class="bi bi-telephone me-2"></i>
+                                        Số điện thoại
+                                    </label>
+                                    <input asp-for="SoDienThoai" class="form-control-add" placeholder="0123456789" />
+                                    <span asp-validation-for="SoDienThoai" class="validation-message-add"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-add">
+                            <label asp-for="DiaChi" class="form-label-add">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Địa chỉ
+                            </label>
+                            <input asp-for="DiaChi" class="form-control-add" placeholder="Nhập địa chỉ đầy đủ" />
+                            <span asp-validation-for="DiaChi" class="validation-message-add"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Info Card -->
+                <div class="form-card-add">
+                    <div class="form-card-header-add">
+                        <div class="form-card-icon-add account">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <h3>Thông tin tài khoản</h3>
+                    </div>
+                    <div class="form-card-body-add">
+                        <div class="form-group-add">
+                            <label asp-for="TenDangNhap" class="form-label-add">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Tên đăng nhập
+                                <span class="required-star-add">*</span>
+                            </label>
+                            <input asp-for="TenDangNhap" class="form-control-add" placeholder="Nhập tên đăng nhập" />
+                            <span asp-validation-for="TenDangNhap" class="validation-message-add"></span>
+                            <div class="form-hint-add">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Tên đăng nhập phải là duy nhất trong hệ thống
+                            </div>
+                        </div>
+
+                        <div class="form-group-add">
+                            <label asp-for="MatKhau" class="form-label-add">
+                                <i class="bi bi-key me-2"></i>
+                                Mật khẩu
+                                <span class="required-star-add">*</span>
+                            </label>
+                            <div class="password-input-wrapper-add">
+                                <input asp-for="MatKhau" class="form-control-add" type="password" id="passwordInputAdd" placeholder="Nhập mật khẩu" />
+                                <button type="button" class="btn-toggle-password-add" onclick="togglePasswordAdd()">
+                                    <i class="bi bi-eye" id="toggleIconAdd"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="MatKhau" class="validation-message-add"></span>
+                            <div class="form-hint-add">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Mật khẩu nên có ít nhất 6 ký tự
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions-add">
+                    <a asp-action="DanhSachNhanVien" class="btn-cancel-add">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn-save-add">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Thêm nhân viên
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <!-- Help Card -->
+            <div class="help-card-add">
+                <div class="help-icon-add">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h4>Hướng dẫn thêm nhân viên</h4>
+                <ul class="help-list-add">
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Điền đầy đủ thông tin có dấu <span class="text-danger">*</span></span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Tên đăng nhập phải là duy nhất</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Mật khẩu nên có ít nhất 6 ký tự</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Kiểm tra kỹ email và SĐT</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Nhân viên sẽ nhận được thông tin tài khoản qua email</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Requirements Card -->
+            <div class="requirements-card">
+                <div class="req-icon">
+                    <i class="bi bi-list-check"></i>
+                </div>
+                <h5>Thông tin bắt buộc</h5>
+                <div class="req-list">
+                    <div class="req-item">
+                        <i class="bi bi-check2"></i>
+                        <span>Họ và tên</span>
+                    </div>
+                    <div class="req-item">
+                        <i class="bi bi-check2"></i>
+                        <span>Tên đăng nhập</span>
+                    </div>
+                    <div class="req-item">
+                        <i class="bi bi-check2"></i>
+                        <span>Mật khẩu</span>
+                    </div>
+                </div>
+                <hr class="my-3">
+                <h5>Thông tin tùy chọn</h5>
+                <div class="req-list">
+                    <div class="req-item optional">
+                        <i class="bi bi-dash"></i>
+                        <span>Email</span>
+                    </div>
+                    <div class="req-item optional">
+                        <i class="bi bi-dash"></i>
+                        <span>Số điện thoại</span>
+                    </div>
+                    <div class="req-item optional">
+                        <i class="bi bi-dash"></i>
+                        <span>Địa chỉ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Preview -->
+            <div class="success-preview">
+                <div class="preview-icon">
+                    <i class="bi bi-patch-check"></i>
+                </div>
+                <h5>Sau khi thêm thành công</h5>
+                <p>Nhân viên mới sẽ xuất hiện trong danh sách và có thể đăng nhập ngay lập tức.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER ADD STAFF ====== */
+        .page-header-add-staff {
+            padding: 2rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .header-content-add {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon-add {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title-add {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle-add {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        /* ====== ADD STAFF CONTAINER ====== */
+        .add-staff-container {
+            margin-bottom: 3rem;
+        }
+
+        /* ====== FORM CARD ADD ====== */
+        .form-card-add {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-card-header-add {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .form-card-icon-add {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+            .form-card-icon-add.personal {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            }
+
+            .form-card-icon-add.account {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+        .form-card-header-add h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .form-card-body-add {
+            padding: 2rem;
+        }
+
+        /* ====== FORM GROUPS ADD ====== */
+        .form-group-add {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group-add:last-child {
+                margin-bottom: 0;
+            }
+
+        .form-label-add {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-label-add i {
+                color: #10b981;
+            }
+
+        .required-star-add {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .form-control-add {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control-add:focus {
+                border-color: #10b981;
+                box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+                outline: none;
+            }
+
+            .form-control-add::placeholder {
+                color: #94a3b8;
+            }
+
+        .validation-message-add {
+            display: block;
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-hint-add {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Password Input */
+        .password-input-wrapper-add {
+            position: relative;
+        }
+
+        .btn-toggle-password-add {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.125rem;
+            transition: color 0.3s ease;
+        }
+
+            .btn-toggle-password-add:hover {
+                color: #10b981;
+            }
+
+        /* ====== FORM ACTIONS ADD ====== */
+        .form-actions-add {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding: 1.5rem 0;
+        }
+
+        .btn-cancel-add,
+        .btn-save-add {
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-cancel-add {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+
+            .btn-cancel-add:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        .btn-save-add {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+            .btn-save-add:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+            }
+
+        /* ====== HELP CARD ADD ====== */
+        .help-card-add {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #fbbf24;
+        }
+
+        .help-icon-add {
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .help-card-add h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .help-list-add {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .help-list-add li {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+                color: #92400e;
+                font-size: 0.9rem;
+            }
+
+                .help-list-add li:last-child {
+                    margin-bottom: 0;
+                }
+
+            .help-list-add i {
+                color: #16a34a;
+                font-size: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.125rem;
+            }
+
+        /* ====== REQUIREMENTS CARD ====== */
+        .requirements-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .req-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .requirements-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .req-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .req-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+            .req-item i {
+                color: #10b981;
+                font-size: 1rem;
+            }
+
+            .req-item.optional i {
+                color: #94a3b8;
+            }
+
+            .req-item.optional {
+                color: #64748b;
+            }
+
+        /* ====== SUCCESS PREVIEW ====== */
+        .success-preview {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid #10b981;
+        }
+
+        .preview-icon {
+            width: 50px;
+            height: 50px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .success-preview h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 0.75rem;
+        }
+
+        .success-preview p {
+            font-size: 0.9rem;
+            color: #065f46;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 768px) {
+            .header-content-add {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-icon-add {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .page-title-add {
+                font-size: 1.5rem;
+            }
+
+            .form-card-body-add {
+                padding: 1.5rem;
+            }
+
+            .form-actions-add {
+                flex-direction: column-reverse;
+            }
+
+            .btn-cancel-add,
+            .btn-save-add {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Toggle password visibility
+        function togglePasswordAdd() {
+            const passwordInput = document.getElementById('passwordInputAdd');
+            const toggleIcon = document.getElementById('toggleIconAdd');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            }
+        }
+
+        // Form submission with loading state
+        document.getElementById('addStaffForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-save-add');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang thêm...';
+            btn.disabled = true;
+        });
+
+        // Auto-focus first input
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstInput = document.querySelector('.form-control-add');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        });
+    </script>
+}

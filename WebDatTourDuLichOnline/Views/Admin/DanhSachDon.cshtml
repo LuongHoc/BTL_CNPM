@@ -1,0 +1,832 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.DonDatTour>
+
+@{
+    ViewData["Title"] = "Quản lý đơn đặt tour";
+    string trangThaiDon = ViewBag.TrangThaiDon as string;
+}
+
+<!-- Page Header -->
+<div class="page-header-orders">
+    <div class="header-left">
+        <h1 class="page-title">
+            <i class="bi bi-clipboard-check me-2"></i>
+            Quản lý đơn đặt tour
+        </h1>
+        <p class="page-subtitle">Xem và cập nhật trạng thái đơn đặt tour</p>
+    </div>
+    <div class="header-right">
+        <button class="btn-export-orders">
+            <i class="bi bi-download me-2"></i>
+            Xuất Excel
+        </button>
+        <button class="btn-refresh-orders" onclick="location.reload()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-section-orders">
+    <form method="get" class="filter-form-orders">
+        <div class="filter-group-orders">
+            <label class="filter-label-orders">
+                <i class="bi bi-funnel me-2"></i>
+                Lọc theo trạng thái đơn
+            </label>
+            <select name="trangThaiDon" class="filter-select-orders">
+                <option value="">-- Tất cả --</option>
+                <option value="ChoXacNhan" selected="@(trangThaiDon == "ChoXacNhan")">
+                    Chờ xác nhận
+                </option>
+                <option value="DaXacNhan" selected="@(trangThaiDon == "DaXacNhan")">
+                    Đã xác nhận
+                </option>
+                <option value="DaHoanTat" selected="@(trangThaiDon == "DaHoanTat")">
+                    Đã hoàn tất
+                </option>
+                <option value="DaHuy" selected="@(trangThaiDon == "DaHuy")">
+                    Đã hủy
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-actions-orders">
+            <button type="submit" class="btn-filter-orders">
+                <i class="bi bi-check-circle me-2"></i>
+                Lọc
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Statistics Quick View -->
+<div class="stats-orders-view">
+    <div class="stat-order-item pending">
+        <div class="stat-order-icon">
+            <i class="bi bi-clock-history"></i>
+        </div>
+        <div class="stat-order-content">
+            <span class="stat-order-value">@Model.Count(d => d.TrangThaiDon == "ChoXacNhan")</span>
+            <span class="stat-order-label">Chờ xác nhận</span>
+        </div>
+    </div>
+
+    <div class="stat-order-item confirmed">
+        <div class="stat-order-icon">
+            <i class="bi bi-check-circle"></i>
+        </div>
+        <div class="stat-order-content">
+            <span class="stat-order-value">@Model.Count(d => d.TrangThaiDon == "DaXacNhan")</span>
+            <span class="stat-order-label">Đã xác nhận</span>
+        </div>
+    </div>
+
+    <div class="stat-order-item completed">
+        <div class="stat-order-icon">
+            <i class="bi bi-check-all"></i>
+        </div>
+        <div class="stat-order-content">
+            <span class="stat-order-value">@Model.Count(d => d.TrangThaiDon == "DaHoanTat")</span>
+            <span class="stat-order-label">Hoàn tất</span>
+        </div>
+    </div>
+
+    <div class="stat-order-item cancelled">
+        <div class="stat-order-icon">
+            <i class="bi bi-x-circle"></i>
+        </div>
+        <div class="stat-order-content">
+            <span class="stat-order-value">@Model.Count(d => d.TrangThaiDon == "DaHuy")</span>
+            <span class="stat-order-label">Đã hủy</span>
+        </div>
+    </div>
+</div>
+
+<!-- Orders Table -->
+<div class="orders-table-container">
+    <div class="orders-table-header">
+        <h3>
+            <i class="bi bi-list-ul me-2"></i>
+            Danh sách đơn đặt tour
+            <span class="orders-count">(@Model.Count() đơn)</span>
+        </h3>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state-orders">
+            <div class="empty-icon-orders">
+                <i class="bi bi-inbox"></i>
+            </div>
+            <h4>Không có đơn đặt tour nào</h4>
+            <p>Chưa có đơn đặt tour phù hợp với bộ lọc hiện tại</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Tour</th>
+                        <th>Ngày đặt</th>
+                        <th>Số khách</th>
+                        <th>Tổng tiền</th>
+                        <th>TT thanh toán</th>
+                        <th>TT đơn</th>
+                        <th>Cập nhật</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var don in Model.OrderByDescending(d => d.NgayDat))
+                    {
+                        <tr class="order-row">
+                            <td>
+                                <div class="order-code-cell">
+                                    <i class="bi bi-tag"></i>
+                                    <strong>@don.MaDon</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="customer-info-cell">
+                                    <div class="customer-avatar-cell">
+                                        @(don.KhachHang?.HoTen?.Substring(0, 1).ToUpper() ?? "?")
+                                    </div>
+                                    <div>
+                                        <div class="customer-name-cell">@don.KhachHang?.HoTen</div>
+                                        <div class="customer-phone-cell">
+                                            <i class="bi bi-telephone"></i>
+                                            @don.KhachHang?.SoDienThoai
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tour-name-order">@don.Tour?.TenTour</div>
+                            </td>
+                            <td>
+                                <div class="date-order-cell">
+                                    @don.NgayDat.ToString("dd/MM/yyyy")
+                                    <small>@don.NgayDat.ToString("HH:mm")</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="guests-order-cell">
+                                    <span class="guest-badge-order adult">@don.SoNguoiLon NL</span>
+                                    <span class="guest-badge-order child">@don.SoTreEm TE</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-order-cell">@don.TongTien.ToString("N0") đ</div>
+                            </td>
+                            <td>
+                                @switch (don.TrangThaiThanhToan)
+                                {
+                                    case "DaThanhToan":
+                                        <span class="status-badge-order success">
+                                            <i class="bi bi-check-circle"></i> Đã TT
+                                        </span>
+                                        break;
+                                    case "ChuaThanhToan":
+                                        <span class="status-badge-order warning">
+                                            <i class="bi bi-clock"></i> Chưa TT
+                                        </span>
+                                        break;
+                                    case "ThatBai":
+                                        <span class="status-badge-order danger">
+                                            <i class="bi bi-x-circle"></i> Thất bại
+                                        </span>
+                                        break;
+                                    default:
+                                        <span class="status-badge-order secondary">@don.TrangThaiThanhToan</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @switch (don.TrangThaiDon)
+                                {
+                                    case "ChoXacNhan":
+                                        <span class="status-badge-order pending">
+                                            <i class="bi bi-hourglass-split"></i> Chờ XN
+                                        </span>
+                                        break;
+                                    case "DaXacNhan":
+                                        <span class="status-badge-order info">
+                                            <i class="bi bi-check-circle"></i> Đã XN
+                                        </span>
+                                        break;
+                                    case "DaHoanTat":
+                                        <span class="status-badge-order success">
+                                            <i class="bi bi-check-all"></i> Hoàn tất
+                                        </span>
+                                        break;
+                                    case "DaHuy":
+                                        <span class="status-badge-order danger">
+                                            <i class="bi bi-x-circle"></i> Đã hủy
+                                        </span>
+                                        break;
+                                    default:
+                                        <span class="status-badge-order secondary">@don.TrangThaiDon</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <form asp-action="CapNhatTrangThaiDon" method="post" class="update-form-order">
+                                    <input type="hidden" name="id" value="@don.DonDatTourId" />
+
+                                    <div class="form-row-order">
+                                        <select name="trangThaiDon" class="select-order">
+                                            <option value="ChoXacNhan" selected="@(don.TrangThaiDon == "ChoXacNhan")">
+                                                Chờ xác nhận
+                                            </option>
+                                            <option value="DaXacNhan" selected="@(don.TrangThaiDon == "DaXacNhan")">
+                                                Đã xác nhận
+                                            </option>
+                                            <option value="DaHoanTat" selected="@(don.TrangThaiDon == "DaHoanTat")">
+                                                Đã hoàn tất
+                                            </option>
+                                            <option value="DaHuy" selected="@(don.TrangThaiDon == "DaHuy")">
+                                                Đã hủy
+                                            </option>
+                                        </select>
+
+                                        <select name="trangThaiThanhToan" class="select-order">
+                                            <option value="ChuaThanhToan" selected="@(don.TrangThaiThanhToan == "ChuaThanhToan")">
+                                                Chưa thanh toán
+                                            </option>
+                                            <option value="DaThanhToan" selected="@(don.TrangThaiThanhToan == "DaThanhToan")">
+                                                Đã thanh toán
+                                            </option>
+                                            <option value="ThatBai" selected="@(don.TrangThaiThanhToan == "ThatBai")">
+                                                Thất bại
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn-save-order">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Lưu
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER ORDERS ====== */
+        .page-header-orders {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-export-orders {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+        }
+
+            .btn-export-orders:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+            }
+
+        .btn-refresh-orders {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-refresh-orders:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: rotate(90deg);
+            }
+
+        /* ====== FILTER SECTION ORDERS ====== */
+        .filter-section-orders {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-form-orders {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group-orders {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .filter-label-orders {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-select-orders {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .filter-select-orders:focus {
+                border-color: #8b5cf6;
+                box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+                outline: none;
+            }
+
+        .filter-actions-orders {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-filter-orders {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+            .btn-filter-orders:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+            }
+
+        /* ====== STATS ORDERS VIEW ====== */
+        .stats-orders-view {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-order-item {
+            background: #fff;
+            padding: 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+            .stat-order-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .stat-order-item.pending {
+                border-left-color: #f59e0b;
+            }
+
+            .stat-order-item.confirmed {
+                border-left-color: #3b82f6;
+            }
+
+            .stat-order-item.completed {
+                border-left-color: #10b981;
+            }
+
+            .stat-order-item.cancelled {
+                border-left-color: #ef4444;
+            }
+
+        .stat-order-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .stat-order-item.pending .stat-order-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-order-item.confirmed .stat-order-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-order-item.completed .stat-order-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-order-item.cancelled .stat-order-icon {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-order-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+        }
+
+        .stat-order-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* ====== ORDERS TABLE CONTAINER ====== */
+        .orders-table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .orders-table-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+            .orders-table-header h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .orders-count {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state-orders {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon-orders {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-orders h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-orders p {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        /* ====== ORDERS TABLE ====== */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .orders-table thead {
+                background: #f8fafc;
+            }
+
+            .orders-table th {
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 2px solid #e2e8f0;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: #64748b;
+                white-space: nowrap;
+            }
+
+            .orders-table tbody tr {
+                border-bottom: 1px solid #f0f0f0;
+                transition: all 0.3s ease;
+            }
+
+                .orders-table tbody tr:hover {
+                    background: #f8fafc;
+                }
+
+            .orders-table td {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+        /* Table Cell Styles */
+        .order-code-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        .customer-info-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .customer-avatar-cell {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .customer-name-cell {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-phone-cell {
+            font-size: 0.8rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tour-name-order {
+            max-width: 200px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .date-order-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            color: #64748b;
+        }
+
+            .date-order-cell small {
+                font-size: 0.75rem;
+                color: #94a3b8;
+            }
+
+        .guests-order-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .guest-badge-order {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+            .guest-badge-order.adult {
+                background: rgba(59, 130, 246, 0.1);
+                color: #2563eb;
+            }
+
+            .guest-badge-order.child {
+                background: rgba(236, 72, 153, 0.1);
+                color: #db2777;
+            }
+
+        .price-order-cell {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* Status Badges */
+        .status-badge-order {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+            .status-badge-order.success {
+                background: rgba(16, 185, 129, 0.1);
+                color: #059669;
+            }
+
+            .status-badge-order.warning {
+                background: rgba(251, 191, 36, 0.1);
+                color: #d97706;
+            }
+
+            .status-badge-order.danger {
+                background: rgba(239, 68, 68, 0.1);
+                color: #dc2626;
+            }
+
+            .status-badge-order.pending {
+                background: rgba(245, 158, 11, 0.1);
+                color: #d97706;
+            }
+
+            .status-badge-order.info {
+                background: rgba(59, 130, 246, 0.1);
+                color: #2563eb;
+            }
+
+            .status-badge-order.secondary {
+                background: rgba(100, 116, 139, 0.1);
+                color: #475569;
+            }
+
+        /* Update Form */
+        .update-form-order {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 180px;
+        }
+
+        .form-row-order {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .select-order {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+            .select-order:focus {
+                border-color: #8b5cf6;
+                outline: none;
+            }
+
+        .btn-save-order {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-save-order:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 1200px) {
+            .stats-orders-view {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .page-header-orders {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .filter-form-orders {
+                flex-direction: column;
+            }
+
+            .filter-group-orders {
+                width: 100%;
+            }
+
+            .stats-orders-view {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-table {
+                font-size: 0.8rem;
+            }
+
+                .orders-table th,
+                .orders-table td {
+                    padding: 0.75rem 0.5rem;
+                }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Add loading state to save buttons
+        document.querySelectorAll('.btn-save-order').forEach(btn => {
+            btn.closest('form').addEventListener('submit', function() {
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Đang lưu...';
+                btn.disabled = true;
+            });
+        });
+    </script>
+}

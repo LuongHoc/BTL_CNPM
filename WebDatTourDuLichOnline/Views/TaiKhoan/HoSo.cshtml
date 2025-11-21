@@ -1,0 +1,633 @@
+﻿@model WebDatTourDuLichOnline.Models.HoSoViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+
+<!-- Page Header -->
+<div class="profile-header mb-4">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold mb-1">
+                    <i class="bi bi-person-circle text-primary me-2"></i>
+                    Hồ sơ cá nhân
+                </h2>
+                <p class="text-muted mb-0">Quản lý thông tin cá nhân và bảo mật tài khoản của bạn</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a asp-action="DoiMatKhau" class="btn btn-outline-primary">
+                    <i class="bi bi-shield-lock me-2"></i>Đổi mật khẩu
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Success -->
+@if (ViewBag.ThongBao != null)
+{
+    <div class="alert alert-success alert-dismissible fade show custom-alert" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <strong>Thành công!</strong> @ViewBag.ThongBao
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Profile Content -->
+<div class="row">
+    <!-- Left Column - Profile Avatar -->
+    <div class="col-lg-4 mb-4">
+        <div class="profile-card">
+            <div class="profile-avatar-section">
+                <div class="avatar-wrapper">
+                    <div class="avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <button class="avatar-upload-btn" type="button" title="Đổi ảnh đại diện">
+                        <i class="bi bi-camera-fill"></i>
+                    </button>
+                </div>
+                <h4 class="profile-name mt-3">@Model.HoTen</h4>
+                <p class="profile-email">@Model.Email</p>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Thành viên từ</div>
+                        <div class="stat-value">@DateTime.Now.ToString("MM/yyyy")</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Trạng thái</div>
+                        <div class="stat-value">
+                            <span class="badge bg-success">Đã xác thực</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-quick-actions">
+                <a href="#" class="quick-action-item">
+                    <i class="bi bi-heart"></i>
+                    <span>Tour yêu thích</span>
+                </a>
+                <a asp-controller="TaiKhoan" asp-action="DonCuaToi" class="quick-action-item">
+                    <i class="bi bi-receipt"></i>
+                    <span>Đơn của tôi</span>
+                </a>
+                <a href="#" class="quick-action-item">
+                    <i class="bi bi-bell"></i>
+                    <span>Thông báo</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column - Profile Form -->
+    <div class="col-lg-8">
+        <div class="profile-card">
+            <div class="card-header-custom">
+                <h5 class="mb-0">
+                    <i class="bi bi-pencil-square me-2"></i>
+                    Thông tin cá nhân
+                </h5>
+            </div>
+
+            <form asp-action="HoSo" method="post" class="profile-form">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger custom-alert" role="alert"></div>
+
+                <!-- Họ tên -->
+                <div class="form-group-custom mb-4">
+                    <label asp-for="HoTen" class="form-label-custom">
+                        <i class="bi bi-person me-2"></i>Họ và tên
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="HoTen" class="form-control-custom" placeholder="Nhập họ và tên của bạn" />
+                        <span class="input-icon">
+                            <i class="bi bi-person-fill"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="HoTen" class="text-danger small"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group-custom mb-4">
+                    <label asp-for="Email" class="form-label-custom">
+                        <i class="bi bi-envelope me-2"></i>Email
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="Email" class="form-control-custom" placeholder="email@example.com" />
+                        <span class="input-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                    <small class="form-text">Email được sử dụng để đăng nhập và nhận thông báo</small>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="form-group-custom mb-4">
+                    <label asp-for="SoDienThoai" class="form-label-custom">
+                        <i class="bi bi-telephone me-2"></i>Số điện thoại
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="SoDienThoai" class="form-control-custom" placeholder="0123456789" />
+                        <span class="input-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                </div>
+
+                <!-- Địa chỉ -->
+                <div class="form-group-custom mb-4">
+                    <label asp-for="DiaChi" class="form-label-custom">
+                        <i class="bi bi-geo-alt me-2"></i>Địa chỉ
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="DiaChi" class="form-control-custom" placeholder="Nhập địa chỉ của bạn" />
+                        <span class="input-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary-custom">
+                        <i class="bi bi-check-circle me-2"></i>Lưu thay đổi
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-custom">
+                        <i class="bi bi-x-circle me-2"></i>Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Security Card -->
+        <div class="profile-card mt-4">
+            <div class="card-header-custom">
+                <h5 class="mb-0">
+                    <i class="bi bi-shield-check me-2"></i>
+                    Bảo mật tài khoản
+                </h5>
+            </div>
+            <div class="security-section">
+                <div class="security-item">
+                    <div class="security-item-icon">
+                        <i class="bi bi-key-fill"></i>
+                    </div>
+                    <div class="security-item-content">
+                        <h6>Mật khẩu</h6>
+                        <p class="text-muted mb-2">Đổi mật khẩu thường xuyên để bảo vệ tài khoản</p>
+                        <a asp-action="DoiMatKhau" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-arrow-repeat me-1"></i>Đổi mật khẩu
+                        </a>
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-icon">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <div class="security-item-content">
+                        <h6>Xác thực hai yếu tố</h6>
+                        <p class="text-muted mb-2">Tăng cường bảo mật với xác thực hai yếu tố</p>
+                        <button class="btn btn-sm btn-outline-secondary" disabled>
+                            <i class="bi bi-gear me-1"></i>Đang phát triển
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PROFILE HEADER ====== */
+        .profile-header {
+            padding: 1.5rem 0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        /* ====== CUSTOM ALERT ====== */
+        .custom-alert {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.15);
+        }
+
+        .alert-success.custom-alert {
+            background: linear-gradient(135deg, #d1f4e0 0%, #e8f8f0 100%);
+            color: #0f5132;
+        }
+
+        /* ====== PROFILE CARD ====== */
+        .profile-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+
+        .card-header-custom {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+            .card-header-custom h5 {
+                color: #1e293b;
+                font-weight: 700;
+                font-size: 1.1rem;
+            }
+
+        /* ====== PROFILE AVATAR SECTION ====== */
+        .profile-avatar-section {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            position: relative;
+        }
+
+            .profile-avatar-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                opacity: 0.3;
+            }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #667eea;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border: 4px solid #fff;
+            position: relative;
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid #fff;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+            .avatar-upload-btn:hover {
+                background: #764ba2;
+                transform: scale(1.1);
+            }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-email {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ====== PROFILE STATS ====== */
+        .profile-stats {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+            .stat-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .stat-item:hover {
+                transform: translateX(5px);
+                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* ====== QUICK ACTIONS ====== */
+        .profile-quick-actions {
+            padding: 1.5rem;
+        }
+
+        .quick-action-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+            .quick-action-item:hover {
+                background: #f8fafc;
+                color: #667eea;
+                transform: translateX(5px);
+            }
+
+            .quick-action-item i {
+                font-size: 1.3rem;
+                color: #64748b;
+                transition: color 0.3s ease;
+            }
+
+            .quick-action-item:hover i {
+                color: #667eea;
+            }
+
+            .quick-action-item span {
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+
+        /* ====== PROFILE FORM ====== */
+        .profile-form {
+            padding: 2rem;
+        }
+
+        .form-group-custom {
+            position: relative;
+        }
+
+        .form-label-custom {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-label-custom i {
+                color: #667eea;
+            }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            padding-right: 3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+            .form-control-custom:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                outline: none;
+            }
+
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .form-control-custom:focus ~ .input-icon {
+            color: #667eea;
+        }
+
+        .form-text {
+            display: block;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* ====== FORM ACTIONS ====== */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #f0f0f0;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary-custom {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+            .btn-primary-custom:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            }
+
+        .btn-outline-custom {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-outline-custom:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        /* ====== SECURITY SECTION ====== */
+        .security-section {
+            padding: 1.5rem;
+        }
+
+        .security-item {
+            display: flex;
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+
+            .security-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .security-item-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .security-item-content h6 {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .security-item-content p {
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .profile-header .text-md-end {
+                text-align: left !important;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .profile-avatar-section {
+                padding: 2rem 1rem;
+            }
+
+            .avatar-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+
+            .profile-name {
+                font-size: 1.25rem;
+            }
+
+            .profile-form {
+                padding: 1.5rem;
+            }
+
+            .security-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .security-item-icon {
+                margin: 0 auto;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

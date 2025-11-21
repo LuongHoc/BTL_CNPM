@@ -1,0 +1,1073 @@
+﻿@model WebDatTourDuLichOnline.Models.DonDatTour
+
+@{
+    ViewData["Title"] = "Đặt tour thành công";
+}
+
+<!-- Success Hero Section -->
+<div class="success-hero">
+    <div class="container">
+        <div class="success-animation">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+
+            <h1 class="success-title">Đặt tour thành công!</h1>
+            <p class="success-subtitle">
+                Cảm ơn bạn đã tin tưởng và đặt tour với chúng tôi.
+                Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Order Details Section -->
+<div class="order-details-section">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Main Order Info -->
+            <div class="col-lg-8">
+                <!-- Order Summary Card -->
+                <div class="details-card">
+                    <div class="card-header-success">
+                        <div class="header-icon">
+                            <i class="bi bi-receipt-cutoff"></i>
+                        </div>
+                        <div>
+                            <h3>Thông tin đơn đặt tour</h3>
+                            <p class="order-code">Mã đơn: <strong>@Model.MaDon</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="card-body-success">
+                        <!-- Tour Info -->
+                        <div class="tour-info-box">
+                            <div class="tour-icon">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <div class="tour-details">
+                                <h4 class="tour-title">@Model.Tour.TenTour</h4>
+                                <div class="tour-meta">
+                                    <span class="meta-item">
+                                        <i class="bi bi-calendar-check"></i>
+                                        Khởi hành: @Model.Tour.NgayKhoiHanh.ToString("dd/MM/yyyy")
+                                    </span>
+                                    <span class="meta-item">
+                                        <i class="bi bi-people"></i>
+                                        @Model.SoNguoiLon người lớn, @Model.SoTreEm trẻ em
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Details -->
+                        <div class="payment-details">
+                            <div class="detail-row">
+                                <span class="detail-label">
+                                    <i class="bi bi-cash-coin me-2"></i>
+                                    Tổng tiền
+                                </span>
+                                <span class="detail-value price">@Model.TongTien.ToString("N0") đ</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">
+                                    <i class="bi bi-credit-card me-2"></i>
+                                    Trạng thái thanh toán
+                                </span>
+                                <span class="detail-value">
+                                    @if (Model.TrangThaiThanhToan == "DaThanhToan")
+                                    {
+                                        <span class="badge-status success">
+                                            <i class="bi bi-check-circle-fill me-1"></i>Đã thanh toán
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-status warning">
+                                            <i class="bi bi-clock-history me-1"></i>Chưa thanh toán
+                                        </span>
+                                    }
+                                </span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">
+                                    <i class="bi bi-clipboard-check me-2"></i>
+                                    Trạng thái đơn
+                                </span>
+                                <span class="detail-value">
+                                    @switch (Model.TrangThaiDon)
+                                    {
+                                        case "ChoXacNhan":
+                                            <span class="badge-status info">
+                                                <i class="bi bi-hourglass-split me-1"></i>Chờ xác nhận
+                                            </span>
+                                            break;
+                                        case "DaXacNhan":
+                                            <span class="badge-status success">
+                                                <i class="bi bi-check-circle-fill me-1"></i>Đã xác nhận
+                                            </span>
+                                            break;
+                                        default:
+                                            <span class="badge-status secondary">@Model.TrangThaiDon</span>
+                                            break;
+                                    }
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Notice -->
+                        @if (Model.TrangThaiThanhToan != "DaThanhToan")
+                        {
+                            <div class="payment-notice">
+                                <div class="notice-icon">
+                                    <i class="bi bi-exclamation-circle-fill"></i>
+                                </div>
+                                <div class="notice-content">
+                                    <h5>Vui lòng thanh toán để hoàn tất đặt tour</h5>
+                                    <p>Bạn cần thanh toán trong vòng 24 giờ để giữ chỗ. Sau thời gian này, đơn đặt tour có thể bị hủy tự động.</p>
+                                    <a asp-controller="ThanhToan" asp-action="ThanhToanDon" asp-route-id="@Model.DonDatTourId"
+                                       class="btn btn-pay-now">
+                                        <i class="bi bi-wallet2 me-2"></i>Thanh toán ngay
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Next Steps Card -->
+                <div class="details-card mt-4">
+                    <div class="card-header-success">
+                        <div class="header-icon">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+                        <div>
+                            <h3>Các bước tiếp theo</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body-success">
+                        <div class="timeline-steps">
+                            <div class="timeline-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>Xác nhận email</h5>
+                                    <p>Kiểm tra email để xem thông tin chi tiết đơn đặt tour của bạn</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>Thanh toán</h5>
+                                    <p>Hoàn tất thanh toán trong vòng 24 giờ để đảm bảo chỗ của bạn</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>Nhận xác nhận</h5>
+                                    <p>Chúng tôi sẽ gửi xác nhận cuối cùng và thông tin chi tiết về chuyến đi</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>Chuẩn bị hành trình</h5>
+                                    <p>Chuẩn bị hành lý và tài liệu cần thiết cho chuyến đi của bạn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Actions Card -->
+                <div class="action-card">
+                    <h4>
+                        <i class="bi bi-lightning-charge-fill me-2"></i>
+                        Hành động nhanh
+                    </h4>
+
+                    <div class="action-buttons">
+                        <a asp-controller="TaiKhoan" asp-action="DonCuaToi" class="action-btn primary">
+                            <i class="bi bi-bag-check"></i>
+                            <span>Xem đơn của tôi</span>
+                        </a>
+
+                        @if (Model.TrangThaiThanhToan != "DaThanhToan")
+                        {
+                            <a asp-controller="ThanhToan" asp-action="ThanhToanDon" asp-route-id="@Model.DonDatTourId"
+                               class="action-btn success">
+                                <i class="bi bi-credit-card"></i>
+                                <span>Thanh toán ngay</span>
+                            </a>
+                        }
+
+                        <a asp-controller="Home" asp-action="Index" class="action-btn secondary">
+                            <i class="bi bi-house-door"></i>
+                            <span>Về trang chủ</span>
+                        </a>
+
+                        <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@Model.TourId"
+                           class="action-btn outline">
+                            <i class="bi bi-eye"></i>
+                            <span>Xem chi tiết tour</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Support Card -->
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h4>Cần hỗ trợ?</h4>
+                    <p>Đội ngũ tư vấn viên chuyên nghiệp của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7</p>
+
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="bi bi-telephone-fill"></i>
+                            <div>
+                                <span class="contact-label">Hotline</span>
+                                <strong>1900 xxxx</strong>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-envelope-fill"></i>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <strong>support@traveltour.vn</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-support">
+                        <i class="bi bi-chat-dots me-2"></i>
+                        Chat với chúng tôi
+                    </button>
+                </div>
+
+                <!-- Share Card -->
+                <div class="share-card">
+                    <h5>Chia sẻ trải nghiệm</h5>
+                    <p>Chia sẻ chuyến đi của bạn với bạn bè</p>
+                    <div class="social-share">
+                        <a href="#" class="share-btn facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="share-btn twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="share-btn instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="share-btn link">
+                            <i class="bi bi-link-45deg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations Section -->
+<div class="recommendations-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h3>Khám phá thêm các tour khác</h3>
+            <p>Những tour du lịch hấp dẫn dành cho bạn</p>
+        </div>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-explore">
+                <i class="bi bi-compass me-2"></i>
+                Khám phá ngay
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== SUCCESS HERO ====== */
+        .success-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            text-align: center;
+        }
+
+        /* Success Checkmark Animation */
+        .success-animation {
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .success-checkmark {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: #4ade80;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #4ade80;
+            animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+            position: relative;
+        }
+
+            .success-checkmark .icon-circle {
+                width: 120px;
+                height: 120px;
+                position: absolute;
+                border-radius: 50%;
+                border: 4px solid #4ade80;
+                top: -4px;
+                left: -4px;
+                z-index: 10;
+                animation: circle-grow 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+            }
+
+            .success-checkmark .icon-line {
+                height: 4px;
+                background-color: #4ade80;
+                display: block;
+                border-radius: 2px;
+                position: absolute;
+                z-index: 11;
+            }
+
+                .success-checkmark .icon-line.line-tip {
+                    top: 58px;
+                    left: 30px;
+                    width: 30px;
+                    transform: rotate(45deg);
+                    animation: icon-line-tip 0.75s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+                }
+
+                .success-checkmark .icon-line.line-long {
+                    top: 50px;
+                    right: 18px;
+                    width: 60px;
+                    transform: rotate(-45deg);
+                    animation: icon-line-long 0.75s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+                }
+
+            .success-checkmark .icon-fix {
+                width: 8px;
+                height: 90px;
+                background-color: #f8fafc;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                transform: rotate(-45deg);
+                z-index: 1;
+            }
+
+        @@keyframes circle-grow {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @@keyframes icon-line-tip {
+            0% {
+                width: 0;
+                left: 0;
+                top: 26px;
+            }
+
+            54% {
+                width: 0;
+                left: 0;
+                top: 26px;
+            }
+
+            70% {
+                width: 30px;
+                left: -8px;
+                top: 50px;
+            }
+
+            84% {
+                width: 37px;
+                left: 14px;
+                top: 62px;
+            }
+
+            100% {
+                width: 30px;
+                left: 30px;
+                top: 58px;
+            }
+        }
+
+        @@keyframes icon-line-long {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+
+            65% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+
+            84% {
+                width: 55px;
+                right: 0px;
+                top: 38px;
+            }
+
+            100% {
+                width: 60px;
+                right: 18px;
+                top: 50px;
+            }
+        }
+
+        @@keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 60px #4ade80;
+            }
+        }
+
+        @@keyframes scale {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .success-subtitle {
+            font-size: 1.125rem;
+            color: #64748b;
+            line-height: 1.6;
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ====== ORDER DETAILS SECTION ====== */
+        .order-details-section {
+            padding: 3rem 0;
+        }
+
+        .details-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header-success {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            padding: 2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .card-header-success h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .order-code {
+            font-size: 1rem;
+            margin: 0.5rem 0 0;
+            opacity: 0.95;
+        }
+
+        .card-body-success {
+            padding: 2rem;
+        }
+
+        /* Tour Info Box */
+        .tour-info-box {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .tour-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .tour-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .tour-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+            .meta-item i {
+                color: #0d6efd;
+            }
+
+        /* Payment Details */
+        .payment-details {
+            background: #fff;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .detail-row:last-child {
+                border-bottom: none;
+            }
+
+        .detail-label {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+            .detail-label i {
+                color: #0d6efd;
+            }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+            .detail-value.price {
+                font-size: 1.5rem;
+                color: #0d6efd;
+            }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+            .badge-status.success {
+                background: rgba(34, 197, 94, 0.1);
+                color: #16a34a;
+            }
+
+            .badge-status.warning {
+                background: rgba(251, 191, 36, 0.1);
+                color: #d97706;
+            }
+
+            .badge-status.info {
+                background: rgba(59, 130, 246, 0.1);
+                color: #2563eb;
+            }
+
+            .badge-status.secondary {
+                background: rgba(100, 116, 139, 0.1);
+                color: #475569;
+            }
+
+        /* Payment Notice */
+        .payment-notice {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .notice-icon {
+            font-size: 2rem;
+            color: #f59e0b;
+            flex-shrink: 0;
+        }
+
+        .notice-content h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .notice-content p {
+            font-size: 0.95rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .btn-pay-now {
+            padding: 0.75rem 1.5rem;
+            background: #f59e0b;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+            .btn-pay-now:hover {
+                background: #d97706;
+                transform: translateY(-2px);
+                color: #fff;
+            }
+
+        /* Timeline Steps */
+        .timeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .timeline-step {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .step-content h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ====== ACTION CARD ====== */
+        .action-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+            .action-card h4 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+            }
+
+                .action-card h4 i {
+                    color: #0d6efd;
+                }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .action-btn i {
+                font-size: 1.25rem;
+            }
+
+            .action-btn.primary {
+                background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+                color: #fff;
+            }
+
+                .action-btn.primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+                    color: #fff;
+                }
+
+            .action-btn.success {
+                background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+                color: #fff;
+            }
+
+                .action-btn.success:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+                    color: #fff;
+                }
+
+            .action-btn.secondary {
+                background: #f8fafc;
+                color: #64748b;
+                border: 2px solid #e2e8f0;
+            }
+
+                .action-btn.secondary:hover {
+                    background: #fff;
+                    border-color: #cbd5e1;
+                    color: #1e293b;
+                }
+
+            .action-btn.outline {
+                background: #fff;
+                color: #0d6efd;
+                border: 2px solid #0d6efd;
+            }
+
+                .action-btn.outline:hover {
+                    background: #0d6efd;
+                    color: #fff;
+                }
+
+        /* ====== SUPPORT CARD ====== */
+        .support-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        .support-card h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .support-card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+            .contact-item i {
+                font-size: 1.5rem;
+                color: #0d6efd;
+            }
+
+        .contact-label {
+            display: block;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item strong {
+            display: block;
+            font-size: 0.95rem;
+            color: #1e293b;
+        }
+
+        .btn-support {
+            width: 100%;
+            padding: 0.875rem;
+            background: #0d6efd;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-support:hover {
+                background: #0b5ed7;
+                transform: translateY(-2px);
+            }
+
+        /* ====== SHARE CARD ====== */
+        .share-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+            .share-card h5 {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+            }
+
+            .share-card p {
+                font-size: 0.875rem;
+                color: #64748b;
+                margin-bottom: 1rem;
+            }
+
+        .social-share {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+            .share-btn.facebook {
+                background: #1877f2;
+            }
+
+            .share-btn.twitter {
+                background: #1da1f2;
+            }
+
+            .share-btn.instagram {
+                background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            }
+
+            .share-btn.link {
+                background: #64748b;
+            }
+
+            .share-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            }
+
+        /* ====== RECOMMENDATIONS SECTION ====== */
+        .recommendations-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+            .section-header h3 {
+                font-size: 2rem;
+                font-weight: 800;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+            }
+
+            .section-header p {
+                font-size: 1.125rem;
+                color: #64748b;
+            }
+
+        .btn-explore {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-explore:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 24px rgba(13, 110, 253, 0.4);
+                color: #fff;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .tour-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .success-hero {
+                padding: 3rem 0;
+            }
+
+            .success-checkmark {
+                width: 100px;
+                height: 100px;
+            }
+
+            .success-title {
+                font-size: 1.75rem;
+            }
+
+            .card-header-success {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .tour-info-box {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+}

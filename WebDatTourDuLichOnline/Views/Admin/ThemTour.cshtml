@@ -1,0 +1,883 @@
+﻿@model WebDatTourDuLichOnline.Models.Tour
+@{
+    ViewData["Title"] = "Thêm tour";
+}
+
+<!-- Page Header -->
+<div class="page-header-add-tour">
+    <div class="header-content-add-tour">
+        <div class="header-icon-add-tour">
+            <i class="bi bi-plus-circle"></i>
+        </div>
+        <div>
+            <h1 class="page-title-add-tour">Thêm tour mới</h1>
+            <p class="page-subtitle-add-tour">Tạo tour du lịch mới và thêm vào hệ thống</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Tour Form -->
+<div class="add-tour-container">
+    <div class="row g-4">
+        <!-- Form Column -->
+        <div class="col-lg-8">
+            <form asp-action="ThemTour" method="post" enctype="multipart/form-data" id="addTourForm">
+
+                <!-- Basic Info Card -->
+                <div class="tour-form-card">
+                    <div class="tour-form-header">
+                        <div class="tour-form-icon basic">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <h3>Thông tin cơ bản</h3>
+                    </div>
+                    <div class="tour-form-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="tour-form-group">
+                                    <label asp-for="MaTour" class="tour-label">
+                                        <i class="bi bi-tag me-2"></i>
+                                        Mã tour
+                                        <span class="required-mark">*</span>
+                                    </label>
+                                    <input asp-for="MaTour" class="tour-input" placeholder="VD: TOUR001" />
+                                    <span asp-validation-for="MaTour" class="tour-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="tour-form-group">
+                                    <label asp-for="TenTour" class="tour-label">
+                                        <i class="bi bi-pin-map me-2"></i>
+                                        Tên tour
+                                        <span class="required-mark">*</span>
+                                    </label>
+                                    <input asp-for="TenTour" class="tour-input" placeholder="Nhập tên tour đầy đủ" />
+                                    <span asp-validation-for="TenTour" class="tour-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="tour-form-group">
+                                    <label class="tour-label">
+                                        <i class="bi bi-bookmark me-2"></i>
+                                        Loại tour
+                                        <span class="required-mark">*</span>
+                                    </label>
+                                    <select asp-for="LoaiTourId" class="tour-select" asp-items="ViewBag.LoaiTours">
+                                        <option value="">-- Chọn loại tour --</option>
+                                    </select>
+                                    <span asp-validation-for="LoaiTourId" class="tour-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="tour-form-group">
+                                    <label asp-for="MoTaNgan" class="tour-label">
+                                        <i class="bi bi-card-text me-2"></i>
+                                        Mô tả ngắn
+                                    </label>
+                                    <textarea asp-for="MoTaNgan" class="tour-textarea" rows="2" placeholder="Nhập mô tả ngắn về tour..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location & Time Card -->
+                <div class="tour-form-card">
+                    <div class="tour-form-header">
+                        <div class="tour-form-icon location">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h3>Địa điểm & Thời gian</h3>
+                    </div>
+                    <div class="tour-form-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="DiemKhoiHanh" class="tour-label">
+                                        <i class="bi bi-geo-alt me-2"></i>
+                                        Điểm khởi hành
+                                    </label>
+                                    <input asp-for="DiemKhoiHanh" class="tour-input" placeholder="VD: Hà Nội" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="DiemDen" class="tour-label">
+                                        <i class="bi bi-pin-map me-2"></i>
+                                        Điểm đến
+                                    </label>
+                                    <input asp-for="DiemDen" class="tour-input" placeholder="VD: Đà Nẵng" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="NgayKhoiHanh" class="tour-label">
+                                        <i class="bi bi-calendar-event me-2"></i>
+                                        Ngày khởi hành
+                                    </label>
+                                    <input asp-for="NgayKhoiHanh" type="date" class="tour-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="ThoiGian" class="tour-label">
+                                        <i class="bi bi-clock me-2"></i>
+                                        Thời gian
+                                    </label>
+                                    <input asp-for="ThoiGian" class="tour-input" placeholder="VD: 4N3Đ" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing & Capacity Card -->
+                <div class="tour-form-card">
+                    <div class="tour-form-header">
+                        <div class="tour-form-icon pricing">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                        <h3>Giá & Số chỗ</h3>
+                    </div>
+                    <div class="tour-form-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="GiaNguoiLon" class="tour-label">
+                                        <i class="bi bi-person me-2"></i>
+                                        Giá người lớn
+                                    </label>
+                                    <input asp-for="GiaNguoiLon" class="tour-input" type="number" placeholder="0" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="GiaTreEm" class="tour-label">
+                                        <i class="bi bi-person-hearts me-2"></i>
+                                        Giá trẻ em
+                                    </label>
+                                    <input asp-for="GiaTreEm" class="tour-input" type="number" placeholder="0" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="SoCho" class="tour-label">
+                                        <i class="bi bi-people me-2"></i>
+                                        Số chỗ
+                                    </label>
+                                    <input asp-for="SoCho" class="tour-input" type="number" placeholder="0" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="tour-form-group">
+                                    <label asp-for="SoChoConLai" class="tour-label">
+                                        <i class="bi bi-ticket-perforated me-2"></i>
+                                        Số chỗ còn lại
+                                    </label>
+                                    <input asp-for="SoChoConLai" class="tour-input" type="number" placeholder="Để trống = bằng số chỗ" />
+                                    <div class="tour-hint">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Để trống sẽ tự động bằng số chỗ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image & Status Card -->
+                <div class="tour-form-card">
+                    <div class="tour-form-header">
+                        <div class="tour-form-icon image">
+                            <i class="bi bi-image"></i>
+                        </div>
+                        <h3>Hình ảnh & Trạng thái</h3>
+                    </div>
+                    <div class="tour-form-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <div class="tour-form-group">
+                                    <label class="tour-label">
+                                        <i class="bi bi-camera me-2"></i>
+                                        Ảnh đại diện
+                                    </label>
+                                    <div class="file-upload-wrapper">
+                                        <input type="file" name="hinhAnhFile" class="file-input" id="fileInput" accept=".jpg,.jpeg,.png,.webp" onchange="previewImage(event)" />
+                                        <label for="fileInput" class="file-label">
+                                            <i class="bi bi-cloud-upload me-2"></i>
+                                            <span id="fileName">Chọn ảnh (JPG, PNG, WEBP)</span>
+                                        </label>
+                                    </div>
+                                    <div id="imagePreview" class="image-preview" style="display: none;">
+                                        <img id="preview" src="" alt="Preview" />
+                                        <button type="button" class="btn-remove-image" onclick="removeImage()">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="tour-form-group">
+                                    <label class="tour-label">
+                                        <i class="bi bi-toggle-on me-2"></i>
+                                        Trạng thái
+                                    </label>
+                                    <div class="status-toggle">
+                                        <input asp-for="TrangThai" class="status-checkbox" id="statusCheckbox" />
+                                        <label for="statusCheckbox" class="status-label">
+                                            <span class="status-text">Đang bán</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="tour-form-actions">
+                    <a asp-action="DanhSachTour" class="btn-cancel-tour">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn-save-tour">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Lưu tour
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <!-- Help Card -->
+            <div class="tour-help-card">
+                <div class="tour-help-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h4>Hướng dẫn thêm tour</h4>
+                <ul class="tour-help-list">
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Điền đầy đủ thông tin có dấu <span class="text-danger">*</span></span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Mã tour phải là duy nhất</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Chọn ảnh rõ nét, tỷ lệ 16:9</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Giá trẻ em thường thấp hơn NL</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Bật "Đang bán" để hiển thị</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="tour-tips-card">
+                <div class="tips-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+                <h5>Mẹo tạo tour hấp dẫn</h5>
+                <div class="tips-list">
+                    <div class="tip-item">
+                        <i class="bi bi-arrow-right"></i>
+                        <span>Tên tour ngắn gọn, súc tích</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="bi bi-arrow-right"></i>
+                        <span>Mô tả nổi bật điểm đặc biệt</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="bi bi-arrow-right"></i>
+                        <span>Chọn ngày KH phù hợp</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="bi bi-arrow-right"></i>
+                        <span>Giá cạnh tranh, hợp lý</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="tour-preview-card">
+                <div class="preview-icon-tour">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <h5>Sau khi lưu</h5>
+                <p>Tour mới sẽ xuất hiện trong danh sách và khách hàng có thể đặt ngay nếu trạng thái là "Đang bán".</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER ADD TOUR ====== */
+        .page-header-add-tour {
+            padding: 2rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+        }
+
+        .header-content-add-tour {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon-add-tour {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title-add-tour {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle-add-tour {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        /* ====== ADD TOUR CONTAINER ====== */
+        .add-tour-container {
+            margin-bottom: 3rem;
+        }
+
+        /* ====== TOUR FORM CARD ====== */
+        .tour-form-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .tour-form-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tour-form-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+            .tour-form-icon.basic {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            }
+
+            .tour-form-icon.location {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            }
+
+            .tour-form-icon.pricing {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            }
+
+            .tour-form-icon.image {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+        .tour-form-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .tour-form-body {
+            padding: 2rem;
+        }
+
+        /* ====== TOUR FORM GROUPS ====== */
+        .tour-form-group {
+            margin-bottom: 0;
+        }
+
+        .tour-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .tour-label i {
+                color: #f59e0b;
+            }
+
+        .required-mark {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .tour-input,
+        .tour-select,
+        .tour-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .tour-input:focus,
+            .tour-select:focus,
+            .tour-textarea:focus {
+                border-color: #f59e0b;
+                box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+                outline: none;
+            }
+
+            .tour-input::placeholder,
+            .tour-textarea::placeholder {
+                color: #94a3b8;
+            }
+
+        .tour-validation {
+            display: block;
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .tour-hint {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            position: relative;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+            .file-label:hover {
+                border-color: #f59e0b;
+                background: rgba(245, 158, 11, 0.05);
+                color: #f59e0b;
+            }
+
+        .image-preview {
+            margin-top: 1rem;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .image-preview img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 10px;
+            }
+
+        .btn-remove-image {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 32px;
+            height: 32px;
+            background: rgba(239, 68, 68, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+            .btn-remove-image:hover {
+                background: #ef4444;
+                transform: scale(1.1);
+            }
+
+        /* Status Toggle */
+        .status-toggle {
+            margin-top: 0.5rem;
+        }
+
+        .status-checkbox {
+            display: none;
+        }
+
+        .status-label {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .status-label::before {
+                content: '';
+                width: 50px;
+                height: 28px;
+                background: #cbd5e1;
+                border-radius: 14px;
+                margin-right: 1rem;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+
+            .status-label::after {
+                content: '';
+                width: 24px;
+                height: 24px;
+                background: #fff;
+                border-radius: 50%;
+                position: absolute;
+                left: 1.125rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+        .status-checkbox:checked + .status-label::before {
+            background: #10b981;
+        }
+
+        .status-checkbox:checked + .status-label::after {
+            transform: translateX(22px);
+        }
+
+        .status-checkbox:checked + .status-label {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .status-text {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* ====== TOUR FORM ACTIONS ====== */
+        .tour-form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding: 1.5rem 0;
+        }
+
+        .btn-cancel-tour,
+        .btn-save-tour {
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-cancel-tour {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+
+            .btn-cancel-tour:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        .btn-save-tour {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+            .btn-save-tour:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+            }
+
+        /* ====== TOUR HELP CARD ====== */
+        .tour-help-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #fbbf24;
+        }
+
+        .tour-help-icon {
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .tour-help-card h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .tour-help-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .tour-help-list li {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+                color: #92400e;
+                font-size: 0.9rem;
+            }
+
+                .tour-help-list li:last-child {
+                    margin-bottom: 0;
+                }
+
+            .tour-help-list i {
+                color: #16a34a;
+                font-size: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.125rem;
+            }
+
+        /* ====== TOUR TIPS CARD ====== */
+        .tour-tips-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .tips-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .tour-tips-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+            .tip-item i {
+                color: #f59e0b;
+                flex-shrink: 0;
+                margin-top: 0.25rem;
+            }
+
+        /* ====== TOUR PREVIEW CARD ====== */
+        .tour-preview-card {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid #3b82f6;
+        }
+
+        .preview-icon-tour {
+            width: 50px;
+            height: 50px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .tour-preview-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 0.75rem;
+        }
+
+        .tour-preview-card p {
+            font-size: 0.9rem;
+            color: #1e40af;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 768px) {
+            .header-content-add-tour {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-icon-add-tour {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .page-title-add-tour {
+                font-size: 1.5rem;
+            }
+
+            .tour-form-body {
+                padding: 1.5rem;
+            }
+
+            .tour-form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn-cancel-tour,
+            .btn-save-tour {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Preview image
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('fileName').textContent = file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove image
+        function removeImage() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('fileName').textContent = 'Chọn ảnh (JPG, PNG, WEBP)';
+        }
+
+        // Form submission
+        document.getElementById('addTourForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-save-tour');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang lưu...';
+            btn.disabled = true;
+        });
+
+        // Auto-focus first input
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstInput = document.querySelector('.tour-input');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        });
+    </script>
+}

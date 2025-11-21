@@ -1,0 +1,1008 @@
+﻿@{
+    ViewData["Title"] = "Quản trị hệ thống";
+}
+
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <div class="header-content">
+        <div>
+            <h1 class="dashboard-title">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Trang quản trị
+            </h1>
+            <p class="dashboard-subtitle">Tổng quan hệ thống và thống kê</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-refresh" onclick="location.reload()">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>Làm mới</span>
+            </button>
+            <div class="date-display">
+                <i class="bi bi-calendar3"></i>
+                <span id="currentDate"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-section">
+    <div class="row g-4">
+        <!-- Total Tours -->
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card stat-card-blue">
+                <div class="stat-card-body">
+                    <div class="stat-icon">
+                        <i class="bi bi-compass"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Tổng số tour</div>
+                        <div class="stat-value" data-target="@ViewBag.SoTour">0</div>
+                    </div>
+                </div>
+                <div class="stat-card-footer">
+                    <i class="bi bi-graph-up-arrow me-2"></i>
+                    <span>Tất cả tour trong hệ thống</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card stat-card-purple">
+                <div class="stat-card-body">
+                    <div class="stat-icon">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Tổng số đơn</div>
+                        <div class="stat-value" data-target="@ViewBag.SoDon">0</div>
+                    </div>
+                </div>
+                <div class="stat-card-footer">
+                    <i class="bi bi-bag-check me-2"></i>
+                    <span>Đơn đặt tour tổng cộng</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card stat-card-orange">
+                <div class="stat-card-body">
+                    <div class="stat-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Đơn chờ xác nhận</div>
+                        <div class="stat-value" data-target="@ViewBag.SoDonCho">0</div>
+                    </div>
+                </div>
+                <div class="stat-card-footer">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    <span>Cần xử lý sớm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card stat-card-green">
+                <div class="stat-card-body">
+                    <div class="stat-icon">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Doanh thu</div>
+                        <div class="stat-value-revenue">
+                            @string.Format("{0:N0}", ViewBag.DoanhThu) đ
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card-footer">
+                    <i class="bi bi-trophy me-2"></i>
+                    <span>Đơn hoàn tất</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-section">
+    <div class="section-header-admin">
+        <h3>
+            <i class="bi bi-lightning-charge me-2"></i>
+            Hành động nhanh
+        </h3>
+        <p>Truy cập nhanh các chức năng quản trị</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Tour Management -->
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="DanhSachTour" class="action-card action-card-primary">
+                <div class="action-icon">
+                    <i class="bi bi-map"></i>
+                </div>
+                <div class="action-content">
+                    <h4>Quản lý tour</h4>
+                    <p>Thêm, sửa, xóa tour du lịch</p>
+                </div>
+                <div class="action-arrow">
+                    <i class="bi bi-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Order Management -->
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="DanhSachDon" class="action-card action-card-purple">
+                <div class="action-icon">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+                <div class="action-content">
+                    <h4>Quản lý đơn</h4>
+                    <p>Xem và xử lý đơn đặt tour</p>
+                </div>
+                <div class="action-arrow">
+                    <i class="bi bi-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Staff Management -->
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="DanhSachNhanVien" class="action-card action-card-info">
+                <div class="action-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="action-content">
+                    <h4>Quản lý nhân viên</h4>
+                    <p>Quản lý tài khoản nhân viên</p>
+                </div>
+                <div class="action-arrow">
+                    <i class="bi bi-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Revenue Report -->
+        <div class="col-lg-3 col-md-6">
+            <a asp-action="BaoCaoDoanhThu" class="action-card action-card-success">
+                <div class="action-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <div class="action-content">
+                    <h4>Báo cáo doanh thu</h4>
+                    <p>Thống kê và phân tích</p>
+                </div>
+                <div class="action-arrow">
+                    <i class="bi bi-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- System Overview -->
+<div class="overview-section">
+    <div class="row g-4">
+        <!-- Recent Activity -->
+        <div class="col-lg-8">
+            <div class="overview-card">
+                <div class="card-header-admin">
+                    <h4>
+                        <i class="bi bi-activity me-2"></i>
+                        Hoạt động gần đây
+                    </h4>
+                    <button class="btn-view-all">
+                        Xem tất cả
+                        <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </div>
+                <div class="card-body-admin">
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Đơn mới được đặt</h5>
+                                <p>Khách hàng Nguyễn Văn A đã đặt tour "Du lịch Đà Nẵng"</p>
+                                <span class="activity-time">5 phút trước</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="bi bi-pencil-square"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Tour được cập nhật</h5>
+                                <p>Admin đã cập nhật thông tin "Tour Phú Quốc 3N2Đ"</p>
+                                <span class="activity-time">15 phút trước</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Đơn chờ xác nhận</h5>
+                                <p>3 đơn đang chờ xác nhận từ nhân viên</p>
+                                <span class="activity-time">30 phút trước</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Đánh giá mới</h5>
+                                <p>Tour "Hạ Long 2N1Đ" nhận được đánh giá 5 sao</p>
+                                <span class="activity-time">1 giờ trước</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="bi bi-cash-coin"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Thanh toán thành công</h5>
+                                <p>Đơn #DT2024001 đã được thanh toán</p>
+                                <span class="activity-time">2 giờ trước</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Info -->
+        <div class="col-lg-4">
+            <div class="overview-card">
+                <div class="card-header-admin">
+                    <h4>
+                        <i class="bi bi-info-circle me-2"></i>
+                        Thông tin hệ thống
+                    </h4>
+                </div>
+                <div class="card-body-admin">
+                    <div class="system-info-list">
+                        <div class="system-info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-server"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Trạng thái</span>
+                                <span class="info-value">
+                                    <span class="status-badge online">Online</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="system-info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Người dùng online</span>
+                                <span class="info-value">24 người</span>
+                            </div>
+                        </div>
+
+                        <div class="system-info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Ngày cập nhật</span>
+                                <span class="info-value">@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+
+                        <div class="system-info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-hdd"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Dung lượng</span>
+                                <span class="info-value">2.4 GB / 10 GB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="system-progress">
+                        <div class="progress-label">
+                            <span>Hiệu suất hệ thống</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="overview-card mt-4">
+                <div class="card-header-admin">
+                    <h4>
+                        <i class="bi bi-bar-chart me-2"></i>
+                        Thống kê nhanh
+                    </h4>
+                </div>
+                <div class="card-body-admin">
+                    <div class="quick-stat-item">
+                        <span class="quick-stat-label">Tour phổ biến nhất</span>
+                        <span class="quick-stat-value">Du lịch Đà Nẵng</span>
+                    </div>
+                    <div class="quick-stat-item">
+                        <span class="quick-stat-label">Khách hàng mới (tháng)</span>
+                        <span class="quick-stat-value">147 người</span>
+                    </div>
+                    <div class="quick-stat-item">
+                        <span class="quick-stat-label">Tỷ lệ hoàn thành</span>
+                        <span class="quick-stat-value">92%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== DASHBOARD HEADER ====== */
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-refresh {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            .btn-refresh:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+            }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ====== STATS SECTION ====== */
+        .stats-section {
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--stat-color-1), var(--stat-color-2));
+            }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            }
+
+        .stat-card-blue {
+            --stat-color-1: #3b82f6;
+            --stat-color-2: #2563eb;
+        }
+
+        .stat-card-purple {
+            --stat-color-1: #8b5cf6;
+            --stat-color-2: #7c3aed;
+        }
+
+        .stat-card-orange {
+            --stat-color-1: #f59e0b;
+            --stat-color-2: #d97706;
+        }
+
+        .stat-card-green {
+            --stat-color-1: #10b981;
+            --stat-color-2: #059669;
+        }
+
+        .stat-card-body {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .stat-card-blue .stat-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-card-purple .stat-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .stat-card-orange .stat-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-card-green .stat-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+        }
+
+        .stat-value-revenue {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+        }
+
+        .stat-card-footer {
+            padding: 0.875rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ====== QUICK ACTIONS SECTION ====== */
+        .quick-actions-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header-admin {
+            margin-bottom: 1.5rem;
+        }
+
+            .section-header-admin h3 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+            }
+
+            .section-header-admin p {
+                font-size: 0.95rem;
+                color: #64748b;
+                margin: 0;
+            }
+
+        .action-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .action-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: var(--action-color);
+                transform: scaleY(0);
+                transition: transform 0.3s ease;
+            }
+
+            .action-card:hover::before {
+                transform: scaleY(1);
+            }
+
+            .action-card:hover {
+                transform: translateX(5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                border-color: var(--action-color);
+            }
+
+        .action-card-primary {
+            --action-color: #3b82f6;
+        }
+
+        .action-card-purple {
+            --action-color: #8b5cf6;
+        }
+
+        .action-card-info {
+            --action-color: #06b6d4;
+        }
+
+        .action-card-success {
+            --action-color: #10b981;
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .action-card-primary .action-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .action-card-purple .action-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .action-card-info .action-icon {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        .action-card-success .action-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+            .action-content h4 {
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.25rem;
+            }
+
+            .action-content p {
+                font-size: 0.875rem;
+                color: #64748b;
+                margin: 0;
+            }
+
+        .action-arrow {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-arrow {
+            color: var(--action-color);
+            transform: translateX(5px);
+        }
+
+        /* ====== OVERVIEW SECTION ====== */
+        .overview-section {
+            margin-bottom: 2rem;
+        }
+
+        .overview-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header-admin {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .card-header-admin h4 {
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .btn-view-all {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+            .btn-view-all:hover {
+                border-color: #0d6efd;
+                color: #0d6efd;
+            }
+
+        .card-body-admin {
+            padding: 1.5rem;
+        }
+
+        /* Activity List */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+            .activity-item:hover {
+                background: #fff;
+                border-left-color: #0d6efd;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+            .activity-icon.success {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            }
+
+            .activity-icon.info {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            }
+
+            .activity-icon.warning {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            }
+
+            .activity-icon.primary {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+        .activity-content h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-content p {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* System Info */
+        .system-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .system-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+            .status-badge.online {
+                background: rgba(16, 185, 129, 0.1);
+                color: #059669;
+            }
+
+        /* System Progress */
+        .system-progress {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-bar-custom {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 999px;
+            transition: width 1s ease;
+        }
+
+        /* Quick Stats */
+        .quick-stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .quick-stat-item:last-child {
+                border-bottom: none;
+            }
+
+        .quick-stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .quick-stat-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 1200px) {
+            .dashboard-title {
+                font-size: 1.75rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+        }
+
+        @@media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .dashboard-header {
+                padding: 1.5rem;
+            }
+
+            .dashboard-title {
+                font-size: 1.5rem;
+            }
+
+            .stat-card-body {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.75rem;
+            }
+
+            .action-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-arrow {
+                display: none;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Current Date Display
+        const dateDisplay = document.getElementById('currentDate');
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.textContent = now.toLocaleDateString('vi-VN', options);
+
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString('vi-VN');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString('vi-VN');
+                }
+            }, 16);
+        }
+
+        // Animate all stat values on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.stat-value[data-target]').forEach(element => {
+                animateCounter(element);
+            });
+        });
+    </script>
+}

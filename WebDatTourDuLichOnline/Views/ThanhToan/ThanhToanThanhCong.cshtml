@@ -1,0 +1,1213 @@
+﻿@model WebDatTourDuLichOnline.Models.DonDatTour
+
+@{
+    ViewData["Title"] = "Thanh toán thành công";
+    string phuongThuc = ViewBag.PhuongThuc as string ?? "";
+}
+
+<!-- Success Hero Section -->
+<div class="payment-success-hero">
+    <div class="container">
+        <div class="success-animation-wrapper">
+            <!-- Animated Success Icon -->
+            <div class="success-icon-animated">
+                <div class="success-circle">
+                    <div class="success-tick">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message">
+                <h1 class="success-title">Thanh toán thành công!</h1>
+                <p class="success-subtitle">
+                    Cảm ơn bạn đã thanh toán. Đơn đặt tour của bạn đã được xác nhận.
+                </p>
+            </div>
+
+            <!-- Confetti Animation -->
+            <div class="confetti-container">
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Details Section -->
+<div class="payment-details-section">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Payment Summary Card -->
+                <div class="summary-card-success">
+                    <div class="card-header-success-payment">
+                        <div class="header-icon-success">
+                            <i class="bi bi-receipt-cutoff"></i>
+                        </div>
+                        <div>
+                            <h3>Chi tiết thanh toán</h3>
+                            <p class="header-subtitle">Thông tin đơn hàng đã thanh toán</p>
+                        </div>
+                    </div>
+
+                    <div class="card-body-success-payment">
+                        <!-- Order Info -->
+                        <div class="order-info-success">
+                            <div class="info-row-success">
+                                <div class="info-label-success">
+                                    <i class="bi bi-hash"></i>
+                                    <span>Mã đơn</span>
+                                </div>
+                                <div class="info-value-success">
+                                    <span class="order-code-highlight">@Model.MaDon</span>
+                                </div>
+                            </div>
+
+                            <div class="info-row-success">
+                                <div class="info-label-success">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>Tên tour</span>
+                                </div>
+                                <div class="info-value-success">
+                                    @Model.Tour?.TenTour
+                                </div>
+                            </div>
+
+                            <div class="info-row-success">
+                                <div class="info-label-success">
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>Ngày khởi hành</span>
+                                </div>
+                                <div class="info-value-success">
+                                    @Model.Tour?.NgayKhoiHanh.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+
+                            <div class="info-row-success">
+                                <div class="info-label-success">
+                                    <i class="bi bi-people"></i>
+                                    <span>Số khách</span>
+                                </div>
+                                <div class="info-value-success">
+                                    @Model.SoNguoiLon người lớn, @Model.SoTreEm trẻ em
+                                </div>
+                            </div>
+
+                            <div class="info-divider"></div>
+
+                            <div class="info-row-success">
+                                <div class="info-label-success">
+                                    <i class="bi bi-credit-card"></i>
+                                    <span>Phương thức thanh toán</span>
+                                </div>
+                                <div class="info-value-success">
+                                    @switch (phuongThuc)
+                                    {
+                                        case "TienMat":
+                                            <span class="payment-method-badge cash">
+                                                <i class="bi bi-cash-coin me-2"></i>Tiền mặt
+                                            </span>
+                                            break;
+                                        case "ChuyenKhoan":
+                                            <span class="payment-method-badge bank">
+                                                <i class="bi bi-bank me-2"></i>Chuyển khoản
+                                            </span>
+                                            break;
+                                        case "Online":
+                                            <span class="payment-method-badge online">
+                                                <i class="bi bi-credit-card-2-front me-2"></i>Online
+                                            </span>
+                                            break;
+                                        default:
+                                            <span>@phuongThuc</span>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="info-divider"></div>
+
+                            <div class="info-row-success total-row">
+                                <div class="info-label-success">
+                                    <i class="bi bi-wallet2"></i>
+                                    <span>Tổng thanh toán</span>
+                                </div>
+                                <div class="info-value-success total-amount">
+                                    @Model.TongTien.ToString("N0") đ
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Badges -->
+                        <div class="status-badges">
+                            <div class="status-badge-item success">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <div>
+                                    <strong>Thanh toán</strong>
+                                    <span>@Model.TrangThaiThanhToan</span>
+                                </div>
+                            </div>
+                            <div class="status-badge-item info">
+                                <i class="bi bi-clipboard-check"></i>
+                                <div>
+                                    <strong>Trạng thái đơn</strong>
+                                    <span>@Model.TrangThaiDon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What's Next Card -->
+                <div class="next-steps-card">
+                    <div class="next-steps-header">
+                        <i class="bi bi-signpost-2"></i>
+                        <h4>Tiếp theo bạn cần làm gì?</h4>
+                    </div>
+                    <div class="next-steps-content">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h5>Kiểm tra email xác nhận</h5>
+                                <p>Chúng tôi đã gửi email xác nhận đặt tour và thanh toán đến hộp thư của bạn</p>
+                            </div>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h5>Chuẩn bị hành lý</h5>
+                                <p>Xem danh sách đồ dùng cần thiết và chuẩn bị cho chuyến đi của bạn</p>
+                            </div>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h5>Tham gia chuyến đi</h5>
+                                <p>Đến điểm tập trung đúng giờ và tận hưởng chuyến du lịch tuyệt vời</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons-success">
+                    <a href="#" class="btn-action-success download">
+                        <i class="bi bi-download"></i>
+                        <span>Tải biên lai</span>
+                    </a>
+                    <a href="#" class="btn-action-success print">
+                        <i class="bi bi-printer"></i>
+                        <span>In biên lai</span>
+                    </a>
+                    <a href="#" class="btn-action-success share">
+                        <i class="bi bi-share"></i>
+                        <span>Chia sẻ</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Navigation Card -->
+                <div class="quick-nav-card">
+                    <h4>
+                        <i class="bi bi-compass me-2"></i>
+                        Tiếp tục khám phá
+                    </h4>
+
+                    <div class="nav-buttons">
+                        <a asp-controller="TaiKhoan" asp-action="DonCuaToi" class="nav-btn primary">
+                            <i class="bi bi-bag-check"></i>
+                            <div>
+                                <strong>Đơn của tôi</strong>
+                                <span>Xem tất cả đơn đặt tour</span>
+                            </div>
+                        </a>
+
+                        <a asp-controller="Home" asp-action="Index" class="nav-btn secondary">
+                            <i class="bi bi-house-door"></i>
+                            <div>
+                                <strong>Trang chủ</strong>
+                                <span>Khám phá tour mới</span>
+                            </div>
+                        </a>
+
+                        <a asp-controller="TaiKhoan" asp-action="HoSo" class="nav-btn outline">
+                            <i class="bi bi-person-circle"></i>
+                            <div>
+                                <strong>Hồ sơ của tôi</strong>
+                                <span>Cập nhật thông tin</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Promo Card -->
+                <div class="promo-card-success">
+                    <div class="promo-icon">
+                        <i class="bi bi-gift"></i>
+                    </div>
+                    <h5>Ưu đãi đặc biệt!</h5>
+                    <p>Nhận ngay voucher giảm 10% cho lần đặt tour tiếp theo</p>
+                    <div class="promo-code">
+                        <span>WELCOME10</span>
+                        <button class="btn-copy" onclick="copyPromoCode()">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    <small class="promo-expire">Có hiệu lực đến 31/12/2024</small>
+                </div>
+
+                <!-- Support Card -->
+                <div class="support-card-success">
+                    <div class="support-icon">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5>Cần hỗ trợ?</h5>
+                    <p>Đội ngũ chăm sóc khách hàng 24/7 luôn sẵn sàng hỗ trợ bạn</p>
+                    <div class="support-contacts-success">
+                        <a href="tel:1900xxxx" class="support-link">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span>1900 xxxx</span>
+                        </a>
+                        <a href="mailto:support@traveltour.vn" class="support-link">
+                            <i class="bi bi-envelope-fill"></i>
+                            <span>support@traveltour.vn</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Rating Card -->
+                <div class="rating-card">
+                    <h5>Đánh giá trải nghiệm của bạn</h5>
+                    <p>Chia sẻ cảm nhận để giúp chúng tôi cải thiện dịch vụ</p>
+                    <div class="rating-stars">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <button class="btn-rate">Đánh giá ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations Section -->
+<div class="recommendations-section-success">
+    <div class="container">
+        <div class="section-header-success">
+            <h3>Có thể bạn quan tâm</h3>
+            <p>Khám phá thêm các tour du lịch hấp dẫn khác</p>
+        </div>
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn-explore-success">
+                <i class="bi bi-compass me-2"></i>
+                Xem tất cả tour
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== SUCCESS HERO ====== */
+        .payment-success-hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-animation-wrapper {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animated Success Icon */
+        .success-icon-animated {
+            margin: 0 auto 2rem;
+            width: 150px;
+            height: 150px;
+        }
+
+        .success-circle {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(34, 197, 94, 0.4);
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @@keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 0 auto;
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke-miterlimit: 10;
+            stroke: #fff;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.3s forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.9s forwards;
+        }
+
+        @@keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .success-subtitle {
+            font-size: 1.125rem;
+            color: #64748b;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Confetti Animation */
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fbbf24;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+            .confetti:nth-child(1) {
+                left: 10%;
+                animation-delay: 0s;
+                background: #ef4444;
+            }
+
+            .confetti:nth-child(2) {
+                left: 20%;
+                animation-delay: 0.2s;
+                background: #3b82f6;
+            }
+
+            .confetti:nth-child(3) {
+                left: 30%;
+                animation-delay: 0.4s;
+                background: #10b981;
+            }
+
+            .confetti:nth-child(4) {
+                left: 40%;
+                animation-delay: 0.6s;
+                background: #f59e0b;
+            }
+
+            .confetti:nth-child(5) {
+                left: 50%;
+                animation-delay: 0.8s;
+                background: #8b5cf6;
+            }
+
+            .confetti:nth-child(6) {
+                left: 60%;
+                animation-delay: 1s;
+                background: #ec4899;
+            }
+
+            .confetti:nth-child(7) {
+                left: 70%;
+                animation-delay: 1.2s;
+                background: #06b6d4;
+            }
+
+            .confetti:nth-child(8) {
+                left: 80%;
+                animation-delay: 1.4s;
+                background: #f97316;
+            }
+
+            .confetti:nth-child(9) {
+                left: 90%;
+                animation-delay: 1.6s;
+                background: #14b8a6;
+            }
+
+            .confetti:nth-child(10) {
+                left: 95%;
+                animation-delay: 1.8s;
+                background: #a855f7;
+            }
+
+        @@keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(600px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ====== PAYMENT DETAILS SECTION ====== */
+        .payment-details-section {
+            padding: 3rem 0 5rem;
+        }
+
+        /* Summary Card */
+        .summary-card-success {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header-success-payment {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            padding: 2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon-success {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .card-header-success-payment h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        .card-body-success-payment {
+            padding: 2rem;
+        }
+
+        /* Order Info */
+        .order-info-success {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-row-success {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+            .info-row-success:last-child {
+                border-bottom: none;
+            }
+
+        .info-label-success {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+            .info-label-success i {
+                font-size: 1.25rem;
+                color: #0d6efd;
+            }
+
+        .info-value-success {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: right;
+        }
+
+        .order-code-highlight {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 50px;
+            color: #0d6efd;
+            font-weight: 700;
+        }
+
+        .info-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 0.5rem 0;
+        }
+
+        .total-row {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border: none;
+        }
+
+        .total-amount {
+            font-size: 1.75rem;
+            color: #0d6efd;
+        }
+
+        /* Payment Method Badge */
+        .payment-method-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+            .payment-method-badge.cash {
+                background: rgba(34, 197, 94, 0.1);
+                color: #16a34a;
+            }
+
+            .payment-method-badge.bank {
+                background: rgba(59, 130, 246, 0.1);
+                color: #2563eb;
+            }
+
+            .payment-method-badge.online {
+                background: rgba(139, 92, 246, 0.1);
+                color: #7c3aed;
+            }
+
+        /* Status Badges */
+        .status-badges {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .status-badge-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid;
+        }
+
+            .status-badge-item i {
+                font-size: 2rem;
+                flex-shrink: 0;
+            }
+
+            .status-badge-item strong {
+                display: block;
+                font-size: 0.875rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .status-badge-item span {
+                display: block;
+                font-size: 0.95rem;
+                font-weight: 700;
+            }
+
+            .status-badge-item.success {
+                background: rgba(34, 197, 94, 0.05);
+                border-color: #22c55e;
+                color: #16a34a;
+            }
+
+            .status-badge-item.info {
+                background: rgba(59, 130, 246, 0.05);
+                border-color: #3b82f6;
+                color: #2563eb;
+            }
+
+        /* Next Steps Card */
+        .next-steps-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .next-steps-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+            .next-steps-header i {
+                font-size: 2rem;
+                color: #0d6efd;
+            }
+
+            .next-steps-header h4 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+            }
+
+        .next-steps-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .step-content h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons-success {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action-success {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-action-success i {
+                font-size: 1.75rem;
+            }
+
+            .btn-action-success:hover {
+                border-color: #0d6efd;
+                color: #0d6efd;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            }
+
+        /* ====== SIDEBAR CARDS ====== */
+        .quick-nav-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+            .quick-nav-card h4 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+            }
+
+                .quick-nav-card h4 i {
+                    color: #0d6efd;
+                }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .nav-btn i {
+                font-size: 1.75rem;
+                flex-shrink: 0;
+            }
+
+            .nav-btn strong {
+                display: block;
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .nav-btn span {
+                display: block;
+                font-size: 0.875rem;
+            }
+
+            .nav-btn.primary {
+                background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+                color: #fff;
+            }
+
+                .nav-btn.primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+                    color: #fff;
+                }
+
+            .nav-btn.secondary {
+                background: #f8fafc;
+                color: #64748b;
+                border: 2px solid #e2e8f0;
+            }
+
+                .nav-btn.secondary:hover {
+                    background: #fff;
+                    border-color: #cbd5e1;
+                    color: #1e293b;
+                }
+
+            .nav-btn.outline {
+                background: #fff;
+                color: #0d6efd;
+                border: 2px solid #0d6efd;
+            }
+
+                .nav-btn.outline:hover {
+                    background: #0d6efd;
+                    color: #fff;
+                }
+
+        /* Promo Card */
+        .promo-card-success {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 2px solid #fbbf24;
+        }
+
+        .promo-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .promo-card-success h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-card-success p {
+            font-size: 0.95rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .promo-code {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+
+            .promo-code span {
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #ea580c;
+                letter-spacing: 2px;
+            }
+
+        .btn-copy {
+            width: 36px;
+            height: 36px;
+            background: #fbbf24;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .btn-copy:hover {
+                background: #f59e0b;
+                transform: scale(1.1);
+            }
+
+        .promo-expire {
+            font-size: 0.75rem;
+            color: #92400e;
+        }
+
+        /* Support Card */
+        .support-card-success {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        .support-card-success h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-card-success p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-contacts-success {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .support-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.875rem;
+            background: #fff;
+            border-radius: 10px;
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .support-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+                color: #0d6efd;
+            }
+
+        /* Rating Card */
+        .rating-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+            .rating-card h5 {
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+            }
+
+            .rating-card p {
+                font-size: 0.95rem;
+                color: #64748b;
+                margin-bottom: 1.5rem;
+            }
+
+        .rating-stars {
+            font-size: 2rem;
+            color: #fbbf24;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-rate {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-rate:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+            }
+
+        /* ====== RECOMMENDATIONS SECTION ====== */
+        .recommendations-section-success {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .section-header-success {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+            .section-header-success h3 {
+                font-size: 2rem;
+                font-weight: 800;
+                color: #1e293b;
+                margin-bottom: 0.5rem;
+            }
+
+            .section-header-success p {
+                font-size: 1.125rem;
+                color: #64748b;
+            }
+
+        .btn-explore-success {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-explore-success:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 24px rgba(13, 110, 253, 0.4);
+                color: #fff;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .status-badges {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons-success {
+                flex-direction: column;
+            }
+
+            .btn-action-success {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .payment-success-hero {
+                padding: 3rem 0;
+            }
+
+            .success-icon-animated {
+                width: 120px;
+                height: 120px;
+            }
+
+            .success-circle {
+                width: 120px;
+                height: 120px;
+            }
+
+            .success-title {
+                font-size: 1.75rem;
+            }
+
+            .card-header-success-payment {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-row-success {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .info-value-success {
+                text-align: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Copy promo code
+        function copyPromoCode() {
+            const promoCode = 'WELCOME10';
+            navigator.clipboard.writeText(promoCode).then(function() {
+                alert('Đã sao chép mã khuyến mãi: ' + promoCode);
+            });
+        }
+
+        // Auto hide confetti after animation
+        setTimeout(function() {
+            document.querySelector('.confetti-container').style.display = 'none';
+        }, 3000);
+    </script>
+}

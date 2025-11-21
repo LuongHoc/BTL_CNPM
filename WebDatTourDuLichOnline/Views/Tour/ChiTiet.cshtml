@@ -1,0 +1,1040 @@
+﻿@model WebDatTourDuLichOnline.Models.Tour
+@using WebDatTourDuLichOnline.Models
+
+@{
+    ViewData["Title"] = "Chi tiết tour";
+    var danhGias = ViewBag.DanhGias as List<DanhGia> ?? new List<DanhGia>();
+    double diemTB = ViewBag.DiemTrungBinh != null ? (double)ViewBag.DiemTrungBinh : 0;
+    int soDanhGia = ViewBag.SoDanhGia != null ? (int)ViewBag.SoDanhGia : danhGias.Count;
+}
+
+<!-- Tour Header -->
+<div class="tour-detail-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Tour Image Gallery -->
+                <div class="tour-gallery">
+                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                    {
+                        <div class="main-image">
+                            <img src="~/images/tours/@Model.HinhAnh" alt="@Model.TenTour" class="img-fluid rounded-4">
+                            @if (Model.SoChoConLai < 5)
+                            {
+                                <span class="hot-badge">
+                                    <i class="bi bi-fire"></i> Sắp hết chỗ
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Tour Title & Rating -->
+                <div class="tour-header-info mt-4">
+                    <div class="tour-category">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        @Model.LoaiTour?.TenLoai
+                    </div>
+                    <h1 class="tour-title">@Model.TenTour</h1>
+
+                    <div class="tour-meta">
+                        <div class="meta-item">
+                            <i class="bi bi-star-fill"></i>
+                            <span class="rating-score">@Math.Round(diemTB, 1)</span>
+                            <span class="rating-count">(@soDanhGia đánh giá)</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>@Model.DiemKhoiHanh → @Model.DiemDen</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-calendar-check"></i>
+                            <span>@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour Details Tabs -->
+                <div class="tour-details-section">
+                    <ul class="nav nav-pills tour-nav-tabs mb-4" id="tourTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="overview-tab" data-bs-toggle="pill"
+                                    data-bs-target="#overview" type="button">
+                                <i class="bi bi-info-circle me-2"></i>Tổng quan
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="services-tab" data-bs-toggle="pill"
+                                    data-bs-target="#services" type="button">
+                                <i class="bi bi-check2-square me-2"></i>Dịch vụ
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="policy-tab" data-bs-toggle="pill"
+                                    data-bs-target="#policy" type="button">
+                                <i class="bi bi-shield-check me-2"></i>Chính sách
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reviews-tab" data-bs-toggle="pill"
+                                    data-bs-target="#reviews" type="button">
+                                <i class="bi bi-chat-dots me-2"></i>Đánh giá
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="tourTabContent">
+                        <!-- Overview Tab -->
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                            <div class="content-card">
+                                <h3 class="content-title">
+                                    <i class="bi bi-book me-2"></i>
+                                    Mô tả chi tiết
+                                </h3>
+                                <div class="content-text">
+                                    @if (!string.IsNullOrEmpty(Model.MoTaChiTiet))
+                                    {
+                                        <p>@Model.MoTaChiTiet</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có mô tả chi tiết</p>
+                                    }
+                                </div>
+
+                                <!-- Tour Highlights -->
+                                <div class="tour-highlights mt-4">
+                                    <h4 class="highlight-title">Điểm nổi bật</h4>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="highlight-item">
+                                                <i class="bi bi-clock-history"></i>
+                                                <div>
+                                                    <strong>Thời gian</strong>
+                                                    <span>@Model.ThoiGian</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="highlight-item">
+                                                <i class="bi bi-people"></i>
+                                                <div>
+                                                    <strong>Số chỗ</strong>
+                                                    <span>@Model.SoCho chỗ (Còn @Model.SoChoConLai)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="highlight-item">
+                                                <i class="bi bi-ticket-perforated"></i>
+                                                <div>
+                                                    <strong>Mã tour</strong>
+                                                    <span>@Model.MaTour</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="highlight-item">
+                                                <i class="bi bi-calendar-event"></i>
+                                                <div>
+                                                    <strong>Khởi hành</strong>
+                                                    <span>@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services Tab -->
+                        <div class="tab-pane fade" id="services" role="tabpanel">
+                            <div class="content-card">
+                                <div class="service-section included">
+                                    <h3 class="content-title">
+                                        <i class="bi bi-check-circle-fill me-2"></i>
+                                        Dịch vụ bao gồm
+                                    </h3>
+                                    <div class="content-text">
+                                        @if (!string.IsNullOrEmpty(Model.DichVuBaoGom))
+                                        {
+                                            <p>@Model.DichVuBaoGom</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted">Chưa cập nhật thông tin</p>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="service-section not-included mt-4">
+                                    <h3 class="content-title">
+                                        <i class="bi bi-x-circle-fill me-2"></i>
+                                        Không bao gồm
+                                    </h3>
+                                    <div class="content-text">
+                                        @if (!string.IsNullOrEmpty(Model.DichVuKhongBaoGom))
+                                        {
+                                            <p>@Model.DichVuKhongBaoGom</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted">Chưa cập nhật thông tin</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Policy Tab -->
+                        <div class="tab-pane fade" id="policy" role="tabpanel">
+                            <div class="content-card">
+                                <h3 class="content-title">
+                                    <i class="bi bi-file-text me-2"></i>
+                                    Chính sách hủy tour
+                                </h3>
+                                <div class="content-text">
+                                    @if (!string.IsNullOrEmpty(Model.ChinhSachHuy))
+                                    {
+                                        <p>@Model.ChinhSachHuy</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Vui lòng liên hệ để biết thêm chi tiết</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reviews Tab -->
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            <div class="reviews-section">
+                                <!-- Reviews Summary -->
+                                <div class="reviews-summary">
+                                    <div class="summary-score">
+                                        <div class="score-big">@Math.Round(diemTB, 1)</div>
+                                        <div class="score-stars">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="bi bi-star-fill @(i <= Math.Round(diemTB) ? "active" : "")"></i>
+                                            }
+                                        </div>
+                                        <div class="score-text">@soDanhGia đánh giá</div>
+                                    </div>
+                                </div>
+
+                                <!-- Reviews List -->
+                                <div class="reviews-list mt-4">
+                                    @if (soDanhGia == 0)
+                                    {
+                                        <div class="empty-reviews">
+                                            <i class="bi bi-chat-dots"></i>
+                                            <p>Chưa có đánh giá nào cho tour này</p>
+                                            <small>Hãy là người đầu tiên đánh giá!</small>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var dg in danhGias)
+                                        {
+                                            <div class="review-item">
+                                                <div class="review-header">
+                                                    <div class="reviewer-info">
+                                                        <div class="reviewer-avatar">
+                                                            @dg.KhachHang?.HoTen?.Substring(0, 1).ToUpper()
+                                                        </div>
+                                                        <div>
+                                                            <h5 class="reviewer-name">@dg.KhachHang?.HoTen</h5>
+                                                            <div class="review-meta">
+                                                                <div class="review-stars">
+                                                                    @for (int i = 1; i <= 5; i++)
+                                                                    {
+                                                                        <i class="bi bi-star-fill @(i <= dg.SoSao ? "active" : "")"></i>
+                                                                    }
+                                                                </div>
+                                                                <span class="review-date">
+                                                                    @dg.NgayDanhGia.ToString("dd/MM/yyyy")
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review-content">
+                                                    @dg.NoiDung
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                                <!-- Add Review Form -->
+                                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("KhachHang"))
+                                {
+                                    <div class="add-review-section mt-5">
+                                        <h4 class="section-heading">
+                                            <i class="bi bi-pencil-square me-2"></i>
+                                            Viết đánh giá của bạn
+                                        </h4>
+                                        <form asp-action="ThemDanhGia" asp-controller="Tour" method="post" class="review-form">
+                                            <input type="hidden" name="tourId" value="@Model.TourId" />
+
+                                            <div class="form-group mb-3">
+                                                <label class="form-label">Đánh giá của bạn</label>
+                                                <div class="star-rating-input">
+                                                    @for (int i = 5; i >= 1; i--)
+                                                    {
+                                                        <input type="radio" name="soSao" value="@i" id="star@(i)" @(i == 5 ? "checked" : "")>
+                                                        <label for="star@(i)" title="@i sao">
+                                                            <i class="bi bi-star-fill"></i>
+                                                        </label>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label class="form-label">Chia sẻ trải nghiệm của bạn</label>
+                                                <textarea name="noiDung" class="form-control" rows="4"
+                                                      placeholder="Hãy chia sẻ trải nghiệm của bạn về tour này..." required></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary-custom">
+                                                <i class="bi bi-send me-2"></i>Gửi đánh giá
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="login-prompt">
+                                        <i class="bi bi-lock"></i>
+                                        <p>Vui lòng <a asp-controller="TaiKhoan" asp-action="DangNhap">đăng nhập</a> để đánh giá tour</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Sidebar -->
+            <div class="col-lg-4">
+                <div class="booking-sidebar">
+                    <div class="price-section">
+                        <div class="price-label">Giá tour từ</div>
+                        <div class="price-value">@Model.GiaNguoiLon.ToString("N0") đ</div>
+                        <div class="price-note">/ người lớn</div>
+                        @if (Model.GiaTreEm.HasValue)
+                        {
+                            <div class="price-child">
+                                Trẻ em: <strong>@Model.GiaTreEm.Value.ToString("N0") đ</strong>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="booking-info">
+                        <div class="info-item">
+                            <i class="bi bi-calendar-check"></i>
+                            <div>
+                                <span class="info-label">Khởi hành</span>
+                                <span class="info-value">@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-clock"></i>
+                            <div>
+                                <span class="info-label">Thời gian</span>
+                                <span class="info-value">@Model.ThoiGian</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="bi bi-people"></i>
+                            <div>
+                                <span class="info-label">Số chỗ còn</span>
+                                <span class="info-value">@Model.SoChoConLai / @Model.SoCho</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <a asp-controller="Tour" asp-action="DatTour" asp-route-id="@Model.TourId"
+                           class="btn btn-book">
+                            <i class="bi bi-cart-plus me-2"></i>Đặt tour ngay
+                        </a>
+                        <a href="#" class="btn btn-contact">
+                            <i class="bi bi-telephone me-2"></i>Liên hệ tư vấn
+                        </a>
+                    </div>
+
+                    <!-- Support Box -->
+                    <div class="support-box">
+                        <h5>
+                            <i class="bi bi-headset me-2"></i>
+                            Cần hỗ trợ?
+                        </h5>
+                        <p>Đội ngũ tư vấn viên chuyên nghiệp sẵn sàng hỗ trợ bạn 24/7</p>
+                        <div class="support-contact">
+                            <i class="bi bi-telephone-fill"></i>
+                            <strong>1900 xxxx</strong>
+                        </div>
+                        <div class="support-contact">
+                            <i class="bi bi-envelope-fill"></i>
+                            <strong>support@traveltour.vn</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== TOUR DETAIL HERO ====== */
+        .tour-detail-hero {
+            padding: 2rem 0 4rem;
+            background: #f8fafc;
+        }
+
+        /* ====== TOUR GALLERY ====== */
+        .tour-gallery {
+            position: relative;
+        }
+
+        .main-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+            .main-image img {
+                width: 100%;
+                height: 500px;
+                object-fit: cover;
+            }
+
+        .hot-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* ====== TOUR HEADER INFO ====== */
+        .tour-header-info {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .tour-category {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .tour-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .tour-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+            .meta-item i {
+                color: #0d6efd;
+                font-size: 1.1rem;
+            }
+
+        .rating-score {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+
+        .rating-count {
+            color: #94a3b8;
+        }
+
+        /* ====== TOUR NAV TABS ====== */
+        .tour-details-section {
+            margin-top: 2rem;
+        }
+
+        .tour-nav-tabs {
+            background: #fff;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+            .tour-nav-tabs .nav-link {
+                border-radius: 8px;
+                padding: 0.875rem 1.5rem;
+                font-weight: 600;
+                color: #64748b;
+                border: none;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+
+                .tour-nav-tabs .nav-link:hover {
+                    background: #f8fafc;
+                    color: #0d6efd;
+                }
+
+                .tour-nav-tabs .nav-link.active {
+                    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+                    color: #fff;
+                }
+
+        /* ====== CONTENT CARD ====== */
+        .content-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .content-title i {
+                color: #0d6efd;
+            }
+
+        .content-text {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        /* ====== TOUR HIGHLIGHTS ====== */
+        .highlight-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+            .highlight-item:hover {
+                border-color: #0d6efd;
+                transform: translateX(5px);
+            }
+
+            .highlight-item i {
+                font-size: 1.75rem;
+                color: #0d6efd;
+            }
+
+            .highlight-item strong {
+                display: block;
+                font-size: 0.875rem;
+                color: #64748b;
+                margin-bottom: 0.25rem;
+            }
+
+            .highlight-item span {
+                display: block;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #1e293b;
+            }
+
+        /* ====== SERVICE SECTIONS ====== */
+        .service-section.included .content-title i {
+            color: #198754;
+        }
+
+        .service-section.not-included .content-title i {
+            color: #dc3545;
+        }
+
+        /* ====== REVIEWS SECTION ====== */
+        .reviews-summary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .summary-score .score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-score .score-stars {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+            .summary-score .score-stars i {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+                .summary-score .score-stars i.active {
+                    color: #ffc107;
+                }
+
+        .summary-score .score-text {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Empty Reviews */
+        .empty-reviews {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+
+            .empty-reviews i {
+                font-size: 4rem;
+                color: #cbd5e1;
+                margin-bottom: 1rem;
+            }
+
+            .empty-reviews p {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: #64748b;
+                margin-bottom: 0.5rem;
+            }
+
+            .empty-reviews small {
+                color: #94a3b8;
+            }
+
+        /* ====== REVIEW ITEM ====== */
+        .review-item {
+            padding: 1.5rem;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .review-item:hover {
+                border-color: #0d6efd;
+                box-shadow: 0 8px 20px rgba(13, 110, 253, 0.1);
+            }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-info {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .reviewer-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .review-stars i {
+            color: #e2e8f0;
+            font-size: 0.875rem;
+        }
+
+            .review-stars i.active {
+                color: #ffc107;
+            }
+
+        .review-date {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .review-content {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* ====== ADD REVIEW SECTION ====== */
+        .add-review-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-heading {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-rating-input {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+            .star-rating-input input {
+                display: none;
+            }
+
+            .star-rating-input label {
+                font-size: 2rem;
+                color: #e2e8f0;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+                .star-rating-input input:checked ~ label,
+                .star-rating-input label:hover,
+                .star-rating-input label:hover ~ label {
+                    color: #ffc107;
+                }
+
+        .review-form .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .review-form .form-control:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+            }
+
+        .btn-primary-custom {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-primary-custom:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+            }
+
+        /* Login Prompt */
+        .login-prompt {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+
+            .login-prompt i {
+                font-size: 3rem;
+                color: #cbd5e1;
+                margin-bottom: 1rem;
+            }
+
+            .login-prompt p {
+                font-size: 1rem;
+                color: #64748b;
+            }
+
+            .login-prompt a {
+                color: #0d6efd;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+                .login-prompt a:hover {
+                    text-decoration: underline;
+                }
+
+        /* ====== BOOKING SIDEBAR ====== */
+        .booking-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .price-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-note {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .price-child {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+        }
+
+        /* Booking Info */
+        .booking-info {
+            background: #fff;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .info-item:last-child {
+                border-bottom: none;
+            }
+
+            .info-item i {
+                font-size: 1.5rem;
+                color: #0d6efd;
+            }
+
+        .info-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Booking Actions */
+        .booking-actions {
+            background: #fff;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-book:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 24px rgba(13, 110, 253, 0.4);
+                color: #fff;
+            }
+
+        .btn-contact {
+            width: 100%;
+            padding: 1rem;
+            background: #fff;
+            border: 2px solid #0d6efd;
+            border-radius: 12px;
+            color: #0d6efd;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-contact:hover {
+                background: #f8fafc;
+                transform: translateY(-2px);
+                color: #0d6efd;
+            }
+
+        /* Support Box */
+        .support-box {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+            .support-box h5 {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.75rem;
+            }
+
+            .support-box p {
+                font-size: 0.875rem;
+                color: #64748b;
+                margin-bottom: 1rem;
+            }
+
+        .support-contact {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+            color: #0d6efd;
+        }
+
+            .support-contact i {
+                font-size: 1.1rem;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .tour-title {
+                font-size: 1.75rem;
+            }
+
+            .tour-nav-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .booking-sidebar {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .main-image img {
+                height: 300px;
+            }
+
+            .tour-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .price-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+}

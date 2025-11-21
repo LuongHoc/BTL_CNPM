@@ -1,0 +1,773 @@
+﻿@{
+    ViewData["Title"] = "Trang nhân viên";
+    int tongCho = ViewBag.TongChoXacNhan ?? 0;
+    int tongDaXacNhan = ViewBag.TongDaXacNhan ?? 0;
+    int tongDaHuy = ViewBag.TongDaHuy ?? 0;
+    int tongHomNay = ViewBag.TongDonHomNay ?? 0;
+}
+
+<!-- Page Header -->
+<div class="page-header-staff-dashboard">
+    <div class="header-content-staff">
+        <div class="header-icon-staff">
+            <i class="bi bi-speedometer2"></i>
+        </div>
+        <div>
+            <h1 class="page-title-staff">Dashboard Nhân viên</h1>
+            <p class="page-subtitle-staff">Tổng quan hệ thống đặt tour du lịch</p>
+        </div>
+    </div>
+    <div class="header-time-staff">
+        <i class="bi bi-calendar-event me-2"></i>
+        <span id="currentDateTime"></span>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-dashboard-grid">
+    <div class="stat-dashboard-card pending">
+        <div class="stat-card-icon">
+            <i class="bi bi-hourglass-split"></i>
+        </div>
+        <div class="stat-card-content">
+            <span class="stat-card-label">Đơn chờ xác nhận</span>
+            <span class="stat-card-value">@tongCho</span>
+            <span class="stat-card-trend">
+                <i class="bi bi-clock-history"></i>
+                Cần xử lý
+            </span>
+        </div>
+        <div class="stat-card-badge pending-badge">
+            <i class="bi bi-exclamation-circle"></i>
+        </div>
+    </div>
+
+    <div class="stat-dashboard-card confirmed">
+        <div class="stat-card-icon">
+            <i class="bi bi-check-circle"></i>
+        </div>
+        <div class="stat-card-content">
+            <span class="stat-card-label">Đơn đã xác nhận</span>
+            <span class="stat-card-value">@tongDaXacNhan</span>
+            <span class="stat-card-trend">
+                <i class="bi bi-check2-all"></i>
+                Đã hoàn tất
+            </span>
+        </div>
+        <div class="stat-card-badge confirmed-badge">
+            <i class="bi bi-check-lg"></i>
+        </div>
+    </div>
+
+    <div class="stat-dashboard-card canceled">
+        <div class="stat-card-icon">
+            <i class="bi bi-x-circle"></i>
+        </div>
+        <div class="stat-card-content">
+            <span class="stat-card-label">Đơn đã hủy</span>
+            <span class="stat-card-value">@tongDaHuy</span>
+            <span class="stat-card-trend">
+                <i class="bi bi-ban"></i>
+                Đã hủy bỏ
+            </span>
+        </div>
+        <div class="stat-card-badge canceled-badge">
+            <i class="bi bi-x-lg"></i>
+        </div>
+    </div>
+
+    <div class="stat-dashboard-card today">
+        <div class="stat-card-icon">
+            <i class="bi bi-calendar-day"></i>
+        </div>
+        <div class="stat-card-content">
+            <span class="stat-card-label">Đơn tạo hôm nay</span>
+            <span class="stat-card-value">@tongHomNay</span>
+            <span class="stat-card-trend">
+                <i class="bi bi-graph-up"></i>
+                Hôm nay
+            </span>
+        </div>
+        <div class="stat-card-badge today-badge">
+            <i class="bi bi-star-fill"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-section">
+    <div class="quick-actions-header">
+        <h3>
+            <i class="bi bi-lightning-charge me-2"></i>
+            Thao tác nhanh
+        </h3>
+        <p>Các chức năng thường dùng của nhân viên</p>
+    </div>
+
+    <div class="quick-actions-grid">
+        <a asp-action="DanhSachDon" class="action-card primary">
+            <div class="action-card-icon">
+                <i class="bi bi-list-ul"></i>
+            </div>
+            <div class="action-card-content">
+                <h4>Quản lý đơn đặt tour</h4>
+                <p>Xem, xác nhận và quản lý tất cả đơn đặt tour</p>
+            </div>
+            <div class="action-card-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+        </a>
+
+        <a asp-action="TaoDon" class="action-card success">
+            <div class="action-card-icon">
+                <i class="bi bi-plus-circle"></i>
+            </div>
+            <div class="action-card-content">
+                <h4>Tạo đơn hộ khách</h4>
+                <p>Đặt tour trực tiếp cho khách hàng tại quầy</p>
+            </div>
+            <div class="action-card-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+        </a>
+
+        <a asp-action="DanhSachKhachTheoTour" class="action-card info">
+            <div class="action-card-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="action-card-content">
+                <h4>Danh sách khách theo tour</h4>
+                <p>Xem chi tiết khách hàng tham gia từng tour</p>
+            </div>
+            <div class="action-card-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Overview Chart -->
+<div class="overview-section">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="chart-card-dashboard">
+                <div class="chart-card-dashboard-header">
+                    <h4>
+                        <i class="bi bi-bar-chart me-2"></i>
+                        Tổng quan trạng thái đơn
+                    </h4>
+                </div>
+                <div class="chart-card-dashboard-body">
+                    <canvas id="orderStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="chart-card-dashboard">
+                <div class="chart-card-dashboard-header">
+                    <h4>
+                        <i class="bi bi-pie-chart me-2"></i>
+                        Phân bổ đơn hàng
+                    </h4>
+                </div>
+                <div class="chart-card-dashboard-body">
+                    <canvas id="orderDistributionChart"></canvas>
+                </div>
+                <div class="chart-legend-dashboard">
+                    <div class="legend-dashboard-item pending">
+                        <div class="legend-dashboard-color"></div>
+                        <span>Chờ xác nhận: @tongCho</span>
+                    </div>
+                    <div class="legend-dashboard-item confirmed">
+                        <div class="legend-dashboard-color"></div>
+                        <span>Đã xác nhận: @tongDaXacNhan</span>
+                    </div>
+                    <div class="legend-dashboard-item canceled">
+                        <div class="legend-dashboard-color"></div>
+                        <span>Đã hủy: @tongDaHuy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Cards -->
+<div class="info-cards-section">
+    <div class="info-card-dashboard">
+        <div class="info-card-icon info">
+            <i class="bi bi-info-circle"></i>
+        </div>
+        <div class="info-card-content">
+            <h5>Hướng dẫn sử dụng</h5>
+            <p>Sử dụng các thao tác nhanh bên trên để quản lý đơn đặt tour hiệu quả. Nhấp vào từng mục để xem chi tiết.</p>
+        </div>
+    </div>
+
+    <div class="info-card-dashboard">
+        <div class="info-card-icon success">
+            <i class="bi bi-star"></i>
+        </div>
+        <div class="info-card-content">
+            <h5>Mẹo làm việc hiệu quả</h5>
+            <p>Ưu tiên xử lý các đơn chờ xác nhận trước. Kiểm tra danh sách khách theo tour để chuẩn bị tốt hơn.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ====== PAGE HEADER STAFF DASHBOARD ====== */
+    .page-header-staff-dashboard {
+        padding: 2rem;
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-content-staff {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .header-icon-staff {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .page-title-staff {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .page-subtitle-staff {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin: 0.5rem 0 0;
+    }
+
+    .header-time-staff {
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+    }
+
+    /* ====== STATISTICS DASHBOARD GRID ====== */
+    .stats-dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-dashboard-card {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-dashboard-card.pending {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-dashboard-card.confirmed {
+            border-left-color: #10b981;
+        }
+
+        .stat-dashboard-card.canceled {
+            border-left-color: #ef4444;
+        }
+
+        .stat-dashboard-card.today {
+            border-left-color: #8b5cf6;
+        }
+
+    .stat-card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .stat-dashboard-card.pending .stat-card-icon {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .stat-dashboard-card.confirmed .stat-card-icon {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .stat-dashboard-card.canceled .stat-card-icon {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .stat-dashboard-card.today .stat-card-icon {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    }
+
+    .stat-card-content {
+        flex: 1;
+    }
+
+    .stat-card-label {
+        display: block;
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card-value {
+        display: block;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-card-trend {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.8rem;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .stat-card-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: #fff;
+        opacity: 0.2;
+    }
+
+    .pending-badge {
+        background: #f59e0b;
+    }
+
+    .confirmed-badge {
+        background: #10b981;
+    }
+
+    .canceled-badge {
+        background: #ef4444;
+    }
+
+    .today-badge {
+        background: #8b5cf6;
+    }
+
+    /* ====== QUICK ACTIONS SECTION ====== */
+    .quick-actions-section {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    .quick-actions-header {
+        margin-bottom: 1.5rem;
+    }
+
+        .quick-actions-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .quick-actions-header p {
+            color: #64748b;
+            margin: 0;
+        }
+
+    .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .action-card {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .action-card.primary::before {
+            background: #06b6d4;
+        }
+
+        .action-card.success::before {
+            background: #10b981;
+        }
+
+        .action-card.info::before {
+            background: #3b82f6;
+        }
+
+        .action-card:hover {
+            border-color: currentColor;
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+            .action-card:hover::before {
+                width: 100%;
+            }
+
+    .action-card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: #fff;
+        flex-shrink: 0;
+        z-index: 1;
+    }
+
+    .action-card.primary .action-card-icon {
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    }
+
+    .action-card.success .action-card-icon {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .action-card.info .action-card-icon {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+
+    .action-card-content {
+        flex: 1;
+        z-index: 1;
+    }
+
+        .action-card-content h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card-content p {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+    .action-card-arrow {
+        font-size: 1.5rem;
+        color: #cbd5e1;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+
+    .action-card:hover .action-card-arrow {
+        color: #1e293b;
+        transform: translateX(5px);
+    }
+
+    /* ====== OVERVIEW SECTION ====== */
+    .overview-section {
+        margin-bottom: 2rem;
+    }
+
+    .chart-card-dashboard {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .chart-card-dashboard-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+        .chart-card-dashboard-header h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+    .chart-card-dashboard-body {
+        padding: 2rem;
+    }
+
+    .chart-legend-dashboard {
+        padding: 1.5rem;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .legend-dashboard-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .legend-dashboard-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+    }
+
+    .legend-dashboard-item.pending .legend-dashboard-color {
+        background: #f59e0b;
+    }
+
+    .legend-dashboard-item.confirmed .legend-dashboard-color {
+        background: #10b981;
+    }
+
+    .legend-dashboard-item.canceled .legend-dashboard-color {
+        background: #ef4444;
+    }
+
+    /* ====== INFO CARDS SECTION ====== */
+    .info-cards-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .info-card-dashboard {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .info-card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+        .info-card-icon.info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .info-card-icon.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+    .info-card-content h5 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-card-content p {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @@media (max-width: 1200px) {
+        .stats-dashboard-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .page-header-staff-dashboard {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .header-time-staff {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .stats-dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .info-cards-section {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Update current date time
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        document.getElementById('currentDateTime').textContent = now.toLocaleDateString('vi-VN', options);
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
+
+    // Order Status Bar Chart
+    const barCtx = document.getElementById('orderStatusChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Chờ xác nhận', 'Đã xác nhận', 'Đã hủy', 'Hôm nay'],
+            datasets: [{
+                label: 'Số đơn',
+                data: [@tongCho, @tongDaXacNhan, @tongDaHuy, @tongHomNay],
+                backgroundColor: [
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(239, 68, 68, 0.8)',
+                    'rgba(139, 92, 246, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(245, 158, 11, 1)',
+                    'rgba(16, 185, 129, 1)',
+                    'rgba(239, 68, 68, 1)',
+                    'rgba(139, 92, 246, 1)'
+                ],
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+
+    // Order Distribution Pie Chart
+    const pieCtx = document.getElementById('orderDistributionChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Chờ xác nhận', 'Đã xác nhận', 'Đã hủy'],
+            datasets: [{
+                data: [@tongCho, @tongDaXacNhan, @tongDaHuy],
+                backgroundColor: [
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(239, 68, 68, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(245, 158, 11, 1)',
+                    'rgba(16, 185, 129, 1)',
+                    'rgba(239, 68, 68, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>

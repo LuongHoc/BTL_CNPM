@@ -1,0 +1,1002 @@
+﻿@model WebDatTourDuLichOnline.Models.DonDatTour
+
+@{
+    ViewData["Title"] = "Thanh toán đơn đặt tour";
+}
+
+<!-- Payment Header -->
+<div class="payment-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="bi bi-credit-card"></i>
+            </div>
+            <div>
+                <h1 class="payment-title">Thanh toán đơn đặt tour</h1>
+                <p class="payment-subtitle">Hoàn tất thanh toán để xác nhận đặt chỗ của bạn</p>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <i class="bi bi-shield-check me-2"></i>
+            <span>Thanh toán được mã hóa và bảo mật tuyệt đối</span>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Content -->
+<div class="payment-container">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Left Column - Payment Form -->
+            <div class="col-lg-7">
+                <form asp-action="ThanhToanDon" method="post" id="paymentForm">
+                    <input type="hidden" name="id" value="@Model.DonDatTourId" />
+
+                    <!-- Payment Method Card -->
+                    <div class="payment-card">
+                        <div class="card-header-payment">
+                            <h3>
+                                <i class="bi bi-wallet2 me-2"></i>
+                                Chọn phương thức thanh toán
+                            </h3>
+                        </div>
+
+                        <div class="card-body-payment">
+                            <div class="payment-methods">
+                                <!-- Cash Payment -->
+                                <label class="payment-method-option">
+                                    <input type="radio" name="phuongThuc" value="TienMat" checked>
+                                    <div class="method-card">
+                                        <div class="method-icon cash">
+                                            <i class="bi bi-cash-coin"></i>
+                                        </div>
+                                        <div class="method-content">
+                                            <h5>Tiền mặt</h5>
+                                            <p>Thanh toán tại văn phòng</p>
+                                        </div>
+                                        <div class="method-check">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <!-- Bank Transfer -->
+                                <label class="payment-method-option">
+                                    <input type="radio" name="phuongThuc" value="ChuyenKhoan">
+                                    <div class="method-card">
+                                        <div class="method-icon bank">
+                                            <i class="bi bi-bank"></i>
+                                        </div>
+                                        <div class="method-content">
+                                            <h5>Chuyển khoản</h5>
+                                            <p>Chuyển khoản ngân hàng</p>
+                                        </div>
+                                        <div class="method-check">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <!-- Online Payment -->
+                                <label class="payment-method-option">
+                                    <input type="radio" name="phuongThuc" value="Online">
+                                    <div class="method-card">
+                                        <div class="method-icon online">
+                                            <i class="bi bi-credit-card-2-front"></i>
+                                        </div>
+                                        <div class="method-content">
+                                            <h5>Thanh toán online</h5>
+                                            <p>Thẻ tín dụng / Ví điện tử</p>
+                                        </div>
+                                        <div class="method-check">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details by Method -->
+                    <div class="payment-details-card" id="cashDetails">
+                        <div class="details-icon">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </div>
+                        <div class="details-content">
+                            <h5>Hướng dẫn thanh toán tiền mặt</h5>
+                            <ul>
+                                <li>Quý khách vui lòng đến văn phòng của chúng tôi để thanh toán</li>
+                                <li>Địa chỉ: 123 Đường ABC, Quận XYZ, Hà Nội</li>
+                                <li>Giờ làm việc: 8:00 - 17:00 (Thứ 2 - Thứ 6)</li>
+                                <li>Mang theo mã đơn: <strong>@Model.MaDon</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="payment-details-card" id="bankDetails" style="display: none;">
+                        <div class="details-icon">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </div>
+                        <div class="details-content">
+                            <h5>Thông tin chuyển khoản</h5>
+                            <div class="bank-info">
+                                <div class="info-row">
+                                    <span class="info-label">Ngân hàng:</span>
+                                    <span class="info-value">Vietcombank - Chi nhánh Hà Nội</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Số tài khoản:</span>
+                                    <span class="info-value">1234567890</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Chủ tài khoản:</span>
+                                    <span class="info-value">CÔNG TY TNHH TRAVEL TOUR</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Nội dung:</span>
+                                    <span class="info-value"><strong>@Model.MaDon - Họ tên KH</strong></span>
+                                </div>
+                            </div>
+                            <div class="bank-note">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Vui lòng ghi chính xác nội dung chuyển khoản để xác nhận nhanh chóng
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-details-card" id="onlineDetails" style="display: none;">
+                        <div class="details-icon">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </div>
+                        <div class="details-content">
+                            <h5>Thanh toán trực tuyến</h5>
+                            <p>Bạn sẽ được chuyển đến trang thanh toán an toàn để hoàn tất giao dịch.</p>
+                            <div class="payment-logos">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'%3E%3Crect fill='%230066b2' width='60' height='40' rx='4'/%3E%3Ctext x='30' y='25' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EVISA%3C/text%3E%3C/svg%3E" alt="Visa">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'%3E%3Crect fill='%23eb001b' width='25' height='40'/%3E%3Crect fill='%23f79e1b' x='25' width='35' height='40'/%3E%3C/svg%3E" alt="Mastercard">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'%3E%3Crect fill='%2300457c' width='60' height='40' rx='4'/%3E%3Ctext x='30' y='25' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EMoMo%3C/text%3E%3C/svg%3E" alt="MoMo">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'%3E%3Crect fill='%23008fe5' width='60' height='40' rx='4'/%3E%3Ctext x='30' y='25' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3EZaloPay%3C/text%3E%3C/svg%3E" alt="ZaloPay">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Submit -->
+                    <div class="payment-card">
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="acceptTerms" required>
+                            <label for="acceptTerms">
+                                Tôi đã đọc và đồng ý với
+                                <a href="#">Điều khoản dịch vụ</a> và
+                                <a href="#">Chính sách thanh toán</a>
+                            </label>
+                        </div>
+
+                        <div class="payment-actions">
+                            <a asp-controller="TaiKhoan" asp-action="DonCuaToi" class="btn btn-back-payment">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-pay" id="btnPay">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Xác nhận thanh toán
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column - Order Summary -->
+            <div class="col-lg-5">
+                <div class="order-summary-card">
+                    <div class="summary-header">
+                        <h3>
+                            <i class="bi bi-receipt me-2"></i>
+                            Thông tin đơn hàng
+                        </h3>
+                    </div>
+
+                    <div class="summary-body">
+                        <!-- Order Info -->
+                        <div class="order-info-box">
+                            <div class="info-badge">
+                                <i class="bi bi-tag-fill"></i>
+                                <span>@Model.MaDon</span>
+                            </div>
+
+                            <h4 class="tour-name">@Model.Tour?.TenTour</h4>
+
+                            <div class="tour-details-list">
+                                <div class="detail-item-summary">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <div>
+                                        <span class="detail-label-summary">Ngày khởi hành</span>
+                                        <span class="detail-value-summary">@Model.Tour?.NgayKhoiHanh.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                </div>
+
+                                <div class="detail-item-summary">
+                                    <i class="bi bi-people"></i>
+                                    <div>
+                                        <span class="detail-label-summary">Số khách</span>
+                                        <span class="detail-value-summary">@Model.SoNguoiLon NL, @Model.SoTreEm TE</span>
+                                    </div>
+                                </div>
+
+                                <div class="detail-item-summary">
+                                    <i class="bi bi-check-circle"></i>
+                                    <div>
+                                        <span class="detail-label-summary">Trạng thái</span>
+                                        <span class="detail-value-summary">
+                                            @if (Model.TrangThaiThanhToan == "DaThanhToan")
+                                            {
+                                                <span class="badge-mini success">Đã thanh toán</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-mini warning">Chưa thanh toán</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <div class="price-breakdown">
+                            <div class="price-item">
+                                <span class="price-label-summary">Tổng tiền tour</span>
+                                <span class="price-value-summary">@Model.TongTien.ToString("N0") đ</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label-summary">Phí dịch vụ</span>
+                                <span class="price-value-summary">0 đ</span>
+                            </div>
+                            <div class="price-divider"></div>
+                            <div class="price-total">
+                                <span class="total-label-summary">Tổng thanh toán</span>
+                                <span class="total-value-summary">@Model.TongTien.ToString("N0") đ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="trust-section">
+                        <div class="trust-badge-payment">
+                            <i class="bi bi-shield-fill-check"></i>
+                            <span>Bảo mật SSL</span>
+                        </div>
+                        <div class="trust-badge-payment">
+                            <i class="bi bi-lock-fill"></i>
+                            <span>Mã hóa 256-bit</span>
+                        </div>
+                        <div class="trust-badge-payment">
+                            <i class="bi bi-patch-check-fill"></i>
+                            <span>PCI DSS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Box -->
+                <div class="support-box-payment">
+                    <div class="support-icon-payment">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5>Cần hỗ trợ thanh toán?</h5>
+                    <p>Liên hệ với chúng tôi để được hỗ trợ</p>
+                    <div class="support-contacts">
+                        <a href="tel:1900xxxx" class="contact-link">
+                            <i class="bi bi-telephone-fill"></i>
+                            1900 xxxx
+                        </a>
+                        <a href="mailto:support@traveltour.vn" class="contact-link">
+                            <i class="bi bi-envelope-fill"></i>
+                            support@traveltour.vn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAYMENT HEADER ====== */
+        .payment-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 3rem 0 2rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .payment-header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -20%;
+                width: 500px;
+                height: 500px;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .payment-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .payment-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ====== PAYMENT CONTAINER ====== */
+        .payment-container {
+            padding: 3rem 0;
+            background: #f8fafc;
+        }
+
+        /* ====== PAYMENT CARD ====== */
+        .payment-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header-payment {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+            .card-header-payment h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .card-header-payment i {
+                color: #0d6efd;
+            }
+
+        .card-body-payment {
+            padding: 2rem;
+        }
+
+        /* ====== PAYMENT METHODS ====== */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-method-option {
+            cursor: pointer;
+        }
+
+            .payment-method-option input[type="radio"] {
+                display: none;
+            }
+
+        .method-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method-option input[type="radio"]:checked ~ .method-card {
+            border-color: #0d6efd;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(11, 94, 215, 0.05) 100%);
+        }
+
+        .method-card:hover {
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+            .method-icon.cash {
+                background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            }
+
+            .method-icon.bank {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            }
+
+            .method-icon.online {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+        .method-content {
+            flex: 1;
+        }
+
+            .method-content h5 {
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 0.25rem;
+            }
+
+            .method-content p {
+                font-size: 0.9rem;
+                color: #64748b;
+                margin: 0;
+            }
+
+        .method-check {
+            font-size: 1.75rem;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method-option input[type="radio"]:checked ~ .method-card .method-check {
+            color: #0d6efd;
+        }
+
+        /* ====== PAYMENT DETAILS CARD ====== */
+        .payment-details-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .details-icon {
+            font-size: 2rem;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+
+        .details-content h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 1rem;
+        }
+
+        .details-content ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: #1e40af;
+        }
+
+        .details-content li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Bank Info */
+        .bank-info {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .info-row:last-child {
+                border-bottom: none;
+            }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: right;
+        }
+
+        .bank-note {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 8px;
+            color: #92400e;
+            font-size: 0.875rem;
+        }
+
+        /* Payment Logos */
+        .payment-logos {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+            .payment-logos img {
+                height: 40px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+        /* ====== TERMS AND SUBMIT ====== */
+        .terms-checkbox {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+            .terms-checkbox input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                margin-top: 0.25rem;
+                flex-shrink: 0;
+            }
+
+            .terms-checkbox label {
+                font-size: 0.95rem;
+                color: #64748b;
+                line-height: 1.6;
+            }
+
+            .terms-checkbox a {
+                color: #0d6efd;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+                .terms-checkbox a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Payment Actions */
+        .payment-actions {
+            display: flex;
+            gap: 1rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .btn-back-payment {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-back-payment:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        .btn-pay {
+            flex: 2;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-pay:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 24px rgba(13, 110, 253, 0.4);
+            }
+
+        /* ====== ORDER SUMMARY CARD ====== */
+        .order-summary-card {
+            position: sticky;
+            top: 100px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .summary-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 1.5rem 2rem;
+            color: #fff;
+        }
+
+            .summary-header h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .summary-body {
+            padding: 2rem;
+        }
+
+        /* Order Info Box */
+        .order-info-box {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tour-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .tour-details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-item-summary {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+            .detail-item-summary i {
+                font-size: 1.25rem;
+                color: #0d6efd;
+                flex-shrink: 0;
+                margin-top: 0.125rem;
+            }
+
+        .detail-label-summary {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value-summary {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .badge-mini {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+            .badge-mini.success {
+                background: rgba(34, 197, 94, 0.1);
+                color: #16a34a;
+            }
+
+            .badge-mini.warning {
+                background: rgba(251, 191, 36, 0.1);
+                color: #d97706;
+            }
+
+        /* Price Breakdown */
+        .price-breakdown {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            font-size: 0.95rem;
+        }
+
+        .price-label-summary {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .price-value-summary {
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .price-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .total-label-summary {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .total-value-summary {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0d6efd;
+        }
+
+        /* Trust Section */
+        .trust-section {
+            display: flex;
+            justify-content: space-around;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .trust-badge-payment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+            .trust-badge-payment i {
+                font-size: 1.5rem;
+                color: #0d6efd;
+            }
+
+        /* ====== SUPPORT BOX PAYMENT ====== */
+        .support-box-payment {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .support-icon-payment {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        .support-box-payment h5 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-box-payment p {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.875rem;
+            background: #fff;
+            border-radius: 10px;
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .contact-link:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+                color: #0d6efd;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .payment-title {
+                font-size: 1.5rem;
+            }
+
+            .payment-actions {
+                flex-direction: column;
+            }
+
+            .order-summary-card {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .payment-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .header-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .card-body-payment {
+                padding: 1.5rem;
+            }
+
+            .method-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .payment-details-card {
+                flex-direction: column;
+            }
+
+            .payment-actions {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            .summary-body {
+                padding: 1.5rem;
+            }
+
+            .total-value-summary {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Payment method switching
+        document.querySelectorAll('input[name="phuongThuc"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Hide all details
+                document.getElementById('cashDetails').style.display = 'none';
+                document.getElementById('bankDetails').style.display = 'none';
+                document.getElementById('onlineDetails').style.display = 'none';
+
+                // Show selected details
+                if (this.value === 'TienMat') {
+                    document.getElementById('cashDetails').style.display = 'flex';
+                } else if (this.value === 'ChuyenKhoan') {
+                    document.getElementById('bankDetails').style.display = 'flex';
+                } else if (this.value === 'Online') {
+                    document.getElementById('onlineDetails').style.display = 'flex';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            const acceptTerms = document.getElementById('acceptTerms');
+            if (!acceptTerms.checked) {
+                e.preventDefault();
+                alert('Vui lòng đồng ý với điều khoản dịch vụ');
+                return;
+            }
+
+            document.getElementById('btnPay').innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...';
+            document.getElementById('btnPay').disabled = true;
+        });
+    </script>
+}

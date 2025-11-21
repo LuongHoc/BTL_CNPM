@@ -1,0 +1,630 @@
+﻿@model WebDatTourDuLichOnline.Models.NhanVienViewModel
+
+@{
+    ViewData["Title"] = "Sửa nhân viên";
+}
+
+<!-- Page Header -->
+<div class="page-header-edit-staff">
+    <div class="header-content-edit">
+        <div class="header-icon-edit">
+            <i class="bi bi-person-gear"></i>
+        </div>
+        <div>
+            <h1 class="page-title-edit">Sửa thông tin nhân viên</h1>
+            <p class="page-subtitle-edit">Cập nhật thông tin và tài khoản nhân viên</p>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Form -->
+<div class="edit-staff-container">
+    <div class="row g-4">
+        <!-- Form Column -->
+        <div class="col-lg-8">
+            <form asp-action="SuaNhanVien" method="post" id="editStaffForm">
+                <input type="hidden" asp-for="NhanVienId" />
+
+                <!-- Personal Info Card -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <div class="form-card-icon personal">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h3>Thông tin cá nhân</h3>
+                    </div>
+                    <div class="form-card-body">
+                        <div class="form-group-custom">
+                            <label asp-for="HoTen" class="form-label-custom">
+                                <i class="bi bi-person me-2"></i>
+                                Họ và tên
+                                <span class="required-star">*</span>
+                            </label>
+                            <input asp-for="HoTen" class="form-control-custom" placeholder="Nhập họ và tên đầy đủ" />
+                            <span asp-validation-for="HoTen" class="validation-message"></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="Email" class="form-label-custom">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        Email
+                                    </label>
+                                    <input asp-for="Email" class="form-control-custom" type="email" placeholder="example@email.com" />
+                                    <span asp-validation-for="Email" class="validation-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="SoDienThoai" class="form-label-custom">
+                                        <i class="bi bi-telephone me-2"></i>
+                                        Số điện thoại
+                                    </label>
+                                    <input asp-for="SoDienThoai" class="form-control-custom" placeholder="0123456789" />
+                                    <span asp-validation-for="SoDienThoai" class="validation-message"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-custom">
+                            <label asp-for="DiaChi" class="form-label-custom">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Địa chỉ
+                            </label>
+                            <input asp-for="DiaChi" class="form-control-custom" placeholder="Nhập địa chỉ đầy đủ" />
+                            <span asp-validation-for="DiaChi" class="validation-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Info Card -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <div class="form-card-icon account">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <h3>Thông tin tài khoản</h3>
+                    </div>
+                    <div class="form-card-body">
+                        <div class="form-group-custom">
+                            <label asp-for="TenDangNhap" class="form-label-custom">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Tên đăng nhập
+                                <span class="required-star">*</span>
+                            </label>
+                            <input asp-for="TenDangNhap" class="form-control-custom" placeholder="Nhập tên đăng nhập" />
+                            <span asp-validation-for="TenDangNhap" class="validation-message"></span>
+                        </div>
+
+                        <div class="form-group-custom">
+                            <label asp-for="MatKhau" class="form-label-custom">
+                                <i class="bi bi-key me-2"></i>
+                                Mật khẩu mới
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input asp-for="MatKhau" class="form-control-custom" type="password" id="passwordInput" placeholder="Bỏ trống nếu không đổi mật khẩu" />
+                                <button type="button" class="btn-toggle-password" onclick="togglePassword()">
+                                    <i class="bi bi-eye" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="MatKhau" class="validation-message"></span>
+                            <div class="form-hint">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Để trống nếu không muốn thay đổi mật khẩu
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                    <a asp-action="DanhSachNhanVien" class="btn-cancel-edit">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn-save-edit">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <!-- Help Card -->
+            <div class="help-card">
+                <div class="help-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h4>Hướng dẫn</h4>
+                <ul class="help-list">
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Điền đầy đủ thông tin có dấu <span class="text-danger">*</span></span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Tên đăng nhập phải là duy nhất</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Mật khẩu chỉ đổi khi cần thiết</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Kiểm tra kỹ email và SĐT</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="security-notice">
+                <div class="notice-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5>Bảo mật thông tin</h5>
+                <p>Thông tin nhân viên được mã hóa và bảo mật tuyệt đối. Chỉ admin mới có quyền xem và chỉnh sửa.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats-card">
+                <h5>Thông tin tài khoản</h5>
+                <div class="stat-item-edit">
+                    <i class="bi bi-hash"></i>
+                    <div>
+                        <span class="stat-label-edit">Mã nhân viên</span>
+                        <span class="stat-value-edit">#@Model.NhanVienId</span>
+                    </div>
+                </div>
+                <div class="stat-item-edit">
+                    <i class="bi bi-calendar-check"></i>
+                    <div>
+                        <span class="stat-label-edit">Ngày cập nhật</span>
+                        <span class="stat-value-edit">@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER EDIT STAFF ====== */
+        .page-header-edit-staff {
+            padding: 2rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+        }
+
+        .header-content-edit {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon-edit {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title-edit {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle-edit {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        /* ====== EDIT STAFF CONTAINER ====== */
+        .edit-staff-container {
+            margin-bottom: 3rem;
+        }
+
+        /* ====== FORM CARD ====== */
+        .form-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .form-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+            .form-card-icon.personal {
+                background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            }
+
+            .form-card-icon.account {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+        .form-card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .form-card-body {
+            padding: 2rem;
+        }
+
+        /* ====== FORM GROUPS ====== */
+        .form-group-custom {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group-custom:last-child {
+                margin-bottom: 0;
+            }
+
+        .form-label-custom {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-label-custom i {
+                color: #06b6d4;
+            }
+
+        .required-star {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control-custom:focus {
+                border-color: #06b6d4;
+                box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+                outline: none;
+            }
+
+            .form-control-custom::placeholder {
+                color: #94a3b8;
+            }
+
+        .validation-message {
+            display: block;
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-hint {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Password Input */
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .btn-toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.125rem;
+            transition: color 0.3s ease;
+        }
+
+            .btn-toggle-password:hover {
+                color: #06b6d4;
+            }
+
+        /* ====== FORM ACTIONS ====== */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding: 1.5rem 0;
+        }
+
+        .btn-cancel-edit,
+        .btn-save-edit {
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-cancel-edit {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+
+            .btn-cancel-edit:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        .btn-save-edit {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+            .btn-save-edit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+            }
+
+        /* ====== HELP CARD ====== */
+        .help-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #fbbf24;
+        }
+
+        .help-icon {
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .help-card h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .help-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .help-list li {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+                color: #92400e;
+                font-size: 0.9rem;
+            }
+
+                .help-list li:last-child {
+                    margin-bottom: 0;
+                }
+
+            .help-list i {
+                color: #16a34a;
+                font-size: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.125rem;
+            }
+
+        /* ====== SECURITY NOTICE ====== */
+        .security-notice {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid #3b82f6;
+            margin-bottom: 1.5rem;
+        }
+
+        .notice-icon {
+            width: 50px;
+            height: 50px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .security-notice h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 0.75rem;
+        }
+
+        .security-notice p {
+            font-size: 0.9rem;
+            color: #1e40af;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ====== QUICK STATS CARD ====== */
+        .quick-stats-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+            .quick-stats-card h5 {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin-bottom: 1rem;
+            }
+
+        .stat-item-edit {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+            .stat-item-edit:last-child {
+                margin-bottom: 0;
+            }
+
+            .stat-item-edit i {
+                font-size: 1.5rem;
+                color: #06b6d4;
+            }
+
+        .stat-label-edit {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value-edit {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 768px) {
+            .header-content-edit {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-icon-edit {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .page-title-edit {
+                font-size: 1.5rem;
+            }
+
+            .form-card-body {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn-cancel-edit,
+            .btn-save-edit {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            }
+        }
+
+        // Form submission with loading state
+        document.getElementById('editStaffForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-save-edit');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang lưu...';
+            btn.disabled = true;
+        });
+
+        // Auto-focus first input
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstInput = document.querySelector('.form-control-custom');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.TyLeHuyViewModel>
+
+@{
+    ViewData["Title"] = "Báo cáo tỉ lệ hủy/đặt tour";
+
+    string tuNgay = ViewBag.TuNgay as string ?? "";
+    string denNgay = ViewBag.DenNgay as string ?? "";
+
+    int tongDon = ViewBag.TongDon != null ? (int)ViewBag.TongDon : 0;
+    int tongDonHuy = ViewBag.TongDonHuy != null ? (int)ViewBag.TongDonHuy : 0;
+    double tyLeChung = tongDon == 0 ? 0 : Math.Round(tongDonHuy * 100.0 / tongDon, 2);
+}
+
+<h2 class="mb-4">Báo cáo tỉ lệ hủy/đặt tour</h2>
+
+<form method="get" class="row g-3 mb-3">
+    <div class="col-auto">
+        <label class="form-label">Từ ngày</label>
+        <input type="date" name="tuNgay" value="@tuNgay" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <label class="form-label">Đến ngày</label>
+        <input type="date" name="denNgay" value="@denNgay" class="form-control" />
+    </div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Xem báo cáo</button>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <p>Không có đơn nào trong khoảng thời gian này.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mã tour</th>
+                <th>Tên tour</th>
+                <th class="text-end">Tổng đơn</th>
+                <th class="text-end">Đơn đã hủy</th>
+                <th class="text-end">Tỉ lệ hủy (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaTour</td>
+                    <td>@item.TenTour</td>
+                    <td class="text-end">@item.TongDon</td>
+                    <td class="text-end">@item.DonDaHuy</td>
+                    <td class="text-end">@item.TyLeHuy</td>
+                </tr>
+            }
+            <tr class="fw-bold">
+                <td colspan="2" class="text-end">TỔNG</td>
+                <td class="text-end">@tongDon</td>
+                <td class="text-end">@tongDonHuy</td>
+                <td class="text-end">@tyLeChung</td>
+            </tr>
+        </tbody>
+    </table>
+}

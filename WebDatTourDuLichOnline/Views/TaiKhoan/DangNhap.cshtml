@@ -1,0 +1,212 @@
+﻿@model WebDatTourDuLichOnline.Models.DangNhapViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = null; // Không dùng layout chính
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebDatTourDuLichOnline</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Hero Section với ảnh nền -->
+    <div class="auth-hero">
+        <img src="~/images/hero/hero1.jpg" alt="Travel" class="auth-hero__bg">
+        <div class="auth-hero__overlay"></div>
+    </div>
+
+    <!-- Container chính -->
+    <div class="container auth-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="card auth-card shadow-lg">
+                    <div class="row g-0">
+                        <!-- Left Side - Thông tin -->
+                        <div class="col-lg-5 auth-left">
+                            <div class="auth-left-content">
+                                <div class="auth-brand mb-4">
+                                    <i class="bi bi-compass"></i>
+                                    <h3>Travel Tour</h3>
+                                </div>
+
+                                <h2 class="auth-welcome mb-3">
+                                    Chào mừng trở lại! 👋
+                                </h2>
+
+                                <p class="auth-description mb-4">
+                                    Đăng nhập để khám phá những chuyến du lịch tuyệt vời và quản lý đặt tour của bạn.
+                                </p>
+
+                                <div class="auth-features">
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Đặt tour nhanh chóng & dễ dàng</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Theo dõi lịch trình chi tiết</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Ưu đãi độc quyền cho thành viên</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Hỗ trợ 24/7</span>
+                                    </div>
+                                </div>
+
+                                <div class="auth-illustration">
+                                    <i class="bi bi-airplane"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side - Form đăng nhập -->
+                        <div class="col-lg-7 auth-right">
+                            <div class="auth-form-wrapper">
+                                <div class="auth-header mb-4">
+                                    <h2 class="auth-title">Đăng nhập</h2>
+                                    <p class="auth-subtitle">Nhập thông tin để tiếp tục</p>
+                                </div>
+
+                                <!-- Alert nếu có lỗi -->
+                                @if (ViewData.ModelState.ErrorCount > 0)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        <div asp-validation-summary="ModelOnly"></div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                }
+
+                                <!-- Form đăng nhập -->
+                                <form asp-action="DangNhap" method="post" class="auth-form">
+                                    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                                    <!-- Tên đăng nhập -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="TenDangNhap"
+                                               class="form-control"
+                                               id="floatingInput"
+                                               placeholder="name@example.com"
+                                               autocomplete="username" />
+                                        <label for="floatingInput">
+                                            <i class="bi bi-person me-2"></i>Tên đăng nhập hoặc Email
+                                        </label>
+                                        <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Mật khẩu -->
+                                    <div class="form-floating mb-3 password-field">
+                                        <input asp-for="MatKhau"
+                                               type="password"
+                                               class="form-control"
+                                               id="floatingPassword"
+                                               placeholder="Password"
+                                               autocomplete="current-password" />
+                                        <label for="floatingPassword">
+                                            <i class="bi bi-lock me-2"></i>Mật khẩu
+                                        </label>
+                                        <button type="button" class="password-toggle" id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <span asp-validation-for="MatKhau" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Ghi nhớ & Quên mật khẩu -->
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            <input asp-for="GhiNho"
+                                                   class="form-check-input"
+                                                   type="checkbox"
+                                                   id="rememberMe" />
+                                            <label class="form-check-label" for="rememberMe">
+                                                Ghi nhớ đăng nhập
+                                            </label>
+                                        </div>
+                                        <a href="#" class="auth-link">Quên mật khẩu?</a>
+                                    </div>
+
+                                    <!-- Nút đăng nhập -->
+                                    <button type="submit" class="btn btn-auth btn-primary w-100 mb-3">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                                    </button>
+
+                                    <!-- Hoặc -->
+                                    <div class="auth-divider">
+                                        <span>Hoặc đăng nhập với</span>
+                                    </div>
+
+                                    <!-- Social Login -->
+                                    <div class="social-login mb-4">
+                                        <button type="button" class="btn btn-social btn-google">
+                                            <i class="bi bi-google me-2"></i>Google
+                                        </button>
+                                        <button type="button" class="btn btn-social btn-facebook">
+                                            <i class="bi bi-facebook me-2"></i>Facebook
+                                        </button>
+                                    </div>
+
+                                    <!-- Link đăng ký -->
+                                    <div class="text-center">
+                                        <p class="auth-link-text mb-0">
+                                            Chưa có tài khoản?
+                                            <a asp-action="DangKy" class="auth-link">Đăng ký ngay</a>
+                                        </p>
+                                    </div>
+                                </form>
+
+                                <!-- Quay về trang chủ -->
+                                <div class="text-center mt-4">
+                                    <a asp-controller="Home" asp-action="Index" class="auth-link">
+                                        <i class="bi bi-arrow-left me-2"></i>Quay về trang chủ
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script hiện/ẩn mật khẩu -->
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('floatingPassword');
+            const icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+
+        // Loading animation khi submit
+        document.querySelector('.auth-form').addEventListener('submit', function() {
+            const btn = this.querySelector('.btn-auth');
+            btn.classList.add('loading');
+            btn.disabled = true;
+        });
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>

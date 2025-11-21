@@ -1,0 +1,797 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.Tour>
+
+@{
+    ViewData["Title"] = "Quản lý tour";
+}
+
+<!-- Page Header -->
+<div class="page-header-tours">
+    <div class="header-left">
+        <h1 class="page-title">
+            <i class="bi bi-map me-2"></i>
+            Quản lý tour
+        </h1>
+        <p class="page-subtitle">Quản lý danh sách tour du lịch của hệ thống</p>
+    </div>
+    <div class="header-right">
+        <a asp-controller="Admin" asp-action="ThemTour" class="btn-add-tour">
+            <i class="bi bi-plus-circle me-2"></i>
+            Thêm tour mới
+        </a>
+        <button class="btn-refresh-tours" onclick="location.reload()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-tours-section">
+    <div class="stat-tour-card total">
+        <div class="stat-tour-icon">
+            <i class="bi bi-compass"></i>
+        </div>
+        <div class="stat-tour-content">
+            <span class="stat-tour-value">@Model.Count()</span>
+            <span class="stat-tour-label">Tổng tour</span>
+        </div>
+    </div>
+
+    <div class="stat-tour-card active">
+        <div class="stat-tour-icon">
+            <i class="bi bi-toggle-on"></i>
+        </div>
+        <div class="stat-tour-content">
+            <span class="stat-tour-value">@Model.Count(t => t.TrangThai)</span>
+            <span class="stat-tour-label">Đang bán</span>
+        </div>
+    </div>
+
+    <div class="stat-tour-card hidden">
+        <div class="stat-tour-icon">
+            <i class="bi bi-toggle-off"></i>
+        </div>
+        <div class="stat-tour-content">
+            <span class="stat-tour-value">@Model.Count(t => !t.TrangThai)</span>
+            <span class="stat-tour-label">Đã ẩn</span>
+        </div>
+    </div>
+
+    <div class="stat-tour-card available">
+        <div class="stat-tour-icon">
+            <i class="bi bi-ticket-perforated"></i>
+        </div>
+        <div class="stat-tour-content">
+            <span class="stat-tour-value">@Model.Sum(t => t.SoChoConLai)</span>
+            <span class="stat-tour-label">Chỗ còn lại</span>
+        </div>
+    </div>
+</div>
+
+<!-- Tours Table -->
+<div class="tours-table-container">
+    <div class="tours-table-header">
+        <h3>
+            <i class="bi bi-list-ul me-2"></i>
+            Danh sách tour
+            <span class="tours-count">(@Model.Count() tour)</span>
+        </h3>
+        <div class="table-actions">
+            <button class="btn-export-tours">
+                <i class="bi bi-download me-2"></i>
+                Xuất Excel
+            </button>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state-tours">
+            <div class="empty-icon-tours">
+                <i class="bi bi-compass"></i>
+            </div>
+            <h4>Chưa có tour nào</h4>
+            <p>Bắt đầu bằng cách thêm tour du lịch đầu tiên</p>
+            <a asp-action="ThemTour" class="btn-add-first-tour">
+                <i class="bi bi-plus-circle me-2"></i>
+                Thêm tour mới
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="tours-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-hash"></i>
+                                <span>Mã tour</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-pin-map"></i>
+                                <span>Tên tour</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-tag"></i>
+                                <span>Loại tour</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-geo-alt"></i>
+                                <span>Khởi hành</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-geo"></i>
+                                <span>Điểm đến</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-calendar-event"></i>
+                                <span>Ngày KH</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Giá NL</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-people"></i>
+                                <span>Số chỗ</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-toggle-on"></i>
+                                <span>Trạng thái</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-gear"></i>
+                                <span>Thao tác</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tour in Model.OrderByDescending(t => t.NgayKhoiHanh))
+                    {
+                        <tr class="tour-row">
+                            <td>
+                                <div class="tour-code">
+                                    <i class="bi bi-tag-fill"></i>
+                                    <strong>@tour.MaTour</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tour-name-info">
+                                    <div class="tour-title">@tour.TenTour</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="tour-type-badge">
+                                    <i class="bi bi-bookmark-fill me-1"></i>
+                                    @tour.LoaiTour?.TenLoai
+                                </span>
+                            </td>
+                            <td>
+                                <div class="location-cell">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    @tour.DiemKhoiHanh
+                                </div>
+                            </td>
+                            <td>
+                                <div class="location-cell destination">
+                                    <i class="bi bi-pin-map-fill"></i>
+                                    @tour.DiemDen
+                                </div>
+                            </td>
+                            <td>
+                                <div class="date-cell-tour">
+                                    <i class="bi bi-calendar3"></i>
+                                    @tour.NgayKhoiHanh.ToString("dd/MM/yyyy")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-cell-tour">
+                                    @tour.GiaNguoiLon.ToString("N0") đ
+                                </div>
+                            </td>
+                            <td>
+                                <div class="seats-info">
+                                    <span class="total-seats">@tour.SoCho</span>
+                                    <span class="seats-divider">/</span>
+                                    <span class="available-seats">@tour.SoChoConLai</span>
+                                </div>
+                                <div class="seats-progress">
+                                    @{
+                                        var percentage = tour.SoCho > 0 ? (double)(tour.SoCho - tour.SoChoConLai) / tour.SoCho * 100 : 0;
+                                    }
+                                    <div class="progress-bar-seats" style="width: @percentage%"></div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (tour.TrangThai)
+                                {
+                                    <span class="status-badge-tour active">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Đang bán
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge-tour inactive">
+                                        <i class="bi bi-x-circle-fill"></i>
+                                        Đã ẩn
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <div class="action-buttons-tour">
+                                    <a asp-action="SuaTour" asp-route-id="@tour.TourId" class="btn-edit-tour" title="Sửa tour">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <form asp-action="ToggleAnHien" asp-route-id="@tour.TourId" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        @if (tour.TrangThai)
+                                        {
+                                            <button type="submit" class="btn-toggle-tour hide" title="Ẩn tour">
+                                                <i class="bi bi-eye-slash"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn-toggle-tour show" title="Hiện tour">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        }
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER TOURS ====== */
+        .page-header-tours {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-add-tour {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+            .btn-add-tour:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                color: #fff;
+            }
+
+        .btn-refresh-tours {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-refresh-tours:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: rotate(90deg);
+            }
+
+        /* ====== STATS TOURS SECTION ====== */
+        .stats-tours-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-tour-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+            .stat-tour-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .stat-tour-card.total {
+                border-left-color: #3b82f6;
+            }
+
+            .stat-tour-card.active {
+                border-left-color: #10b981;
+            }
+
+            .stat-tour-card.hidden {
+                border-left-color: #ef4444;
+            }
+
+            .stat-tour-card.available {
+                border-left-color: #f59e0b;
+            }
+
+        .stat-tour-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .stat-tour-card.total .stat-tour-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-tour-card.active .stat-tour-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-tour-card.hidden .stat-tour-icon {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-tour-card.available .stat-tour-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-tour-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-tour-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* ====== TOURS TABLE CONTAINER ====== */
+        .tours-table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .tours-table-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .tours-table-header h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .tours-count {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-export-tours {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+            .btn-export-tours:hover {
+                border-color: #10b981;
+                color: #10b981;
+            }
+
+        /* Empty State */
+        .empty-state-tours {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon-tours {
+            font-size: 5rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state-tours h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-tours p {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-first-tour {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+            .btn-add-first-tour:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+                color: #fff;
+            }
+
+        /* ====== TOURS TABLE ====== */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .tours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .tours-table thead {
+                background: #f8fafc;
+            }
+
+            .tours-table th {
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 2px solid #e2e8f0;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: #64748b;
+                white-space: nowrap;
+            }
+
+        .th-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .th-content i {
+                color: #94a3b8;
+            }
+
+        .tours-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+            .tours-table tbody tr:hover {
+                background: #f8fafc;
+            }
+
+        .tours-table td {
+            padding: 1.25rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Table Cell Styles */
+        .tour-code {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .tour-name-info {
+            max-width: 300px;
+        }
+
+        .tour-title {
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .tour-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.875rem;
+            background: rgba(139, 92, 246, 0.1);
+            color: #7c3aed;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .location-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+            .location-cell i {
+                color: #3b82f6;
+                font-size: 1rem;
+            }
+
+            .location-cell.destination i {
+                color: #10b981;
+            }
+
+        .date-cell-tour {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+            .date-cell-tour i {
+                color: #f59e0b;
+            }
+
+        .price-cell-tour {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .seats-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-seats {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .seats-divider {
+            color: #cbd5e1;
+        }
+
+        .available-seats {
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .seats-progress {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-seats {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .status-badge-tour {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+            .status-badge-tour.active {
+                background: rgba(16, 185, 129, 0.1);
+                color: #059669;
+            }
+
+            .status-badge-tour.inactive {
+                background: rgba(239, 68, 68, 0.1);
+                color: #dc2626;
+            }
+
+        /* Action Buttons */
+        .action-buttons-tour {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit-tour,
+        .btn-toggle-tour {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-edit-tour {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+            .btn-edit-tour:hover {
+                background: #3b82f6;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        .btn-toggle-tour.hide {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+            .btn-toggle-tour.hide:hover {
+                background: #ef4444;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        .btn-toggle-tour.show {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+            .btn-toggle-tour.show:hover {
+                background: #10b981;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 1200px) {
+            .stats-tours-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .page-header-tours {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-tours-section {
+                grid-template-columns: 1fr;
+            }
+
+            .tours-table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .tours-table {
+                font-size: 0.85rem;
+            }
+
+                .tours-table th,
+                .tours-table td {
+                    padding: 0.75rem 0.5rem;
+                }
+        }
+    </style>
+}

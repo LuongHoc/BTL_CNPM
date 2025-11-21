@@ -1,0 +1,765 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.NhanVien>
+
+@{
+    ViewData["Title"] = "Quản lý nhân viên";
+}
+
+<!-- Page Header -->
+<div class="page-header-staff">
+    <div class="header-left">
+        <h1 class="page-title">
+            <i class="bi bi-people me-2"></i>
+            Quản lý nhân viên
+        </h1>
+        <p class="page-subtitle">Quản lý tài khoản và thông tin nhân viên hệ thống</p>
+    </div>
+    <div class="header-right">
+        <a asp-action="ThemNhanVien" class="btn-add-staff">
+            <i class="bi bi-person-plus me-2"></i>
+            Thêm nhân viên
+        </a>
+        <button class="btn-refresh-staff" onclick="location.reload()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-staff-section">
+    <div class="stat-staff-card total">
+        <div class="stat-staff-icon">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-staff-content">
+            <span class="stat-staff-value">@Model.Count()</span>
+            <span class="stat-staff-label">Tổng nhân viên</span>
+        </div>
+    </div>
+
+    <div class="stat-staff-card active">
+        <div class="stat-staff-icon">
+            <i class="bi bi-person-check"></i>
+        </div>
+        <div class="stat-staff-content">
+            <span class="stat-staff-value">@Model.Count(nv => nv.TaiKhoan != null)</span>
+            <span class="stat-staff-label">Có tài khoản</span>
+        </div>
+    </div>
+
+    <div class="stat-staff-card verified">
+        <div class="stat-staff-icon">
+            <i class="bi bi-envelope-check"></i>
+        </div>
+        <div class="stat-staff-content">
+            <span class="stat-staff-value">@Model.Count(nv => !string.IsNullOrEmpty(nv.Email))</span>
+            <span class="stat-staff-label">Có email</span>
+        </div>
+    </div>
+
+    <div class="stat-staff-card contact">
+        <div class="stat-staff-icon">
+            <i class="bi bi-telephone"></i>
+        </div>
+        <div class="stat-staff-content">
+            <span class="stat-staff-value">@Model.Count(nv => !string.IsNullOrEmpty(nv.SoDienThoai))</span>
+            <span class="stat-staff-label">Có SĐT</span>
+        </div>
+    </div>
+</div>
+
+<!-- Staff Table -->
+<div class="staff-table-container">
+    <div class="staff-table-header">
+        <h3>
+            <i class="bi bi-list-ul me-2"></i>
+            Danh sách nhân viên
+            <span class="staff-count">(@Model.Count() nhân viên)</span>
+        </h3>
+        <div class="table-actions-staff">
+            <button class="btn-export-staff">
+                <i class="bi bi-download me-2"></i>
+                Xuất Excel
+            </button>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state-staff">
+            <div class="empty-icon-staff">
+                <i class="bi bi-people"></i>
+            </div>
+            <h4>Chưa có nhân viên nào</h4>
+            <p>Bắt đầu bằng cách thêm nhân viên đầu tiên</p>
+            <a asp-action="ThemNhanVien" class="btn-add-first-staff">
+                <i class="bi bi-person-plus me-2"></i>
+                Thêm nhân viên mới
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="staff-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-hash"></i>
+                                <span>Mã NV</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-person-badge"></i>
+                                <span>Nhân viên</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-person-circle"></i>
+                                <span>Tên đăng nhập</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-envelope"></i>
+                                <span>Email</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-telephone"></i>
+                                <span>Số điện thoại</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-geo-alt"></i>
+                                <span>Địa chỉ</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="th-content">
+                                <i class="bi bi-gear"></i>
+                                <span>Thao tác</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var nv in Model.OrderBy(n => n.NhanVienId))
+                    {
+                        <tr class="staff-row">
+                            <td>
+                                <div class="staff-id-cell">
+                                    <i class="bi bi-tag-fill"></i>
+                                    <strong>@nv.NhanVienId</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="staff-info-cell">
+                                    <div class="staff-avatar-cell">
+                                        @(nv.HoTen?.Substring(0, 1).ToUpper() ?? "?")
+                                    </div>
+                                    <div class="staff-details">
+                                        <div class="staff-name-cell">@nv.HoTen</div>
+                                        @if (nv.TaiKhoan != null)
+                                        {
+                                            <span class="staff-account-badge">
+                                                <i class="bi bi-shield-check"></i> Có tài khoản
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(nv.TaiKhoan?.TenDangNhap))
+                                {
+                                    <div class="username-cell">
+                                        <i class="bi bi-person-circle"></i>
+                                        @nv.TaiKhoan.TenDangNhap
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted-staff">
+                                        <i class="bi bi-dash-circle"></i> Chưa có
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(nv.Email))
+                                {
+                                    <div class="email-cell">
+                                        <i class="bi bi-envelope-fill"></i>
+                                        <a href="mailto:@nv.Email">@nv.Email</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted-staff">
+                                        <i class="bi bi-dash-circle"></i> Chưa có
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(nv.SoDienThoai))
+                                {
+                                    <div class="phone-cell">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        <a href="tel:@nv.SoDienThoai">@nv.SoDienThoai</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted-staff">
+                                        <i class="bi bi-dash-circle"></i> Chưa có
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(nv.DiaChi))
+                                {
+                                    <div class="address-cell">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                        @nv.DiaChi
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted-staff">
+                                        <i class="bi bi-dash-circle"></i> Chưa có
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <div class="action-buttons-staff">
+                                    <a asp-action="SuaNhanVien" asp-route-id="@nv.NhanVienId"
+                                       class="btn-edit-staff" title="Sửa thông tin">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <form asp-action="XoaNhanVien" asp-route-id="@nv.NhanVienId"
+                                          method="post" class="d-inline"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân viên @nv.HoTen?');">
+                                        <button type="submit" class="btn-delete-staff" title="Xóa nhân viên">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER STAFF ====== */
+        .page-header-staff {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-add-staff {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+            .btn-add-staff:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                color: #fff;
+            }
+
+        .btn-refresh-staff {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-refresh-staff:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: rotate(90deg);
+            }
+
+        /* ====== STATS STAFF SECTION ====== */
+        .stats-staff-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-staff-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+            .stat-staff-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .stat-staff-card.total {
+                border-left-color: #06b6d4;
+            }
+
+            .stat-staff-card.active {
+                border-left-color: #10b981;
+            }
+
+            .stat-staff-card.verified {
+                border-left-color: #f59e0b;
+            }
+
+            .stat-staff-card.contact {
+                border-left-color: #8b5cf6;
+            }
+
+        .stat-staff-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .stat-staff-card.total .stat-staff-icon {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        .stat-staff-card.active .stat-staff-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-staff-card.verified .stat-staff-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-staff-card.contact .stat-staff-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .stat-staff-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-staff-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* ====== STAFF TABLE CONTAINER ====== */
+        .staff-table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .staff-table-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .staff-table-header h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .staff-count {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .table-actions-staff {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-export-staff {
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+            .btn-export-staff:hover {
+                border-color: #06b6d4;
+                color: #06b6d4;
+            }
+
+        /* Empty State */
+        .empty-state-staff {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon-staff {
+            font-size: 5rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state-staff h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-staff p {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-first-staff {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+            .btn-add-first-staff:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+                color: #fff;
+            }
+
+        /* ====== STAFF TABLE ====== */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .staff-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .staff-table thead {
+                background: #f8fafc;
+            }
+
+            .staff-table th {
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 2px solid #e2e8f0;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: #64748b;
+                white-space: nowrap;
+            }
+
+        .th-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .th-content i {
+                color: #94a3b8;
+            }
+
+        .staff-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+            .staff-table tbody tr:hover {
+                background: #f8fafc;
+            }
+
+        .staff-table td {
+            padding: 1.25rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Table Cell Styles */
+        .staff-id-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #06b6d4;
+            font-weight: 600;
+        }
+
+        .staff-info-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .staff-avatar-cell {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .staff-name-cell {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .staff-account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .username-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+            .username-cell i {
+                color: #8b5cf6;
+            }
+
+        .email-cell,
+        .phone-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .email-cell i {
+                color: #f59e0b;
+            }
+
+            .phone-cell i {
+                color: #10b981;
+            }
+
+            .email-cell a,
+            .phone-cell a {
+                color: #64748b;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .email-cell a:hover,
+                .phone-cell a:hover {
+                    color: #06b6d4;
+                    text-decoration: underline;
+                }
+
+        .address-cell {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            color: #64748b;
+            max-width: 250px;
+        }
+
+            .address-cell i {
+                color: #ef4444;
+                margin-top: 0.25rem;
+            }
+
+        .text-muted-staff {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons-staff {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit-staff,
+        .btn-delete-staff {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-edit-staff {
+            background: rgba(6, 182, 212, 0.1);
+            color: #0891b2;
+            text-decoration: none;
+        }
+
+            .btn-edit-staff:hover {
+                background: #06b6d4;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        .btn-delete-staff {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+            .btn-delete-staff:hover {
+                background: #ef4444;
+                color: #fff;
+                transform: translateY(-2px);
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 1200px) {
+            .stats-staff-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .page-header-staff {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-staff-section {
+                grid-template-columns: 1fr;
+            }
+
+            .staff-table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .staff-table {
+                font-size: 0.85rem;
+            }
+
+                .staff-table th,
+                .staff-table td {
+                    padding: 0.75rem 0.5rem;
+                }
+
+            .staff-info-cell {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+}

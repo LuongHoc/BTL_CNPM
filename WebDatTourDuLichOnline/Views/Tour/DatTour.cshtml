@@ -1,0 +1,1002 @@
+﻿@model WebDatTourDuLichOnline.Models.DatTourViewModel
+
+@{
+    ViewData["Title"] = "Đặt tour";
+}
+
+<!-- Booking Header -->
+<div class="booking-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="bi bi-cart-check"></i>
+            </div>
+            <div>
+                <h1 class="booking-title">Đặt tour của bạn</h1>
+                <p class="booking-subtitle">Hoàn tất thông tin để xác nhận đặt tour</p>
+            </div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="booking-steps">
+            <div class="step active">
+                <div class="step-icon">
+                    <i class="bi bi-1-circle-fill"></i>
+                </div>
+                <span class="step-label">Chọn số lượng</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="bi bi-2-circle"></i>
+                </div>
+                <span class="step-label">Xác nhận</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="bi bi-3-circle"></i>
+                </div>
+                <span class="step-label">Thanh toán</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Booking Content -->
+<div class="booking-container">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Left Column - Booking Form -->
+            <div class="col-lg-8">
+                <form asp-action="DatTour" method="post" id="bookingForm">
+                    <input type="hidden" asp-for="TourId" />
+
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger custom-alert mb-4" role="alert"></div>
+
+                    <!-- Tour Info Card -->
+                    <div class="info-card mb-4">
+                        <div class="card-header-custom">
+                            <h3>
+                                <i class="bi bi-info-circle me-2"></i>
+                                Thông tin tour
+                            </h3>
+                        </div>
+                        <div class="card-body-custom">
+                            <h4 class="tour-name">@Model.TenTour</h4>
+
+                            <div class="tour-details-grid">
+                                <div class="detail-item">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <div>
+                                        <span class="detail-label">Khởi hành</span>
+                                        <span class="detail-value">@Model.DiemKhoiHanh</span>
+                                    </div>
+                                </div>
+
+                                <div class="detail-item">
+                                    <i class="bi bi-pin-map-fill"></i>
+                                    <div>
+                                        <span class="detail-label">Điểm đến</span>
+                                        <span class="detail-value">@Model.DiemDen</span>
+                                    </div>
+                                </div>
+
+                                <div class="detail-item">
+                                    <i class="bi bi-calendar-event-fill"></i>
+                                    <div>
+                                        <span class="detail-label">Ngày khởi hành</span>
+                                        <span class="detail-value">@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                </div>
+
+                                <div class="detail-item">
+                                    <i class="bi bi-people-fill"></i>
+                                    <div>
+                                        <span class="detail-label">Số chỗ còn</span>
+                                        <span class="detail-value">@Model.SoChoConLai chỗ</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pricing Info -->
+                            <div class="pricing-info">
+                                <div class="price-row">
+                                    <span class="price-label">
+                                        <i class="bi bi-person-fill me-2"></i>Giá người lớn
+                                    </span>
+                                    <span class="price-amount">@Model.GiaNguoiLon.ToString("N0") đ</span>
+                                </div>
+                                <div class="price-row">
+                                    <span class="price-label">
+                                        <i class="bi bi-person-hearts me-2"></i>Giá trẻ em
+                                    </span>
+                                    <span class="price-amount">@Model.GiaTreEm.ToString("N0") đ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Details Card -->
+                    <div class="info-card mb-4">
+                        <div class="card-header-custom">
+                            <h3>
+                                <i class="bi bi-people me-2"></i>
+                                Số lượng khách
+                            </h3>
+                        </div>
+                        <div class="card-body-custom">
+                            <div class="row g-4">
+                                <!-- Số người lớn -->
+                                <div class="col-md-6">
+                                    <div class="quantity-selector">
+                                        <label class="quantity-label">
+                                            <i class="bi bi-person-fill me-2"></i>
+                                            Người lớn
+                                        </label>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-qty" id="decreaseAdult">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <input asp-for="SoNguoiLon"
+                                                   class="form-control qty-input"
+                                                   id="SoNguoiLon"
+                                                   readonly />
+                                            <button type="button" class="btn-qty" id="increaseAdult">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="SoNguoiLon" class="text-danger small"></span>
+                                        <small class="form-text">Từ 12 tuổi trở lên</small>
+                                    </div>
+                                </div>
+
+                                <!-- Số trẻ em -->
+                                <div class="col-md-6">
+                                    <div class="quantity-selector">
+                                        <label class="quantity-label">
+                                            <i class="bi bi-person-hearts me-2"></i>
+                                            Trẻ em
+                                        </label>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-qty" id="decreaseChild">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <input asp-for="SoTreEm"
+                                                   class="form-control qty-input"
+                                                   id="SoTreEm"
+                                                   readonly />
+                                            <button type="button" class="btn-qty" id="increaseChild">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="SoTreEm" class="text-danger small"></span>
+                                        <small class="form-text">Từ 2-11 tuổi</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Note Card -->
+                    <div class="info-card mb-4">
+                        <div class="card-header-custom">
+                            <h3>
+                                <i class="bi bi-pencil-square me-2"></i>
+                                Ghi chú (không bắt buộc)
+                            </h3>
+                        </div>
+                        <div class="card-body-custom">
+                            <textarea asp-for="GhiChu"
+                                      class="form-control-custom"
+                                      rows="4"
+                                      placeholder="Ví dụ: Yêu cầu đặc biệt về phòng, ăn uống, hoặc các thông tin khác..."></textarea>
+                            <span asp-validation-for="GhiChu" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Important Notes -->
+                    <div class="info-note mb-4">
+                        <div class="note-icon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="note-content">
+                            <h5>Lưu ý quan trọng</h5>
+                            <ul>
+                                <li>Vui lòng kiểm tra kỹ thông tin trước khi xác nhận đặt tour</li>
+                                <li>Số lượng khách phải phù hợp với số chỗ còn trống</li>
+                                <li>Sau khi đặt tour, bạn sẽ nhận được email xác nhận</li>
+                                <li>Vui lòng thanh toán trong vòng 24h để giữ chỗ</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="booking-actions">
+                        <a asp-controller="Tour" asp-action="ChiTiet" asp-route-id="@Model.TourId"
+                           class="btn btn-back">
+                            <i class="bi bi-arrow-left me-2"></i>Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-confirm" id="btnConfirm">
+                            <i class="bi bi-check-circle me-2"></i>Xác nhận đặt tour
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column - Summary -->
+            <div class="col-lg-4">
+                <div class="summary-sidebar">
+                    <div class="summary-header">
+                        <h3>
+                            <i class="bi bi-receipt me-2"></i>
+                            Chi tiết thanh toán
+                        </h3>
+                    </div>
+
+                    <div class="summary-body">
+                        <!-- Summary Items -->
+                        <div class="summary-item">
+                            <span class="summary-label">Người lớn</span>
+                            <span class="summary-value">
+                                <span id="displayAdultQty">1</span> ×
+                                <span id="displayAdultPrice">@Model.GiaNguoiLon.ToString("N0")</span>đ
+                            </span>
+                        </div>
+
+                        <div class="summary-item">
+                            <span class="summary-label">Trẻ em</span>
+                            <span class="summary-value">
+                                <span id="displayChildQty">0</span> ×
+                                <span id="displayChildPrice">@Model.GiaTreEm.ToString("N0")</span>đ
+                            </span>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-item subtotal">
+                            <span class="summary-label">Tạm tính</span>
+                            <span class="summary-value" id="displaySubTotal">@Model.GiaNguoiLon.ToString("N0") đ</span>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+                            <span class="total-label">Tổng cộng</span>
+                            <div>
+                                <span class="total-value" id="displayTotalPrice">@Model.GiaNguoiLon.ToString("N0") đ</span>
+                                <input asp-for="TongTien" type="hidden" id="TongTien" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promotion Box -->
+                    <div class="promotion-box">
+                        <div class="promo-header">
+                            <i class="bi bi-gift-fill me-2"></i>
+                            <span>Mã khuyến mãi</span>
+                        </div>
+                        <div class="promo-input-group">
+                            <input type="text" class="form-control" placeholder="Nhập mã khuyến mãi">
+                            <button type="button" class="btn btn-apply">Áp dụng</button>
+                        </div>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="trust-badges">
+                        <div class="trust-item">
+                            <i class="bi bi-shield-check"></i>
+                            <span>Thanh toán bảo mật</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="bi bi-award"></i>
+                            <span>Cam kết chất lượng</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="bi bi-headset"></i>
+                            <span>Hỗ trợ 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== BOOKING HEADER ====== */
+        .booking-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 3rem 0 2rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .booking-header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -20%;
+                width: 500px;
+                height: 500px;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+                border-radius: 50%;
+            }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .booking-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .booking-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* Progress Steps */
+        .booking-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-icon {
+            background: #fff;
+            color: #0d6efd;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .step-line {
+            width: 80px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ====== BOOKING CONTAINER ====== */
+        .booking-container {
+            padding: 3rem 0;
+            background: #f8fafc;
+        }
+
+        /* ====== INFO CARD ====== */
+        .info-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+            .card-header-custom h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1e293b;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .card-header-custom i {
+                color: #0d6efd;
+            }
+
+        .card-body-custom {
+            padding: 2rem;
+        }
+
+        /* Tour Name */
+        .tour-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        /* Tour Details Grid */
+        .tour-details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+            .detail-item i {
+                font-size: 1.75rem;
+                color: #0d6efd;
+                flex-shrink: 0;
+            }
+
+        .detail-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Pricing Info */
+        .pricing-info {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 12px;
+            border: 2px solid #bfdbfe;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+            .price-row:not(:last-child) {
+                border-bottom: 1px dashed #93c5fd;
+            }
+
+        .price-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e40af;
+            display: flex;
+            align-items: center;
+        }
+
+        .price-amount {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0d6efd;
+        }
+
+        /* ====== QUANTITY SELECTOR ====== */
+        .quantity-selector {
+            text-align: center;
+        }
+
+        .quantity-label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-qty {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            border: 2px solid #0d6efd;
+            background: #fff;
+            color: #0d6efd;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .btn-qty:hover {
+                background: #0d6efd;
+                color: #fff;
+                transform: scale(1.1);
+            }
+
+            .btn-qty:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+            }
+
+        .qty-input {
+            width: 80px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .form-text {
+            display: block;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ====== FORM CONTROL CUSTOM ====== */
+        .form-control-custom {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+            .form-control-custom:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+                outline: none;
+            }
+
+        /* ====== INFO NOTE ====== */
+        .info-note {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 12px;
+        }
+
+        .note-icon {
+            font-size: 2rem;
+            color: #ffc107;
+            flex-shrink: 0;
+        }
+
+        .note-content h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 0.75rem;
+        }
+
+        .note-content ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: #856404;
+        }
+
+        .note-content li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* ====== BOOKING ACTIONS ====== */
+        .booking-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-back {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .btn-back:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+                transform: translateY(-2px);
+            }
+
+        .btn-confirm {
+            flex: 2;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-confirm:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 24px rgba(13, 110, 253, 0.4);
+            }
+
+        /* ====== SUMMARY SIDEBAR ====== */
+        .summary-sidebar {
+            position: sticky;
+            top: 100px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .summary-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 1.5rem;
+            color: #fff;
+        }
+
+            .summary-header h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+        .summary-body {
+            padding: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0.5rem 0;
+        }
+
+        .summary-item.subtotal {
+            font-size: 1rem;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .total-label {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .total-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0d6efd;
+        }
+
+        /* ====== PROMOTION BOX ====== */
+        .promotion-box {
+            padding: 1.5rem;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .promo-header {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+            .promo-header i {
+                color: #0d6efd;
+            }
+
+        .promo-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+            .promo-input-group .form-control {
+                flex: 1;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+            }
+
+                .promo-input-group .form-control:focus {
+                    border-color: #0d6efd;
+                    box-shadow: none;
+                }
+
+        .btn-apply {
+            padding: 0.625rem 1.25rem;
+            background: #0d6efd;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+            .btn-apply:hover {
+                background: #0b5ed7;
+            }
+
+        /* ====== TRUST BADGES ====== */
+        .trust-badges {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+            .trust-item i {
+                font-size: 1.25rem;
+                color: #0d6efd;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .booking-title {
+                font-size: 1.5rem;
+            }
+
+            .tour-details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-actions {
+                flex-direction: column;
+            }
+
+            .summary-sidebar {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .step-label {
+                display: none;
+            }
+
+            .step-line {
+                width: 40px;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .booking-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .header-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .booking-steps {
+                gap: 0.5rem;
+            }
+
+            .step-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+            }
+
+            .card-body-custom {
+                padding: 1.5rem;
+            }
+
+            .total-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        (function () {
+            // Lấy giá từ server
+            const giaNguoiLon = parseFloat('@Model.GiaNguoiLon.ToString(System.Globalization.CultureInfo.InvariantCulture)');
+            const giaTreEm = parseFloat('@Model.GiaTreEm.ToString(System.Globalization.CultureInfo.InvariantCulture)');
+            const soChoConLai = parseInt('@Model.SoChoConLai');
+
+            // Elements
+            const inputNguoiLon = document.getElementById("SoNguoiLon");
+            const inputTreEm = document.getElementById("SoTreEm");
+            const inputTongTien = document.getElementById("TongTien");
+
+            const btnDecreaseAdult = document.getElementById("decreaseAdult");
+            const btnIncreaseAdult = document.getElementById("increaseAdult");
+            const btnDecreaseChild = document.getElementById("decreaseChild");
+            const btnIncreaseChild = document.getElementById("increaseChild");
+
+            // Display elements
+            const displayAdultQty = document.getElementById("displayAdultQty");
+            const displayChildQty = document.getElementById("displayChildQty");
+            const displaySubTotal = document.getElementById("displaySubTotal");
+            const displayTotalPrice = document.getElementById("displayTotalPrice");
+
+            // Format number to VND
+            function formatVND(number) {
+                return new Intl.NumberFormat('vi-VN').format(number);
+            }
+
+            // Calculate and update total
+            function capNhatTongTien() {
+                const soNL = parseInt(inputNguoiLon.value) || 0;
+                const soTE = parseInt(inputTreEm.value) || 0;
+                const total = soNL * giaNguoiLon + soTE * giaTreEm;
+
+                inputTongTien.value = Math.round(total);
+
+                // Update display
+                displayAdultQty.textContent = soNL;
+                displayChildQty.textContent = soTE;
+                displaySubTotal.textContent = formatVND(Math.round(total)) + ' đ';
+                displayTotalPrice.textContent = formatVND(Math.round(total)) + ' đ';
+
+                // Update button states
+                const tongKhach = soNL + soTE;
+                btnIncreaseAdult.disabled = tongKhach >= soChoConLai;
+                btnIncreaseChild.disabled = tongKhach >= soChoConLai;
+                btnDecreaseAdult.disabled = soNL <= 1;
+                btnDecreaseChild.disabled = soTE <= 0;
+            }
+
+            // Event listeners for adult
+            btnIncreaseAdult.addEventListener("click", function() {
+                let current = parseInt(inputNguoiLon.value) || 1;
+                const tongKhach = current + parseInt(inputTreEm.value || 0);
+                if (tongKhach < soChoConLai) {
+                    inputNguoiLon.value = current + 1;
+                    capNhatTongTien();
+                }
+            });
+
+            btnDecreaseAdult.addEventListener("click", function() {
+                let current = parseInt(inputNguoiLon.value) || 1;
+                if (current > 1) {
+                    inputNguoiLon.value = current - 1;
+                    capNhatTongTien();
+                }
+            });
+
+            // Event listeners for child
+            btnIncreaseChild.addEventListener("click", function() {
+                let current = parseInt(inputTreEm.value) || 0;
+                const tongKhach = parseInt(inputNguoiLon.value || 1) + current;
+                if (tongKhach < soChoConLai) {
+                    inputTreEm.value = current + 1;
+                    capNhatTongTien();
+                }
+            });
+
+            btnDecreaseChild.addEventListener("click", function() {
+                let current = parseInt(inputTreEm.value) || 0;
+                if (current > 0) {
+                    inputTreEm.value = current - 1;
+                    capNhatTongTien();
+                }
+            });
+
+            // Initial calculation
+            capNhatTongTien();
+
+            // Form submission animation
+            document.getElementById("bookingForm").addEventListener("submit", function() {
+                document.getElementById("btnConfirm").innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...';
+                document.getElementById("btnConfirm").disabled = true;
+            });
+        })();
+    </script>
+}

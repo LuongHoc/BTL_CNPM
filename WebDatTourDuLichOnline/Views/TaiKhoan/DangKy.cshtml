@@ -1,0 +1,210 @@
+﻿@model WebDatTourDuLichOnline.Models.DangKyViewModel
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="auth-card">
+                    <div class="row g-0">
+                        <!-- Left side - Image/Info -->
+                        <div class="col-md-5 auth-left">
+                            <div class="auth-left-content">
+                                <div class="auth-brand mb-4">
+                                    <i class="bi bi-airplane-fill"></i>
+                                    <h3>Du Lịch Việt</h3>
+                                </div>
+                                <h2 class="auth-welcome mb-3">Chào mừng đến với chúng tôi!</h2>
+                                <p class="auth-description mb-4">
+                                    Tạo tài khoản để khám phá hàng nghìn tour du lịch tuyệt vời,
+                                    nhận ưu đãi độc quyền và quản lý đặt chỗ dễ dàng.
+                                </p>
+
+                                <div class="auth-features">
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Đặt tour nhanh chóng</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Giá tốt nhất thị trường</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Hỗ trợ 24/7</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Ưu đãi độc quyền</span>
+                                    </div>
+                                </div>
+
+                                <div class="auth-illustration">
+                                    <i class="bi bi-globe2"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right side - Form -->
+                        <div class="col-md-7 auth-right">
+                            <div class="auth-form-wrapper">
+                                <div class="auth-header mb-4">
+                                    <h2 class="auth-title">Đăng ký tài khoản</h2>
+                                    <p class="auth-subtitle">Điền thông tin để bắt đầu hành trình</p>
+                                </div>
+
+                                <form asp-action="DangKy" method="post" class="auth-form">
+                                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3"></div>
+
+                                    <div class="row g-3">
+                                        <!-- Họ tên -->
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input asp-for="HoTen" class="form-control" placeholder="Họ và tên" />
+                                                <label asp-for="HoTen">
+                                                    <i class="bi bi-person me-2"></i>Họ và tên
+                                                </label>
+                                            </div>
+                                            <span asp-validation-for="HoTen" class="text-danger small"></span>
+                                        </div>
+
+                                        <!-- Email & Số điện thoại -->
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input asp-for="Email" class="form-control" placeholder="Email" />
+                                                <label asp-for="Email">
+                                                    <i class="bi bi-envelope me-2"></i>Email
+                                                </label>
+                                            </div>
+                                            <span asp-validation-for="Email" class="text-danger small"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input asp-for="SoDienThoai" class="form-control" placeholder="Số điện thoại" />
+                                                <label asp-for="SoDienThoai">
+                                                    <i class="bi bi-telephone me-2"></i>Số điện thoại
+                                                </label>
+                                            </div>
+                                            <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                                        </div>
+
+                                        <!-- Địa chỉ -->
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input asp-for="DiaChi" class="form-control" placeholder="Địa chỉ" />
+                                                <label asp-for="DiaChi">
+                                                    <i class="bi bi-geo-alt me-2"></i>Địa chỉ
+                                                </label>
+                                            </div>
+                                            <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                                        </div>
+
+                                        <!-- Tên đăng nhập -->
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input asp-for="TenDangNhap" class="form-control" placeholder="Tên đăng nhập" />
+                                                <label asp-for="TenDangNhap">
+                                                    <i class="bi bi-person-badge me-2"></i>Tên đăng nhập
+                                                </label>
+                                            </div>
+                                            <span asp-validation-for="TenDangNhap" class="text-danger small"></span>
+                                        </div>
+
+                                        <!-- Mật khẩu -->
+                                        <div class="col-md-6">
+                                            <div class="form-floating password-field">
+                                                <input asp-for="MatKhau" class="form-control" placeholder="Mật khẩu" />
+                                                <label asp-for="MatKhau">
+                                                    <i class="bi bi-lock me-2"></i>Mật khẩu
+                                                </label>
+                                                <button type="button" class="password-toggle" onclick="togglePassword('MatKhau')">
+                                                    <i class="bi bi-eye" id="toggleIcon-MatKhau"></i>
+                                                </button>
+                                            </div>
+                                            <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating password-field">
+                                                <input asp-for="XacNhanMatKhau" class="form-control" placeholder="Xác nhận mật khẩu" />
+                                                <label asp-for="XacNhanMatKhau">
+                                                    <i class="bi bi-lock-fill me-2"></i>Xác nhận mật khẩu
+                                                </label>
+                                                <button type="button" class="password-toggle" onclick="togglePassword('XacNhanMatKhau')">
+                                                    <i class="bi bi-eye" id="toggleIcon-XacNhanMatKhau"></i>
+                                                </button>
+                                            </div>
+                                            <span asp-validation-for="XacNhanMatKhau" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Terms -->
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                        <label class="form-check-label small" for="agreeTerms">
+                                            Tôi đồng ý với <a href="#" class="text-primary">Điều khoản dịch vụ</a>
+                                            và <a href="#" class="text-primary">Chính sách bảo mật</a>
+                                        </label>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <button type="submit" class="btn btn-auth btn-primary w-100 mt-4">
+                                        <i class="bi bi-person-plus me-2"></i>Đăng ký ngay
+                                    </button>
+
+                                    <!-- Divider -->
+                                    <div class="auth-divider">
+                                        <span>hoặc</span>
+                                    </div>
+
+                                    <!-- Social Login -->
+                                    <div class="social-login">
+                                        <button type="button" class="btn btn-social btn-google">
+                                            <i class="bi bi-google me-2"></i>Google
+                                        </button>
+                                        <button type="button" class="btn btn-social btn-facebook">
+                                            <i class="bi bi-facebook me-2"></i>Facebook
+                                        </button>
+                                    </div>
+
+                                    <!-- Login Link -->
+                                    <div class="text-center mt-4">
+                                        <p class="auth-link-text">
+                                            Đã có tài khoản?
+                                            <a asp-action="DangNhap" class="auth-link">Đăng nhập ngay</a>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById('toggleIcon-' + fieldId);
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+}

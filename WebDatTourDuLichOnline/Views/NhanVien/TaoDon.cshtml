@@ -1,0 +1,612 @@
+﻿@{
+    ViewData["Title"] = "Tạo đơn đặt tour hộ khách";
+    var tours = ViewBag.Tours as List<WebDatTourDuLichOnline.Models.Tour> ?? new();
+}
+
+<!-- Page Header -->
+<div class="page-header-create-order">
+    <div class="header-content-create">
+        <div class="header-icon-create">
+            <i class="bi bi-plus-circle"></i>
+        </div>
+        <div>
+            <h1 class="page-title-create">Tạo đơn đặt tour hộ khách</h1>
+            <p class="page-subtitle-create">Đặt tour trực tiếp cho khách hàng tại quầy</p>
+        </div>
+    </div>
+    <a asp-action="DanhSachDon" class="btn-back-list">
+        <i class="bi bi-arrow-left me-2"></i>
+        Về danh sách
+    </a>
+</div>
+
+<!-- Success Message -->
+@if (TempData["Message"] != null)
+{
+    <div class="alert-success-custom">
+        <div class="alert-icon-success">
+            <i class="bi bi-check-circle"></i>
+        </div>
+        <div class="alert-content-success">
+            <strong>Thành công!</strong>
+            <p>@TempData["Message"]</p>
+        </div>
+    </div>
+}
+
+<!-- Create Order Form -->
+<div class="create-order-container">
+    <form method="post" id="createOrderForm">
+        <div class="row g-4">
+            <!-- Customer Info Column -->
+            <div class="col-lg-6">
+                <div class="form-section-card">
+                    <div class="form-section-header">
+                        <div class="section-icon customer">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3>Thông tin khách hàng</h3>
+                    </div>
+                    <div class="form-section-body">
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-person me-2"></i>
+                                Họ tên
+                                <span class="required-star-create">*</span>
+                            </label>
+                            <input type="text" name="hoTen" class="form-input-create" placeholder="Nhập họ tên đầy đủ" required />
+                        </div>
+
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-telephone me-2"></i>
+                                Số điện thoại
+                                <span class="required-star-create">*</span>
+                            </label>
+                            <input type="text" name="soDienThoai" class="form-input-create" placeholder="0123456789" required />
+                        </div>
+
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-envelope me-2"></i>
+                                Email
+                            </label>
+                            <input type="email" name="email" class="form-input-create" placeholder="example@email.com" />
+                        </div>
+
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Địa chỉ
+                            </label>
+                            <input type="text" name="diaChi" class="form-input-create" placeholder="Nhập địa chỉ" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour Info Column -->
+            <div class="col-lg-6">
+                <div class="form-section-card">
+                    <div class="form-section-header">
+                        <div class="section-icon tour">
+                            <i class="bi bi-pin-map"></i>
+                        </div>
+                        <h3>Thông tin tour</h3>
+                    </div>
+                    <div class="form-section-body">
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-pin-map me-2"></i>
+                                Chọn tour
+                                <span class="required-star-create">*</span>
+                            </label>
+                            <select name="tourId" class="form-select-create" id="tourSelect" required>
+                                <option value="">-- Chọn tour --</option>
+                                @foreach (var t in tours)
+                                {
+                                    <option value="@t.TourId"
+                                            data-adultp="@t.GiaNguoiLon"
+                                            data-childp="@t.GiaTreEm">
+                                        @t.MaTour - @t.TenTour (@t.NgayKhoiHanh.ToString("dd/MM/yyyy"))
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="form-group-create">
+                                    <label class="form-label-create">
+                                        <i class="bi bi-person me-2"></i>
+                                        Số người lớn
+                                    </label>
+                                    <input type="number" name="soNguoiLon" class="form-input-create" value="1" min="0" id="adultCount" onchange="calculateTotal()" />
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group-create">
+                                    <label class="form-label-create">
+                                        <i class="bi bi-person-hearts me-2"></i>
+                                        Số trẻ em
+                                    </label>
+                                    <input type="number" name="soTreEm" class="form-input-create" value="0" min="0" id="childCount" onchange="calculateTotal()" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-create">
+                            <label class="form-label-create">
+                                <i class="bi bi-chat-dots me-2"></i>
+                                Ghi chú
+                            </label>
+                            <textarea name="ghiChu" class="form-textarea-create" rows="3" placeholder="Nhập ghi chú (tùy chọn)"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="price-summary-card">
+            <div class="price-summary-header">
+                <i class="bi bi-calculator me-2"></i>
+                <h4>Tổng kết giá</h4>
+            </div>
+            <div class="price-summary-body">
+                <div class="price-row">
+                    <span>Giá người lớn:</span>
+                    <span id="adultPrice">0 đ</span>
+                </div>
+                <div class="price-row">
+                    <span>Giá trẻ em:</span>
+                    <span id="childPrice">0 đ</span>
+                </div>
+                <div class="price-row total">
+                    <span>Tổng tiền:</span>
+                    <span id="totalPrice">0 đ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions-create">
+            <a asp-action="DanhSachDon" class="btn-cancel-create">
+                <i class="bi bi-x-circle me-2"></i>
+                Hủy
+            </a>
+            <button type="submit" class="btn-submit-create">
+                <i class="bi bi-check-circle me-2"></i>
+                Tạo đơn
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Validation Errors -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="validation-errors-card">
+        <div class="error-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+        </div>
+        <div class="error-content">
+            <h5>Có lỗi xảy ra:</h5>
+            @foreach (var err in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div class="error-item">• @err.ErrorMessage</div>
+            }
+        </div>
+    </div>
+}
+
+<style>
+    /* ====== PAGE HEADER CREATE ORDER ====== */
+    .page-header-create-order {
+        padding: 2rem;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-content-create {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .header-icon-create {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .page-title-create {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .page-subtitle-create {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin: 0.5rem 0 0;
+    }
+
+    .btn-back-list {
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+        .btn-back-list:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+    /* ====== SUCCESS ALERT ====== */
+    .alert-success-custom {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        border: 2px solid #10b981;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .alert-icon-success {
+        width: 50px;
+        height: 50px;
+        background: #10b981;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .alert-content-success strong {
+        display: block;
+        font-size: 1.125rem;
+        color: #065f46;
+        margin-bottom: 0.5rem;
+    }
+
+    .alert-content-success p {
+        color: #065f46;
+        margin: 0;
+    }
+
+    /* ====== CREATE ORDER CONTAINER ====== */
+    .create-order-container {
+        margin-bottom: 2rem;
+    }
+
+    /* ====== FORM SECTION CARD ====== */
+    .form-section-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .form-section-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-bottom: 2px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .section-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #fff;
+    }
+
+        .section-icon.customer {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .section-icon.tour {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+    .form-section-header h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .form-section-body {
+        padding: 2rem;
+    }
+
+    /* ====== FORM GROUPS CREATE ====== */
+    .form-group-create {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group-create:last-child {
+            margin-bottom: 0;
+        }
+
+    .form-label-create {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .form-label-create i {
+            color: #10b981;
+        }
+
+    .required-star-create {
+        color: #ef4444;
+        margin-left: 0.25rem;
+    }
+
+    .form-input-create,
+    .form-select-create,
+    .form-textarea-create {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-input-create:focus,
+        .form-select-create:focus,
+        .form-textarea-create:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+
+        .form-input-create::placeholder,
+        .form-textarea-create::placeholder {
+            color: #94a3b8;
+        }
+
+    /* ====== PRICE SUMMARY CARD ====== */
+    .price-summary-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .price-summary-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-bottom: 2px solid #fbbf24;
+        display: flex;
+        align-items: center;
+    }
+
+        .price-summary-header h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #92400e;
+            margin: 0;
+        }
+
+        .price-summary-header i {
+            color: #d97706;
+            font-size: 1.25rem;
+        }
+
+    .price-summary-body {
+        padding: 2rem;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 1rem;
+        color: #64748b;
+    }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-row.total {
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+            border-top: 2px solid #e2e8f0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+    /* ====== FORM ACTIONS CREATE ====== */
+    .form-actions-create {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+    }
+
+    .btn-cancel-create,
+    .btn-submit-create {
+        padding: 0.875rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-cancel-create {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        color: #64748b;
+    }
+
+        .btn-cancel-create:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+    .btn-submit-create {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+        .btn-submit-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+    /* ====== VALIDATION ERRORS ====== */
+    .validation-errors-card {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border: 2px solid #ef4444;
+        border-radius: 16px;
+        padding: 1.5rem;
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .error-icon {
+        width: 50px;
+        height: 50px;
+        background: #ef4444;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .error-content h5 {
+        font-size: 1.125rem;
+        color: #991b1b;
+        margin-bottom: 0.5rem;
+    }
+
+    .error-item {
+        color: #991b1b;
+        margin-bottom: 0.25rem;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @@media (max-width: 768px) {
+        .page-header-create-order {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .btn-back-list {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .form-section-body {
+            padding: 1.5rem;
+        }
+
+        .form-actions-create {
+            flex-direction: column-reverse;
+        }
+
+        .btn-cancel-create,
+        .btn-submit-create {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Calculate total price
+    function calculateTotal() {
+        const tourSelect = document.getElementById('tourSelect');
+        const selectedOption = tourSelect.options[tourSelect.selectedIndex];
+
+        const adultPrice = parseFloat(selectedOption.getAttribute('data-adultp')) || 0;
+        const childPrice = parseFloat(selectedOption.getAttribute('data-childp')) || 0;
+
+        const adultCount = parseInt(document.getElementById('adultCount').value) || 0;
+        const childCount = parseInt(document.getElementById('childCount').value) || 0;
+
+        const adultTotal = adultPrice * adultCount;
+        const childTotal = childPrice * childCount;
+        const total = adultTotal + childTotal;
+
+        document.getElementById('adultPrice').textContent = adultTotal.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('childPrice').textContent = childTotal.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('totalPrice').textContent = total.toLocaleString('vi-VN') + ' đ';
+    }
+
+    // Trigger calculation on tour select
+    document.getElementById('tourSelect').addEventListener('change', calculateTotal);
+
+    // Form submission
+    document.getElementById('createOrderForm').addEventListener('submit', function(e) {
+        const btn = document.querySelector('.btn-submit-create');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang tạo đơn...';
+        btn.disabled = true;
+    });
+
+    // Auto-focus first input
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstInput = document.querySelector('.form-input-create');
+        if (firstInput) {
+            firstInput.focus();
+        }
+    });
+</script>

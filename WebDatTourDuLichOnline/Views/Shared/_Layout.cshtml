@@ -1,0 +1,596 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc.Routing
+@inject Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic> HtmlHelper
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebDatTourDuLichOnline</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/auth.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    @RenderSection("Styles", required: false)
+
+    <style>
+        /* ====== MODERN NAVBAR STYLING ====== */
+        .navbar-modern {
+            background: #fff !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+        }
+
+            .navbar-modern.scrolled {
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
+                padding: 0.75rem 0;
+            }
+
+        /* Brand Logo */
+        .navbar-brand-modern {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .navbar-brand-modern:hover {
+                transform: translateY(-2px);
+            }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .brand-text {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation Links */
+        .navbar-nav-modern .nav-link {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .navbar-nav-modern .nav-link:hover {
+                color: #0d6efd;
+                background: #f8fafc;
+            }
+
+            .navbar-nav-modern .nav-link.active {
+                color: #0d6efd;
+                background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(11, 94, 215, 0.1) 100%);
+                font-weight: 700;
+            }
+
+                .navbar-nav-modern .nav-link.active::before {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 40px;
+                    height: 3px;
+                    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+                    border-radius: 2px 2px 0 0;
+                }
+
+        /* User Welcome Section */
+        .user-welcome {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #f8fafc;
+            border-radius: 50px;
+            margin-right: 1rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-greeting {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        /* Auth Buttons */
+        .btn-auth-nav {
+            padding: 0.625rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-register {
+            color: #0d6efd;
+            border: 2px solid #e2e8f0;
+            background: #fff;
+        }
+
+            .btn-register:hover {
+                border-color: #0d6efd;
+                background: #f8fafc;
+                color: #0d6efd;
+                transform: translateY(-2px);
+            }
+
+        .btn-login {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+            .btn-login:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+                color: #fff;
+            }
+
+        .btn-logout {
+            padding: 0.625rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            background: #fff;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .btn-logout:hover {
+                background: #dc3545;
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3);
+            }
+
+        /* Mobile Toggle Button */
+        .navbar-toggler-modern {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+            .navbar-toggler-modern:hover {
+                border-color: #0d6efd;
+                background: #f8fafc;
+            }
+
+            .navbar-toggler-modern:focus {
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+
+        /* ====== MODERN FOOTER ====== */
+        .footer-modern {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #cbd5e1;
+            padding: 3rem 0 1.5rem;
+            margin-top: 5rem;
+            border-top: 4px solid #0d6efd;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h5 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+            .footer-links li {
+                margin-bottom: 0.75rem;
+            }
+
+            .footer-links a {
+                color: #cbd5e1;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+                .footer-links a:hover {
+                    color: #0d6efd;
+                    transform: translateX(5px);
+                }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+            .social-icon:hover {
+                background: #0d6efd;
+                color: #fff;
+                transform: translateY(-3px);
+            }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+            .footer-bottom a {
+                color: #0d6efd;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .footer-bottom a:hover {
+                    color: #0b5ed7;
+                }
+
+        /* ====== MAIN CONTENT CONTAINER ====== */
+        .main-container {
+            min-height: calc(100vh - 400px);
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 992px) {
+            .navbar-nav-modern .nav-link {
+                padding: 0.75rem 1rem;
+            }
+
+            .user-welcome {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                justify-content: flex-start;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .navbar-brand-modern {
+                font-size: 1.1rem;
+            }
+
+            .brand-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .btn-auth-nav {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-modern navbar-expand-lg">
+            <div class="container">
+                <!-- Brand Logo -->
+                <a class="navbar-brand navbar-brand-modern" asp-controller="Home" asp-action="Index">
+                    <div class="brand-icon">
+                        <i class="bi bi-airplane"></i>
+                    </div>
+                    <span class="brand-text">TravelTour</span>
+                </a>
+
+                <!-- Mobile Toggle -->
+                <button class="navbar-toggler navbar-toggler-modern" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <!-- Left Menu -->
+                    <ul class="navbar-nav navbar-nav-modern me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door"></i>
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "GioiThieu" ? "active" : "")"
+                               asp-controller="Home" asp-action="GioiThieu">
+                                <i class="bi bi-info-circle"></i>
+                                Giới thiệu
+                            </a>
+                        </li>
+
+                        @* Nếu là khách hàng thì có Đơn của tôi + Hồ sơ *@
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("KhachHang"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "DonCuaToi" ? "active" : "")"
+                                   asp-controller="TaiKhoan" asp-action="DonCuaToi">
+                                    <i class="bi bi-bag-check"></i>
+                                    Đơn của tôi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "HoSo" ? "active" : "")"
+                                   asp-controller="TaiKhoan" asp-action="HoSo">
+                                    <i class="bi bi-person-circle"></i>
+                                    Hồ sơ
+                                </a>
+                            </li>
+                        }
+
+                        @* Nếu là nhân viên thì hiện menu Nhân viên *@
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("NhanVien"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "NhanVien" ? "active" : "")"
+                                   asp-controller="NhanVien" asp-action="Index">
+                                    <i class="bi bi-briefcase"></i>
+                                    Nhân viên
+                                </a>
+                            </li>
+                        }
+
+                        @* Nếu là admin thì có menu Quản trị *@
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")"
+                                   asp-controller="Admin" asp-action="Index">
+                                    <i class="bi bi-gear"></i>
+                                    Quản trị
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- Right Menu: Đăng nhập / Đăng xuất -->
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <div class="user-welcome">
+                                    <div class="user-avatar">
+                                        @User.Identity.Name?.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="user-greeting">Xin chào,</span>
+                                        <span class="user-name">@User.Identity.Name</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="TaiKhoan" asp-action="DangXuat" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-logout">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item me-2">
+                                <a class="btn btn-auth-nav btn-register"
+                                   asp-controller="TaiKhoan" asp-action="DangKy">
+                                    <i class="bi bi-person-plus"></i>
+                                    Đăng ký
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-auth-nav btn-login"
+                                   asp-controller="TaiKhoan" asp-action="DangNhap">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Đăng nhập
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Modern Footer -->
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="footer-content">
+                <!-- About Section -->
+                <div class="footer-section">
+                    <h5>
+                        <i class="bi bi-airplane me-2"></i>
+                        TravelTour
+                    </h5>
+                    <p>
+                        Chuyên cung cấp các dịch vụ du lịch chất lượng cao với hơn 1000+ tour trong nước và quốc tế.
+                        Cam kết mang đến trải nghiệm tuyệt vời nhất cho khách hàng.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h5>Liên kết nhanh</h5>
+                    <ul class="footer-links">
+                        <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a asp-controller="Home" asp-action="GioiThieu">Giới thiệu</a></li>
+                        <li><a href="#">Tour trong nước</a></li>
+                        <li><a href="#">Tour nước ngoài</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-section">
+                    <h5>Hỗ trợ</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản dịch vụ</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-section">
+                    <h5>Liên hệ</h5>
+                    <ul class="footer-links">
+                        <li>
+                            <i class="bi bi-geo-alt"></i>
+                            Hà Nội, Việt Nam
+                        </li>
+                        <li>
+                            <i class="bi bi-telephone"></i>
+                            1900 xxxx
+                        </li>
+                        <li>
+                            <i class="bi bi-envelope"></i>
+                            support@traveltour.vn
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="mb-0">
+                    &copy; @DateTime.Now.Year TravelTour. All rights reserved.
+                    Made with <i class="bi bi-heart-fill text-danger"></i> in Vietnam
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Navbar Scroll Effect -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-modern');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

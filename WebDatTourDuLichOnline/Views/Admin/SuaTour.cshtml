@@ -1,0 +1,940 @@
+﻿@model WebDatTourDuLichOnline.Models.Tour
+
+@{
+    ViewData["Title"] = "Chỉnh sửa tour";
+    var loaiTours = ViewBag.LoaiTours as List<WebDatTourDuLichOnline.Models.LoaiTour>;
+}
+
+<!-- Page Header -->
+<div class="page-header-edit-tour">
+    <div class="header-content-edit-tour">
+        <div class="header-icon-edit-tour">
+            <i class="bi bi-pencil-square"></i>
+        </div>
+        <div>
+            <h1 class="page-title-edit-tour">Chỉnh sửa tour</h1>
+            <p class="page-subtitle-edit-tour">Cập nhật thông tin tour du lịch</p>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Tour Form -->
+<div class="edit-tour-container">
+    <div class="row g-4">
+        <!-- Form Column -->
+        <div class="col-lg-9">
+            <form asp-action="SuaTour" method="post" enctype="multipart/form-data" id="editTourForm">
+                <input type="hidden" asp-for="TourId" />
+
+                <!-- Basic Info Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon basic">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <h3>Thông tin cơ bản</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="edit-form-group">
+                                    <label asp-for="MaTour" class="edit-label">
+                                        <i class="bi bi-tag me-2"></i>
+                                        Mã tour
+                                    </label>
+                                    <input asp-for="MaTour" class="edit-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="edit-form-group">
+                                    <label asp-for="TenTour" class="edit-label">
+                                        <i class="bi bi-pin-map me-2"></i>
+                                        Tên tour
+                                    </label>
+                                    <input asp-for="TenTour" class="edit-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="edit-form-group">
+                                    <label class="edit-label">
+                                        <i class="bi bi-bookmark me-2"></i>
+                                        Loại tour
+                                    </label>
+                                    <select asp-for="LoaiTourId" class="edit-select">
+                                        @if (loaiTours != null)
+                                        {
+                                            foreach (var lt in loaiTours)
+                                            {
+                                                <option value="@lt.LoaiTourId">@lt.TenLoai</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="edit-form-group">
+                                    <label asp-for="MoTaNgan" class="edit-label">
+                                        <i class="bi bi-card-text me-2"></i>
+                                        Mô tả ngắn
+                                    </label>
+                                    <textarea asp-for="MoTaNgan" class="edit-textarea" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location & Time Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon location">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h3>Địa điểm & Thời gian</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="DiemKhoiHanh" class="edit-label">
+                                        <i class="bi bi-geo-alt me-2"></i>
+                                        Điểm khởi hành
+                                    </label>
+                                    <input asp-for="DiemKhoiHanh" class="edit-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="DiemDen" class="edit-label">
+                                        <i class="bi bi-pin-map me-2"></i>
+                                        Điểm đến
+                                    </label>
+                                    <input asp-for="DiemDen" class="edit-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="NgayKhoiHanh" class="edit-label">
+                                        <i class="bi bi-calendar-event me-2"></i>
+                                        Ngày khởi hành
+                                    </label>
+                                    <input asp-for="NgayKhoiHanh" type="date" class="edit-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="ThoiGian" class="edit-label">
+                                        <i class="bi bi-clock me-2"></i>
+                                        Thời gian
+                                    </label>
+                                    <input asp-for="ThoiGian" class="edit-input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing & Capacity Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon pricing">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                        <h3>Giá & Số chỗ</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="GiaNguoiLon" class="edit-label">
+                                        <i class="bi bi-person me-2"></i>
+                                        Giá người lớn
+                                    </label>
+                                    <input asp-for="GiaNguoiLon" class="edit-input" type="number" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="GiaTreEm" class="edit-label">
+                                        <i class="bi bi-person-hearts me-2"></i>
+                                        Giá trẻ em
+                                    </label>
+                                    <input asp-for="GiaTreEm" class="edit-input" type="number" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="SoCho" class="edit-label">
+                                        <i class="bi bi-people me-2"></i>
+                                        Số chỗ
+                                    </label>
+                                    <input asp-for="SoCho" class="edit-input" type="number" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="SoChoConLai" class="edit-label">
+                                        <i class="bi bi-ticket-perforated me-2"></i>
+                                        Số chỗ còn lại
+                                    </label>
+                                    <input asp-for="SoChoConLai" class="edit-input" type="number" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image & Status Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon image">
+                            <i class="bi bi-image"></i>
+                        </div>
+                        <h3>Hình ảnh & Trạng thái</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <div class="edit-form-group">
+                                    <label class="edit-label">
+                                        <i class="bi bi-camera me-2"></i>
+                                        Ảnh đại diện
+                                    </label>
+                                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                                    {
+                                        <div class="current-image">
+                                            <img src="~/images/tours/@Model.HinhAnh" alt="Ảnh tour" id="currentImage" />
+                                            <div class="image-overlay">
+                                                <span>Ảnh hiện tại</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="file-upload-edit">
+                                        <input type="file" name="hinhAnhFile" class="file-input-edit" id="fileInputEdit" accept=".jpg,.jpeg,.png,.webp" onchange="previewImageEdit(event)" />
+                                        <label for="fileInputEdit" class="file-label-edit">
+                                            <i class="bi bi-cloud-upload me-2"></i>
+                                            <span id="fileNameEdit">Chọn ảnh mới (tùy chọn)</span>
+                                        </label>
+                                    </div>
+                                    <div id="imagePreviewEdit" class="image-preview-edit" style="display: none;">
+                                        <img id="previewEdit" src="" alt="Preview" />
+                                        <button type="button" class="btn-remove-edit" onclick="removeImageEdit()">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="edit-form-group">
+                                    <label class="edit-label">
+                                        <i class="bi bi-toggle-on me-2"></i>
+                                        Trạng thái
+                                    </label>
+                                    <div class="status-toggle-edit">
+                                        <input asp-for="TrangThai" class="status-checkbox-edit" id="statusCheckboxEdit" />
+                                        <label for="statusCheckboxEdit" class="status-label-edit">
+                                            <span class="status-text-edit">Đang bán</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon description">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+                        <h3>Mô tả chi tiết</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="edit-form-group">
+                            <label asp-for="MoTaChiTiet" class="edit-label">
+                                <i class="bi bi-journal-text me-2"></i>
+                                Mô tả chi tiết
+                            </label>
+                            <textarea asp-for="MoTaChiTiet" class="edit-textarea" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon services">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+                        <h3>Dịch vụ</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="DichVuBaoGom" class="edit-label">
+                                        <i class="bi bi-check-circle me-2"></i>
+                                        Dịch vụ bao gồm
+                                    </label>
+                                    <textarea asp-for="DichVuBaoGom" class="edit-textarea" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="edit-form-group">
+                                    <label asp-for="DichVuKhongBaoGom" class="edit-label">
+                                        <i class="bi bi-x-circle me-2"></i>
+                                        Dịch vụ không bao gồm
+                                    </label>
+                                    <textarea asp-for="DichVuKhongBaoGom" class="edit-textarea" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Policy Card -->
+                <div class="edit-tour-card">
+                    <div class="edit-tour-header">
+                        <div class="edit-tour-icon policy">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3>Chính sách</h3>
+                    </div>
+                    <div class="edit-tour-body">
+                        <div class="edit-form-group">
+                            <label asp-for="ChinhSachHuy" class="edit-label">
+                                <i class="bi bi-file-earmark-text me-2"></i>
+                                Chính sách hủy
+                            </label>
+                            <textarea asp-for="ChinhSachHuy" class="edit-textarea" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="edit-tour-actions">
+                    <a asp-action="DanhSachTour" class="btn-cancel-edit-tour">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn-save-edit-tour">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-3">
+            <!-- Tour Info Card -->
+            <div class="tour-info-sidebar">
+                <div class="info-sidebar-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+                <h5>Thông tin tour</h5>
+                <div class="info-sidebar-item">
+                    <i class="bi bi-hash"></i>
+                    <div>
+                        <span class="info-sidebar-label">ID Tour</span>
+                        <span class="info-sidebar-value">@Model.TourId</span>
+                    </div>
+                </div>
+                <div class="info-sidebar-item">
+                    <i class="bi bi-calendar-check"></i>
+                    <div>
+                        <span class="info-sidebar-label">Ngày cập nhật</span>
+                        <span class="info-sidebar-value">@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Card -->
+            <div class="edit-help-card">
+                <div class="edit-help-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h5>Lưu ý khi sửa</h5>
+                <ul class="edit-help-list">
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Kiểm tra kỹ thông tin trước khi lưu</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Ảnh mới sẽ thay thế ảnh cũ</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        <span>Thay đổi sẽ hiển thị ngay</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Status Info -->
+            <div class="status-info-card">
+                <div class="status-info-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5>Trạng thái hiện tại</h5>
+                <p>
+                    @if (Model.TrangThai)
+                    {
+                        <span class="badge-current active">
+                            <i class="bi bi-check-circle me-1"></i>Đang bán
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge-current inactive">
+                            <i class="bi bi-x-circle me-1"></i>Đã ẩn
+                        </span>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== PAGE HEADER EDIT TOUR ====== */
+        .page-header-edit-tour {
+            padding: 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .header-content-edit-tour {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon-edit-tour {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title-edit-tour {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle-edit-tour {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0;
+        }
+
+        /* ====== EDIT TOUR CONTAINER ====== */
+        .edit-tour-container {
+            margin-bottom: 3rem;
+        }
+
+        /* ====== EDIT TOUR CARD ====== */
+        .edit-tour-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .edit-tour-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .edit-tour-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+            .edit-tour-icon.basic {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            }
+
+            .edit-tour-icon.location {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            }
+
+            .edit-tour-icon.pricing {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            }
+
+            .edit-tour-icon.image {
+                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            }
+
+            .edit-tour-icon.description {
+                background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            }
+
+            .edit-tour-icon.services {
+                background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            }
+
+            .edit-tour-icon.policy {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            }
+
+        .edit-tour-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .edit-tour-body {
+            padding: 2rem;
+        }
+
+        /* ====== EDIT FORM GROUPS ====== */
+        .edit-form-group {
+            margin-bottom: 0;
+        }
+
+        .edit-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .edit-label i {
+                color: #3b82f6;
+            }
+
+        .edit-input,
+        .edit-select,
+        .edit-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .edit-input:focus,
+            .edit-select:focus,
+            .edit-textarea:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+                outline: none;
+            }
+
+        /* Current Image */
+        .current-image {
+            position: relative;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .current-image img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* File Upload Edit */
+        .file-upload-edit {
+            position: relative;
+        }
+
+        .file-input-edit {
+            display: none;
+        }
+
+        .file-label-edit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+            .file-label-edit:hover {
+                border-color: #3b82f6;
+                background: rgba(59, 130, 246, 0.05);
+                color: #3b82f6;
+            }
+
+        .image-preview-edit {
+            margin-top: 1rem;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .image-preview-edit img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 10px;
+            }
+
+        .btn-remove-edit {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 32px;
+            height: 32px;
+            background: rgba(239, 68, 68, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+            .btn-remove-edit:hover {
+                background: #ef4444;
+                transform: scale(1.1);
+            }
+
+        /* Status Toggle Edit */
+        .status-toggle-edit {
+            margin-top: 0.5rem;
+        }
+
+        .status-checkbox-edit {
+            display: none;
+        }
+
+        .status-label-edit {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .status-label-edit::before {
+                content: '';
+                width: 50px;
+                height: 28px;
+                background: #cbd5e1;
+                border-radius: 14px;
+                margin-right: 1rem;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+
+            .status-label-edit::after {
+                content: '';
+                width: 24px;
+                height: 24px;
+                background: #fff;
+                border-radius: 50%;
+                position: absolute;
+                left: 1.125rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+        .status-checkbox-edit:checked + .status-label-edit::before {
+            background: #10b981;
+        }
+
+        .status-checkbox-edit:checked + .status-label-edit::after {
+            transform: translateX(22px);
+        }
+
+        .status-checkbox-edit:checked + .status-label-edit {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .status-text-edit {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* ====== EDIT TOUR ACTIONS ====== */
+        .edit-tour-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding: 1.5rem 0;
+        }
+
+        .btn-cancel-edit-tour,
+        .btn-save-edit-tour {
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-cancel-edit-tour {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+
+            .btn-cancel-edit-tour:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                color: #1e293b;
+            }
+
+        .btn-save-edit-tour {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+            .btn-save-edit-tour:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            }
+
+        /* ====== SIDEBAR ====== */
+        .tour-info-sidebar,
+        .edit-help-card,
+        .status-info-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-sidebar-icon,
+        .edit-help-icon,
+        .status-info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .tour-info-sidebar h5,
+        .edit-help-card h5,
+        .status-info-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .info-sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+            .info-sidebar-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .info-sidebar-item i {
+                font-size: 1.5rem;
+                color: #3b82f6;
+            }
+
+        .info-sidebar-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-sidebar-value {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .edit-help-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .edit-help-list li {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+                color: #64748b;
+                font-size: 0.9rem;
+            }
+
+                .edit-help-list li:last-child {
+                    margin-bottom: 0;
+                }
+
+            .edit-help-list i {
+                color: #10b981;
+                font-size: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.125rem;
+            }
+
+        .badge-current {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+            .badge-current.active {
+                background: rgba(16, 185, 129, 0.1);
+                color: #059669;
+            }
+
+            .badge-current.inactive {
+                background: rgba(239, 68, 68, 0.1);
+                color: #dc2626;
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 768px) {
+            .header-content-edit-tour {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-icon-edit-tour {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .page-title-edit-tour {
+                font-size: 1.5rem;
+            }
+
+            .edit-tour-body {
+                padding: 1.5rem;
+            }
+
+            .edit-tour-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn-cancel-edit-tour,
+            .btn-save-edit-tour {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Preview image
+        function previewImageEdit(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewEdit').src = e.target.result;
+                    document.getElementById('imagePreviewEdit').style.display = 'block';
+                    document.getElementById('fileNameEdit').textContent = file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove image
+        function removeImageEdit() {
+            document.getElementById('fileInputEdit').value = '';
+            document.getElementById('imagePreviewEdit').style.display = 'none';
+            document.getElementById('fileNameEdit').textContent = 'Chọn ảnh mới (tùy chọn)';
+        }
+
+        // Form submission
+        document.getElementById('editTourForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-save-edit-tour');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang lưu...';
+            btn.disabled = true;
+        });
+    </script>
+}
