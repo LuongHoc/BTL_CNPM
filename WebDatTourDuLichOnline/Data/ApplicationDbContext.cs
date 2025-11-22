@@ -18,10 +18,7 @@ namespace WebDatTourDuLichOnline.Data
         public DbSet<DanhGia> DanhGias { get; set; }
         public DbSet<ThanhToan> ThanhToans { get; set; }
         public DbSet<NhanVien> NhanViens { get; set; }
-
-        public DbSet<TuVan> TuVans { get; set; }
-        public DbSet<TuVanLog> TuVanLogs { get; set; }
-
+        public DbSet<YeuCauTuVan> YeuCauTuVans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +32,7 @@ namespace WebDatTourDuLichOnline.Data
             modelBuilder.Entity<DonDatTour>().ToTable("DonDatTour");
             modelBuilder.Entity<DanhGia>().ToTable("DanhGia");
             modelBuilder.Entity<ThanhToan>().ToTable("ThanhToan");
+            modelBuilder.Entity<YeuCauTuVan>().ToTable("YeuCauTuVan");
         }
     }
 }

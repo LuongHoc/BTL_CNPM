@@ -4,6 +4,7 @@
     int tongDaXacNhan = ViewBag.TongDaXacNhan ?? 0;
     int tongDaHuy = ViewBag.TongDaHuy ?? 0;
     int tongHomNay = ViewBag.TongDonHomNay ?? 0;
+    int tongTuVanMoi = ViewBag.TongTuVanMoi ?? 0;
 }
 
 <!-- Page Header -->
@@ -93,6 +94,22 @@
         </div>
     </div>
 </div>
+<div class="stat-dashboard-card today">
+    <div class="stat-card-icon">
+        <i class="bi bi-chat-dots"></i>
+    </div>
+    <div class="stat-card-content">
+        <span class="stat-card-label">Yêu cầu tư vấn mới</span>
+        <span class="stat-card-value">@tongTuVanMoi</span>
+        <span class="stat-card-trend">
+            <i class="bi bi-bell"></i>
+            Cần liên hệ khách
+        </span>
+    </div>
+    <div class="stat-card-badge today-badge">
+        <i class="bi bi-chat-text"></i>
+    </div>
+</div>
 
 <!-- Quick Actions -->
 <div class="quick-actions-section">
@@ -138,6 +155,18 @@
             <div class="action-card-content">
                 <h4>Danh sách khách theo tour</h4>
                 <p>Xem chi tiết khách hàng tham gia từng tour</p>
+            </div>
+            <div class="action-card-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+        </a>
+        <a asp-action="DanhSachTuVan" class="action-card info">
+            <div class="action-card-icon">
+                <i class="bi bi-chat-dots"></i>
+            </div>
+            <div class="action-card-content">
+                <h4>Yêu cầu tư vấn khách hàng</h4>
+                <p>Xem danh sách khách cần liên hệ hỗ trợ</p>
             </div>
             <div class="action-card-arrow">
                 <i class="bi bi-arrow-right"></i>

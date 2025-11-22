@@ -186,9 +186,29 @@ namespace WebDatTourDuLichOnline.Controllers
             _context.DonDatTours.Add(don);
             tour.SoChoConLai -= tongKhach;
 
+            // Lưu đơn
             await _context.SaveChangesAsync();
+
+            // Tạo yêu cầu tư vấn cho đơn do nhân viên tạo hộ
+            var yeuCau = new YeuCauTuVan
+            {
+                DonDatTourId = don.DonDatTourId,
+                TourId = tour.TourId,
+                KhachHangId = khach.KhachHangId,
+                Kenh = "NhanVienTaoDon",
+                NoiDung = string.IsNullOrWhiteSpace(ghiChu)
+                    ? "Nhân viên tạo đơn hộ khách, cần liên hệ xác nhận."
+                    : ghiChu,
+                ThoiGianTao = DateTime.Now,
+                TrangThai = "Moi"
+            };
+
+            _context.YeuCauTuVans.Add(yeuCau);
+            await _context.SaveChangesAsync();
+
             TempData["Message"] = $"Đã tạo đơn {don.MaDon} cho khách {khach.HoTen}.";
             return RedirectToAction(nameof(DanhSachDon));
+
         }
 
         // ---------------------------------------
@@ -338,7 +358,42 @@ namespace WebDatTourDuLichOnline.Controllers
 
             return RedirectToAction(nameof(DanhSachTour));
         }
+        // =================== YÊU CẦU TƯ VẤN KHÁCH HÀNG ===================
 
+        public async Task<IActionResult> DanhSachTuVan(string trangThai)
+        {
+            var query = _context.YeuCauTuVans
+                .Include(y => y.KhachHang)
+                .Include(y => y.Tour)
+                .Include(y => y.DonDatTour)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(trangThai) && trangThai != "TatCa")
+            {
+                query = query.Where(y => y.TrangThai == trangThai);
+            }
+
+            var list = await query
+                .OrderByDescending(y => y.ThoiGianTao)
+                .ToListAsync();
+
+            ViewBag.TrangThai = trangThai;
+            return View(list);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CapNhatTuVan(int id, string trangThai, string? ghiChuNhanVien)
+        {
+            var yc = await _context.YeuCauTuVans.FindAsync(id);
+            if (yc == null) return NotFound();
+
+            yc.TrangThai = trangThai;
+            yc.GhiChuNhanVien = ghiChuNhanVien;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(DanhSachTuVan));
+        }
         // -----------------
         // HÀM PHỤ: Lưu ảnh
         // -----------------

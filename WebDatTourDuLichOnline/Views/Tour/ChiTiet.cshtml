@@ -6,6 +6,7 @@
     var danhGias = ViewBag.DanhGias as List<DanhGia> ?? new List<DanhGia>();
     double diemTB = ViewBag.DiemTrungBinh != null ? (double)ViewBag.DiemTrungBinh : 0;
     int soDanhGia = ViewBag.SoDanhGia != null ? (int)ViewBag.SoDanhGia : danhGias.Count;
+    var nhanViens = ViewBag.NhanVienTuVan as List<NhanVien> ?? new List<NhanVien>();
 }
 
 <!-- Tour Header -->
@@ -360,7 +361,8 @@
                            class="btn btn-book">
                             <i class="bi bi-cart-plus me-2"></i>Đặt tour ngay
                         </a>
-                        <a href="#" class="btn btn-contact">
+                        <a href="javascript:void(0)" class="btn btn-contact"
+                           data-bs-toggle="modal" data-bs-target="#modalTuVan">
                             <i class="bi bi-telephone me-2"></i>Liên hệ tư vấn
                         </a>
                     </div>
@@ -382,6 +384,70 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL LIÊN HỆ TƯ VẤN -->
+<div class="modal fade" id="modalTuVan" tabindex="-1" aria-labelledby="modalTuVanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTuVanLabel">
+                    Liên hệ tư vấn tour @Model.TenTour
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                @if (nhanViens.Any())
+                {
+                    <p>Chọn 1 trong các nhân viên sau để được tư vấn nhanh qua điện thoại, Zalo hoặc email:</p>
+
+                    @foreach (var nv in nhanViens)
+                    {
+                        <div class="consultant-item mb-3 p-3 border rounded-3 d-flex align-items-center">
+                            <div class="consultant-avatar me-3">
+                                @nv.HoTen?.Substring(0, 1).ToUpper()
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">@nv.HoTen</div>
+                                <div class="text-muted small">Tư vấn viên du lịch</div>
+                                <div class="mt-2 small">
+                                    <div>
+                                        <i class="bi bi-telephone me-1"></i>
+                                        <a href="tel:@nv.SoDienThoai">@nv.SoDienThoai</a>
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-chat-dots me-1"></i>
+                                        <a href="https://zalo.me/@nv.SoDienThoai" target="_blank">
+                                            Chat Zalo (@nv.SoDienThoai)
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-envelope me-1"></i>
+                                        <a href="mailto:@nv.Email">@nv.Email</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mb-0">
+                        Hiện chưa cấu hình nhân viên tư vấn. Vui lòng gọi tổng đài hoặc sử dụng form đặt tour,
+                        nhân viên sẽ chủ động liên hệ lại cho bạn.
+                    </p>
+                }
+
+                <hr />
+                <p class="small text-muted mb-0">
+                    Khi liên hệ, bạn nên cung cấp tên tour
+                    <strong>@Model.TenTour</strong>
+                    và ngày khởi hành
+                    <strong>@Model.NgayKhoiHanh.ToString("dd/MM/yyyy")</strong>
+                    để nhân viên hỗ trợ nhanh hơn.
+                </p>
             </div>
         </div>
     </div>
@@ -1036,5 +1102,19 @@
                 font-size: 2rem;
             }
         }
+
+        .consultant-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
     </style>
 }

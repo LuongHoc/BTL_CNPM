@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebDatTourDuLichOnline.Models.YeuCauTuVan>
+
+@{
+    ViewData["Title"] = "Yêu cầu tư vấn khách hàng";
+    string trangThai = ViewBag.TrangThai as string ?? "TatCa";
+}
+
+<h2 class="mb-4">Yêu cầu tư vấn khách hàng</h2>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="trangThai" class="form-select">
+            <option value="TatCa" selected="@(trangThai == "TatCa" ? "selected" : null)">Tất cả</option>
+            <option value="Moi" selected="@(trangThai == "Moi" ? "selected" : null)">Mới</option>
+            <option value="DangLienHe" selected="@(trangThai == "DangLienHe" ? "selected" : null)">Đang liên hệ</option>
+            <option value="DaXong" selected="@(trangThai == "DaXong" ? "selected" : null)">Đã xử lý</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary" type="submit">Lọc</button>
+    </div>
+</form>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Thời gian</th>
+            <th>Tour</th>
+            <th>Khách hàng</th>
+            <th>Thông tin liên hệ</th>
+            <th>Ghi chú</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ThoiGianTao.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @item.Tour?.TenTour
+                    <br />
+                    <small class="text-muted">@item.Kenh</small>
+                </td>
+                <td>@item.KhachHang?.HoTen</td>
+                <td>
+                    @if (item.KhachHang != null)
+                    {
+                        <div><i class="bi bi-telephone"></i> @item.KhachHang.SoDienThoai</div>
+                        <div><i class="bi bi-envelope"></i> @item.KhachHang.Email</div>
+                    }
+                </td>
+                <td>@item.GhiChuNhanVien</td>
+                <td>
+                    @switch (item.TrangThai)
+                    {
+                        case "Moi":
+                            @:<span class="badge bg-warning text-dark">Mới</span>
+                            break;
+                        case "DangLienHe":
+                            @:<span class="badge bg-info text-dark">Đang liên hệ</span>
+                            break;
+                        case "DaXong":
+                            @:<span class="badge bg-success">Đã xử lý</span>
+                            break;
+                        default:
+                            @:<span class="badge bg-secondary">@item.TrangThai</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    <form asp-action="CapNhatTuVan" method="post" class="d-flex flex-column gap-1">
+                        <input type="hidden" name="id" value="@item.YeuCauTuVanId" />
+
+                        <select name="trangThai" class="form-select form-select-sm mb-1">
+                            <option value="Moi" selected="@(item.TrangThai == "Moi" ? "selected" : null)">Mới</option>
+                            <option value="DangLienHe" selected="@(item.TrangThai == "DangLienHe" ? "selected" : null)">Đang liên hệ</option>
+                            <option value="DaXong" selected="@(item.TrangThai == "DaXong" ? "selected" : null)">Đã xử lý</option>
+                        </select>
+
+                        <textarea name="ghiChuNhanVien"
+                              class="form-control form-control-sm"
+                              rows="2"
+                              placeholder="Ghi chú">@item.GhiChuNhanVien</textarea>
+
+                        <button type="submit" class="btn btn-sm btn-primary mt-1">Lưu</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
