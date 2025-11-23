@@ -188,8 +188,8 @@
         <p class="section-subtitle">Khám phá những điểm đến tuyệt vời</p>
     </div>
 
-    @if (!Model.Any())
-    {
+@if (!Model.Any())
+{
         <div class="empty-result">
             <div class="empty-icon">
                 <i class="bi bi-inbox"></i>
@@ -197,14 +197,15 @@
             <h4 class="empty-title">Không tìm thấy tour phù hợp</h4>
             <p class="empty-text">Vui lòng thử lại với điều kiện khác hoặc xóa bộ lọc</p>
         </div>
-    }
-    else
-    {
+}
+else
+{
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach (var tour in Model)
             {
                 <div class="col">
                     <div class="card tour-card h-100">
+                        @* --- PHẦN CARD TOUR CŨ CỦA BẠN (Hình, tên, giá, nút Xem chi tiết / Đặt tour) GIỮ NGUYÊN --- *@
                         @if (!string.IsNullOrEmpty(tour.HinhAnh))
                         {
                             <div class="tour-image-wrapper">
@@ -215,6 +216,14 @@
                                         <i class="bi bi-fire"></i> Sắp hết chỗ
                                     </span>
                                 }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="tour-image-wrapper no-image">
+                                <div class="tour-image-placeholder">
+                                    <i class="bi bi-image"></i>
+                                </div>
                             </div>
                         }
                         <div class="card-body">
@@ -252,8 +261,105 @@
                 </div>
             }
         </div>
-    }
-</div>
+}
+
+@{
+    int currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+    int totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
+    int startPage = Math.Max(1, currentPage - 2);
+    int endPage = Math.Min(totalPages, currentPage + 2);
+}
+
+@if (totalPages > 1)
+{
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center tour-pagination">
+
+                <!-- Previous -->
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@(currentPage - 1)"
+                       asp-route-tuKhoa="@(ViewBag.TuKhoa)"
+                       asp-route-diemKhoiHanh="@(ViewBag.DiemKhoiHanh)"
+                       asp-route-diemDen="@(ViewBag.DiemDen)"
+                       asp-route-ngayKhoiHanh="@(ViewBag.NgayKhoiHanh)">
+                        &laquo;
+                    </a>
+                </li>
+
+                @* Trang 1 + ... nếu cần *@
+                @if (startPage > 1)
+                {
+                    <li class="page-item @(currentPage == 1 ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="1"
+                           asp-route-tuKhoa="@(ViewBag.TuKhoa)"
+                           asp-route-diemKhoiHanh="@(ViewBag.DiemKhoiHanh)"
+                           asp-route-diemDen="@(ViewBag.DiemDen)"
+                           asp-route-ngayKhoiHanh="@(ViewBag.NgayKhoiHanh)">1</a>
+                    </li>
+
+                    @if (startPage > 2)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                }
+
+                @* Các trang ở giữa *@
+                @for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@i"
+                           asp-route-tuKhoa="@(ViewBag.TuKhoa)"
+                           asp-route-diemKhoiHanh="@(ViewBag.DiemKhoiHanh)"
+                           asp-route-diemDen="@(ViewBag.DiemDen)"
+                           asp-route-ngayKhoiHanh="@(ViewBag.NgayKhoiHanh)">@i</a>
+                    </li>
+                }
+
+                @* ... + trang cuối nếu cần *@
+                @if (endPage < totalPages)
+                {
+                    @if (endPage < totalPages - 1)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+
+                    <li class="page-item @(currentPage == totalPages ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@totalPages"
+                           asp-route-tuKhoa="@(ViewBag.TuKhoa)"
+                           asp-route-diemKhoiHanh="@(ViewBag.DiemKhoiHanh)"
+                           asp-route-diemDen="@(ViewBag.DiemDen)"
+                           asp-route-ngayKhoiHanh="@(ViewBag.NgayKhoiHanh)">@totalPages</a>
+                    </li>
+                }
+
+                <!-- Next -->
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@(currentPage + 1)"
+                       asp-route-tuKhoa="@(ViewBag.TuKhoa)"
+                       asp-route-diemKhoiHanh="@(ViewBag.DiemKhoiHanh)"
+                       asp-route-diemDen="@(ViewBag.DiemDen)"
+                       asp-route-ngayKhoiHanh="@(ViewBag.NgayKhoiHanh)">
+                        &raquo;
+                    </a>
+                </li>
+            </ul>
+        </nav>
+}
+
 
 @section Styles {
     <style>
