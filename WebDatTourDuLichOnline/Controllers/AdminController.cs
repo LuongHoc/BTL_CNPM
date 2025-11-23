@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebDatTourDuLichOnline.Data;
 using WebDatTourDuLichOnline.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
 
 namespace WebDatTourDuLichOnline.Controllers
 {
@@ -42,8 +45,9 @@ namespace WebDatTourDuLichOnline.Controllers
         {
             var tours = await _context.Tours
                 .Include(t => t.LoaiTour)
-                .OrderBy(t => t.NgayKhoiHanh)
+                .OrderByDescending(t => t.NgayKhoiHanh)
                 .ToListAsync();
+
             return View(tours);
         }
 
@@ -52,42 +56,70 @@ namespace WebDatTourDuLichOnline.Controllers
         public async Task<IActionResult> ThemTour()
         {
             ViewBag.LoaiTours = new SelectList(
-                await _context.LoaiTours.AsNoTracking().ToListAsync(),
+                await _context.LoaiTours
+                    .AsNoTracking()
+                    .ToListAsync(),
                 "LoaiTourId", "TenLoai");
 
-            return View(new Tour
+            var model = new Tour
             {
-                TrangThai = true,                       // mặc định đang bán
+                TrangThai = true,
                 NgayKhoiHanh = DateTime.Today.AddDays(7)
-            });
+            };
+
+            return View(model);
         }
 
-        // POST: Thêm tour (kèm upload ảnh)
+        // POST: Thêm tour – LƯU VÀO DB + THÔNG BÁO
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemTour(Tour model, IFormFile? hinhAnh)
+        public async Task<IActionResult> ThemTour(Tour model, IFormFile? hinhAnhFile)
         {
-            if (!ModelState.IsValid)
+            // Đảm bảo TẤT CẢ thuộc tính string không bị null
+            var stringProps = typeof(Tour).GetProperties()
+                .Where(p => p.PropertyType == typeof(string));
+
+            foreach (var prop in stringProps)
             {
+                if (prop.GetValue(model) == null)
+                {
+                    prop.SetValue(model, string.Empty);
+                }
+            }
+
+            // Số chỗ còn lại mặc định = số chỗ nếu để trống / nhập sai
+            if (model.SoChoConLai <= 0 || model.SoChoConLai > model.SoCho)
+            {
+                model.SoChoConLai = model.SoCho;
+            }
+
+            // Ảnh đại diện (khớp với name="hinhAnhFile" trong view)
+            if (hinhAnhFile != null && hinhAnhFile.Length > 0)
+            {
+                model.HinhAnh = await SaveImageAsync(hinhAnhFile);
+            }
+
+            try
+            {
+                _context.Tours.Add(model);
+                await _context.SaveChangesAsync();
+
+                TempData["ThongBao"] = "Thêm tour thành công!";
+                return RedirectToAction(nameof(DanhSachTour));
+            }
+            catch (Exception ex)
+            {
+                // Nếu có lỗi, hiển thị cho admin biết đang vướng cột nào
+                ModelState.AddModelError(string.Empty, "Không lưu được tour: " + ex.Message);
+
                 ViewBag.LoaiTours = new SelectList(
-                    await _context.LoaiTours.AsNoTracking().ToListAsync(),
-                    "LoaiTourId", "TenLoai");
+                    await _context.LoaiTours
+                        .AsNoTracking()
+                        .ToListAsync(),
+                    "LoaiTourId", "TenLoai", model.LoaiTourId);
+
                 return View(model);
             }
-
-            // ảnh
-            if (hinhAnh != null && hinhAnh.Length > 0)
-            {
-                model.HinhAnh = await SaveImageAsync(hinhAnh);
-            }
-
-            // đồng bộ còn lại
-            if (model.SoChoConLai <= 0 || model.SoChoConLai > model.SoCho)
-                model.SoChoConLai = model.SoCho;
-
-            _context.Tours.Add(model);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(DanhSachTour));
         }
 
         // GET: Sửa tour
@@ -98,27 +130,23 @@ namespace WebDatTourDuLichOnline.Controllers
             if (tour == null) return NotFound();
 
             ViewBag.LoaiTours = new SelectList(
-                await _context.LoaiTours.AsNoTracking().ToListAsync(),
+                await _context.LoaiTours
+                    .AsNoTracking()
+                    .ToListAsync(),
                 "LoaiTourId", "TenLoai", tour.LoaiTourId);
+
             return View(tour);
         }
 
-        // POST: Sửa tour (có thể đổi ảnh)
+        // POST: Sửa tour
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SuaTour(Tour model, IFormFile? hinhAnh)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.LoaiTours = new SelectList(
-                    await _context.LoaiTours.AsNoTracking().ToListAsync(),
-                    "LoaiTourId", "TenLoai", model.LoaiTourId);
-                return View(model);
-            }
-
             var tour = await _context.Tours.FindAsync(model.TourId);
             if (tour == null) return NotFound();
 
+            // Cập nhật các trường chính
             tour.MaTour = model.MaTour;
             tour.TenTour = model.TenTour;
             tour.LoaiTourId = model.LoaiTourId;
@@ -131,23 +159,33 @@ namespace WebDatTourDuLichOnline.Controllers
             tour.SoCho = model.SoCho;
             tour.SoChoConLai = Math.Clamp(model.SoChoConLai, 0, model.SoCho);
             tour.MoTaNgan = model.MoTaNgan;
-            tour.MoTaChiTiet = model.MoTaChiTiet;
-            tour.DichVuBaoGom = model.DichVuBaoGom;
-            tour.DichVuKhongBaoGom = model.DichVuKhongBaoGom;
-            tour.ChinhSachHuy = model.ChinhSachHuy;
             tour.TrangThai = model.TrangThai;
 
+            // Đảm bảo tất cả string trên tour không bị null
+            var stringProps = typeof(Tour).GetProperties()
+                .Where(p => p.PropertyType == typeof(string));
+
+            foreach (var prop in stringProps)
+            {
+                var value = (string?)prop.GetValue(tour);
+                if (value == null)
+                {
+                    prop.SetValue(tour, string.Empty);
+                }
+            }
+
+            // Đổi ảnh nếu có file mới
             if (hinhAnh != null && hinhAnh.Length > 0)
             {
-                var newFile = await SaveImageAsync(hinhAnh, tour.HinhAnh);
-                tour.HinhAnh = newFile;
+                tour.HinhAnh = await SaveImageAsync(hinhAnh, tour.HinhAnh);
             }
 
             await _context.SaveChangesAsync();
+            TempData["ThongBao"] = "Cập nhật tour thành công!";
             return RedirectToAction(nameof(DanhSachTour));
         }
 
-        // Ẩn/Hiện tour
+        // Ẩn / hiện tour
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleAnHien(int id)
@@ -157,10 +195,11 @@ namespace WebDatTourDuLichOnline.Controllers
 
             tour.TrangThai = !tour.TrangThai;
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(DanhSachTour));
         }
 
-        // (Tùy chọn) Xóa cứng tour + ảnh
+        // Xóa tour
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> XoaTour(int id)
@@ -169,12 +208,17 @@ namespace WebDatTourDuLichOnline.Controllers
             if (tour == null) return NotFound();
 
             if (!string.IsNullOrWhiteSpace(tour.HinhAnh))
+            {
                 DeleteImage(tour.HinhAnh);
+            }
 
             _context.Tours.Remove(tour);
             await _context.SaveChangesAsync();
+
+            TempData["ThongBao"] = "Đã xóa tour.";
             return RedirectToAction(nameof(DanhSachTour));
         }
+
 
         // ========================= ĐƠN ĐẶT TOUR =========================
 

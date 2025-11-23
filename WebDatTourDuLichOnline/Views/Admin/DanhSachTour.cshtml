@@ -4,6 +4,16 @@
     ViewData["Title"] = "Quản lý tour";
 }
 
+<!-- Success Alert -->
+@if (TempData["ThongBao"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["ThongBao"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <!-- Page Header -->
 <div class="page-header-tours">
     <div class="header-left">
@@ -76,10 +86,10 @@
             <span class="tours-count">(@Model.Count() tour)</span>
         </h3>
         <div class="table-actions">
-            <button class="btn-export-tours">
-                <i class="bi bi-download me-2"></i>
-                Xuất Excel
-            </button>
+            <div class="search-wrapper-tours">
+                <i class="bi bi-search"></i>
+                <input type="text" id="tourSearch" placeholder="Tìm kiếm tour..." />
+            </div>
         </div>
     </div>
 
@@ -259,6 +269,15 @@
                                             </button>
                                         }
                                     </form>
+
+                                    <button type="button"
+                                            class="btn-delete-tour"
+                                            title="Xóa tour"
+                                            data-tour-id="@tour.TourId"
+                                            data-tour-name="@tour.TenTour"
+                                            onclick="showDeleteModal(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -269,33 +288,76 @@
     }
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="delete-confirm-modal" id="deleteModal">
+    <div class="delete-modal-content">
+        <div class="delete-modal-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+        <h3 class="delete-modal-title">Xác nhận xóa tour</h3>
+        <p class="delete-modal-text">Bạn có chắc chắn muốn xóa tour này không? Hành động này không thể hoàn tác.</p>
+        <div class="delete-modal-tour-name" id="deleteTourName"></div>
+        <div class="delete-modal-buttons">
+            <button class="delete-modal-btn delete-modal-btn-cancel" onclick="closeDeleteModal()">
+                <i class="bi bi-x-circle me-2"></i>
+                Hủy
+            </button>
+            <form id="deleteForm" asp-action="XoaTour" method="post" class="delete-form-inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteFormId" />
+                <button type="submit" class="delete-modal-btn delete-modal-btn-delete">
+                    <i class="bi bi-trash me-2"></i>
+                    Xóa tour
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Styles {
     <style>
+        /* ====== RESET & GENERAL ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
         /* ====== PAGE HEADER TOURS ====== */
         .page-header-tours {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border-radius: 16px;
-            margin-bottom: 2rem;
+        }
+
+        .header-left {
             color: #fff;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
         }
 
         .page-title {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin: 0;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
+            color: #fff;
         }
 
         .page-subtitle {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
-            opacity: 0.9;
-            margin: 0.5rem 0 0;
+            margin: 0;
         }
 
         .header-right {
@@ -304,69 +366,68 @@
         }
 
         .btn-add-tour {
+            background: #fff;
+            color: #667eea;
             padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            color: #fff;
+            border: none;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            text-decoration: none;
             display: flex;
             align-items: center;
-            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
             .btn-add-tour:hover {
-                background: rgba(255, 255, 255, 0.3);
-                transform: translateY(-2px);
-                color: #fff;
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+                color: #667eea;
             }
 
         .btn-refresh-tours {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            color: #fff;
-            font-size: 1.25rem;
+            border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
         }
 
             .btn-refresh-tours:hover {
                 background: rgba(255, 255, 255, 0.3);
-                transform: rotate(90deg);
+                transform: rotate(180deg);
             }
 
-        /* ====== STATS TOURS SECTION ====== */
+        /* ====== STATISTICS CARDS ====== */
         .stats-tours-section {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-tour-card {
             background: #fff;
             padding: 1.5rem;
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             gap: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid;
             transition: all 0.3s ease;
+            border-left: 4px solid transparent;
         }
 
             .stat-tour-card:hover {
-                transform: translateY(-3px);
+                transform: translateY(-5px);
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             }
 
@@ -467,70 +528,115 @@
             gap: 0.75rem;
         }
 
-        .btn-export-tours {
-            padding: 0.5rem 1rem;
-            background: #fff;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            color: #64748b;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* ====== IMPROVED SEARCH BOX ====== */
+        .search-wrapper-tours {
+            position: relative;
             display: flex;
             align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
-            .btn-export-tours:hover {
-                border-color: #10b981;
-                color: #10b981;
+            .search-wrapper-tours:hover {
+                border-color: #cbd5e1;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             }
 
-        /* Empty State */
+            .search-wrapper-tours:focus-within {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+                transform: translateY(-1px);
+            }
+
+            .search-wrapper-tours i {
+                position: absolute;
+                left: 16px;
+                color: #94a3b8;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+
+            .search-wrapper-tours:focus-within i {
+                color: #3b82f6;
+                transform: scale(1.1);
+            }
+
+            .search-wrapper-tours input {
+                border: none;
+                outline: none;
+                background: transparent;
+                font-size: 0.95rem;
+                width: 260px;
+                padding: 12px 16px 12px 45px;
+                color: #1e293b;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+                .search-wrapper-tours input::placeholder {
+                    color: #94a3b8;
+                    font-weight: 400;
+                }
+
+                .search-wrapper-tours input:focus::placeholder {
+                    color: #cbd5e1;
+                }
+
+        /* ====== EMPTY STATE ====== */
         .empty-state-tours {
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
         }
 
         .empty-icon-tours {
-            font-size: 5rem;
-            color: #cbd5e1;
-            margin-bottom: 1.5rem;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #94a3b8;
         }
 
         .empty-state-tours h4 {
             font-size: 1.5rem;
-            font-weight: 700;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
         .empty-state-tours p {
-            font-size: 1rem;
             color: #64748b;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .btn-add-first-tour {
-            padding: 0.875rem 2rem;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 600;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
             .btn-add-first-tour:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
                 color: #fff;
             }
 
-        /* ====== TOURS TABLE ====== */
+        /* ====== TABLE STYLES ====== */
         .table-responsive {
             overflow-x: auto;
         }
@@ -542,16 +648,20 @@
 
             .tours-table thead {
                 background: #f8fafc;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
 
             .tours-table th {
                 padding: 1rem;
                 text-align: left;
-                border-bottom: 2px solid #e2e8f0;
                 font-weight: 600;
+                color: #475569;
                 font-size: 0.875rem;
-                color: #64748b;
-                white-space: nowrap;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                border-bottom: 2px solid #e2e8f0;
             }
 
         .th-content {
@@ -562,11 +672,12 @@
 
             .th-content i {
                 color: #94a3b8;
+                font-size: 1rem;
             }
 
         .tours-table tbody tr {
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.2s ease;
         }
 
             .tours-table tbody tr:hover {
@@ -574,8 +685,8 @@
             }
 
         .tours-table td {
-            padding: 1.25rem 1rem;
-            font-size: 0.9rem;
+            padding: 1rem;
+            vertical-align: middle;
         }
 
         /* Table Cell Styles */
@@ -701,14 +812,15 @@
                 color: #dc2626;
             }
 
-        /* Action Buttons */
+        /* ====== ACTION BUTTONS ====== */
         .action-buttons-tour {
             display: flex;
             gap: 0.5rem;
         }
 
         .btn-edit-tour,
-        .btn-toggle-tour {
+        .btn-toggle-tour,
+        .btn-delete-tour {
             width: 36px;
             height: 36px;
             border-radius: 8px;
@@ -717,10 +829,13 @@
             justify-content: center;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Edit Button */
         .btn-edit-tour {
             background: rgba(59, 130, 246, 0.1);
             color: #2563eb;
@@ -730,9 +845,11 @@
             .btn-edit-tour:hover {
                 background: #3b82f6;
                 color: #fff;
-                transform: translateY(-2px);
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 8px 16px rgba(59, 130, 246, 0.25);
             }
 
+        /* Toggle Button - Hide */
         .btn-toggle-tour.hide {
             background: rgba(239, 68, 68, 0.1);
             color: #dc2626;
@@ -741,9 +858,11 @@
             .btn-toggle-tour.hide:hover {
                 background: #ef4444;
                 color: #fff;
-                transform: translateY(-2px);
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 8px 16px rgba(239, 68, 68, 0.25);
             }
 
+        /* Toggle Button - Show */
         .btn-toggle-tour.show {
             background: rgba(16, 185, 129, 0.1);
             color: #059669;
@@ -752,8 +871,208 @@
             .btn-toggle-tour.show:hover {
                 background: #10b981;
                 color: #fff;
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 8px 16px rgba(16, 185, 129, 0.25);
+            }
+
+        /* ====== DELETE BUTTON IMPROVED ====== */
+        .btn-delete-tour {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 2px solid transparent;
+        }
+
+            .btn-delete-tour::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgba(239, 68, 68, 0.3);
+                transform: translate(-50%, -50%);
+                transition: width 0.6s, height 0.6s;
+            }
+
+            .btn-delete-tour:active::before {
+                width: 100px;
+                height: 100px;
+            }
+
+            .btn-delete-tour:hover {
+                background: #ef4444;
+                color: #fff;
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 8px 16px rgba(239, 68, 68, 0.25);
+                border-color: #ef4444;
+            }
+
+            .btn-delete-tour i {
+                transition: all 0.3s ease;
+                position: relative;
+                z-index: 1;
+            }
+
+            .btn-delete-tour:hover i {
+                transform: rotate(10deg) scale(1.1);
+            }
+
+            .btn-delete-tour:active {
+                transform: translateY(0) scale(0.95);
+            }
+
+        /* ====== DELETE CONFIRMATION MODAL ====== */
+        .delete-confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+            .delete-confirm-modal.show {
+                display: flex;
+            }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .delete-modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @@keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .delete-modal-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .delete-modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .delete-modal-text {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .delete-modal-tour-name {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .delete-modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .delete-form-inline {
+            flex: 1;
+            display: flex;
+        }
+
+        .delete-modal-btn {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .delete-modal-btn-cancel {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+            .delete-modal-btn-cancel:hover {
+                background: #e2e8f0;
+                color: #475569;
                 transform: translateY(-2px);
             }
+
+        .delete-modal-btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+            .delete-modal-btn-delete:hover {
+                background: linear-gradient(135deg, #dc2626, #b91c1c);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 16px rgba(239, 68, 68, 0.3);
+            }
+
+        .delete-modal-btn:active {
+            transform: translateY(0);
+        }
 
         /* ====== RESPONSIVE ====== */
         @@media (max-width: 1200px) {
@@ -784,6 +1103,14 @@
                 gap: 1rem;
             }
 
+            .search-wrapper-tours {
+                width: 100%;
+            }
+
+                .search-wrapper-tours input {
+                    width: 100%;
+                }
+
             .tours-table {
                 font-size: 0.85rem;
             }
@@ -792,6 +1119,58 @@
                 .tours-table td {
                     padding: 0.75rem 0.5rem;
                 }
+
+            .action-buttons-tour {
+                flex-direction: column;
+            }
         }
     </style>
+}
+
+@section Scripts {
+    <script>
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('tourSearch');
+            if (!searchInput) return;
+
+            searchInput.addEventListener('keyup', function () {
+                const keyword = this.value.toLowerCase().trim();
+                const rows = document.querySelectorAll('.tour-row');
+
+                rows.forEach(function (row) {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(keyword) ? '' : 'none';
+                });
+            });
+        });
+
+        // Delete modal functions
+        function showDeleteModal(button) {
+            const tourId = button.getAttribute('data-tour-id');
+            const tourName = button.getAttribute('data-tour-name');
+
+            document.getElementById('deleteTourName').textContent = tourName;
+            document.getElementById('deleteFormId').value = tourId;
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('deleteModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+    </script>
 }

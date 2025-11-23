@@ -5,89 +5,900 @@
     string trangThai = ViewBag.TrangThai as string ?? "TatCa";
 }
 
-<h2 class="mb-4">Yêu cầu tư vấn khách hàng</h2>
-
-<form method="get" class="row g-2 mb-3">
-    <div class="col-auto">
-        <select name="trangThai" class="form-select">
-            <option value="TatCa" selected="@(trangThai == "TatCa" ? "selected" : null)">Tất cả</option>
-            <option value="Moi" selected="@(trangThai == "Moi" ? "selected" : null)">Mới</option>
-            <option value="DangLienHe" selected="@(trangThai == "DangLienHe" ? "selected" : null)">Đang liên hệ</option>
-            <option value="DaXong" selected="@(trangThai == "DaXong" ? "selected" : null)">Đã xử lý</option>
-        </select>
+<!-- Page Container -->
+<div class="page-wrapper">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-left">
+            <div class="page-title-wrapper">
+                <div class="title-icon">
+                    <i class="bi bi-headset"></i>
+                </div>
+                <div>
+                    <h1 class="page-title">Yêu cầu tư vấn khách hàng</h1>
+                    <p class="page-subtitle">Quản lý và xử lý yêu cầu tư vấn từ khách hàng</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-auto">
-        <button class="btn btn-primary" type="submit">Lọc</button>
-    </div>
-</form>
 
-<table class="table table-striped align-middle">
-    <thead>
-        <tr>
-            <th>Thời gian</th>
-            <th>Tour</th>
-            <th>Khách hàng</th>
-            <th>Thông tin liên hệ</th>
-            <th>Ghi chú</th>
-            <th>Trạng thái</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    <!-- Statistics Cards -->
+    <div class="stats-container">
+        <div class="stat-card stat-new">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-bell-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">@Model.Count(x => x.TrangThai == "Moi")</div>
+                <div class="stat-label">Yêu cầu mới</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-processing">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">@Model.Count(x => x.TrangThai == "DangLienHe")</div>
+                <div class="stat-label">Đang xử lý</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-done">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">@Model.Count(x => x.TrangThai == "DaXong")</div>
+                <div class="stat-label">Hoàn thành</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-total">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-list-check"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">@Model.Count()</div>
+                <div class="stat-label">Tổng yêu cầu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <form method="get" class="filter-form">
+            <div class="filter-left">
+                <i class="bi bi-funnel"></i>
+                <span class="filter-text">Lọc theo:</span>
+            </div>
+            <div class="filter-right">
+                <select name="trangThai" class="filter-select" id="filterStatus">
+                    <option value="TatCa" selected="@(trangThai == "TatCa" ? "selected" : null)">
+                        Tất cả trạng thái
+                    </option>
+                    <option value="Moi" selected="@(trangThai == "Moi" ? "selected" : null)">
+                        Yêu cầu mới
+                    </option>
+                    <option value="DangLienHe" selected="@(trangThai == "DangLienHe" ? "selected" : null)">
+                        Đang xử lý
+                    </option>
+                    <option value="DaXong" selected="@(trangThai == "DaXong" ? "selected" : null)">
+                        Đã hoàn thành
+                    </option>
+                </select>
+                <button type="submit" class="filter-btn">
+                    <i class="bi bi-search"></i>
+                    Tìm kiếm
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Requests List -->
+    <div class="requests-container">
+        @if (!Model.Any())
         {
-            <tr>
-                <td>@item.ThoiGianTao.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    @item.Tour?.TenTour
-                    <br />
-                    <small class="text-muted">@item.Kenh</small>
-                </td>
-                <td>@item.KhachHang?.HoTen</td>
-                <td>
-                    @if (item.KhachHang != null)
-                    {
-                        <div><i class="bi bi-telephone"></i> @item.KhachHang.SoDienThoai</div>
-                        <div><i class="bi bi-envelope"></i> @item.KhachHang.Email</div>
-                    }
-                </td>
-                <td>@item.GhiChuNhanVien</td>
-                <td>
-                    @switch (item.TrangThai)
-                    {
-                        case "Moi":
-                            @:<span class="badge bg-warning text-dark">Mới</span>
-                            break;
-                        case "DangLienHe":
-                            @:<span class="badge bg-info text-dark">Đang liên hệ</span>
-                            break;
-                        case "DaXong":
-                            @:<span class="badge bg-success">Đã xử lý</span>
-                            break;
-                        default:
-                            @:<span class="badge bg-secondary">@item.TrangThai</span>
-                            break;
-                    }
-                </td>
-                <td>
-                    <form asp-action="CapNhatTuVan" method="post" class="d-flex flex-column gap-1">
-                        <input type="hidden" name="id" value="@item.YeuCauTuVanId" />
-
-                        <select name="trangThai" class="form-select form-select-sm mb-1">
-                            <option value="Moi" selected="@(item.TrangThai == "Moi" ? "selected" : null)">Mới</option>
-                            <option value="DangLienHe" selected="@(item.TrangThai == "DangLienHe" ? "selected" : null)">Đang liên hệ</option>
-                            <option value="DaXong" selected="@(item.TrangThai == "DaXong" ? "selected" : null)">Đã xử lý</option>
-                        </select>
-
-                        <textarea name="ghiChuNhanVien"
-                              class="form-control form-control-sm"
-                              rows="2"
-                              placeholder="Ghi chú">@item.GhiChuNhanVien</textarea>
-
-                        <button type="submit" class="btn btn-sm btn-primary mt-1">Lưu</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="bi bi-inbox"></i>
+                </div>
+                <h3>Chưa có yêu cầu tư vấn nào</h3>
+                <p>Các yêu cầu tư vấn từ khách hàng sẽ hiển thị ở đây</p>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="requests-list">
+                @foreach (var item in Model.OrderByDescending(x => x.ThoiGianTao))
+                {
+                    <div class="request-item @(item.TrangThai == "Moi" ? "is-new" : "")">
+                        <!-- Left Section: Info -->
+                        <div class="request-left">
+                            <!-- Time & Status -->
+                            <div class="request-header">
+                                <div class="request-time">
+                                    <i class="bi bi-clock"></i>
+                                    @item.ThoiGianTao.ToString("dd/MM/yyyy HH:mm")
+                                </div>
+                                @switch (item.TrangThai)
+                                {
+                                    case "Moi":
+                                        <span class="badge badge-new">
+                                            <i class="bi bi-bell"></i>
+                                            Mới
+                                        </span>
+                                        break;
+                                    case "DangLienHe":
+                                        <span class="badge badge-processing">
+                                            <i class="bi bi-hourglass-split"></i>
+                                            Đang xử lý
+                                        </span>
+                                        break;
+                                    case "DaXong":
+                                        <span class="badge badge-done">
+                                            <i class="bi bi-check-circle"></i>
+                                            Hoàn thành
+                                        </span>
+                                        break;
+                                }
+                            </div>
+
+                            <!-- Tour Info -->
+                            <div class="tour-section">
+                                <div class="tour-icon">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
+                                <div class="tour-info">
+                                    <h4 class="tour-title">@item.Tour?.TenTour</h4>
+                                    <div class="tour-channel">
+                                        <i class="bi bi-tag"></i>
+                                        @item.Kenh
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Customer Info -->
+                            @if (item.KhachHang != null)
+                            {
+                                <div class="customer-section">
+                                    <div class="customer-avatar">
+                                        @item.KhachHang.HoTen?.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div class="customer-info">
+                                        <h5 class="customer-name">@item.KhachHang.HoTen</h5>
+                                        <div class="customer-contact">
+                                            <a href="tel:@item.KhachHang.SoDienThoai" class="contact-item">
+                                                <i class="bi bi-telephone-fill"></i>
+                                                @item.KhachHang.SoDienThoai
+                                            </a>
+                                            <a href="mailto:@item.KhachHang.Email" class="contact-item">
+                                                <i class="bi bi-envelope-fill"></i>
+                                                @item.KhachHang.Email
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <!-- Current Note -->
+                            @if (!string.IsNullOrEmpty(item.GhiChuNhanVien))
+                            {
+                                <div class="note-display">
+                                    <i class="bi bi-chat-left-text"></i>
+                                    <span>@item.GhiChuNhanVien</span>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Right Section: Action Form -->
+                        <div class="request-right">
+                            <form asp-action="CapNhatTuVan" method="post" class="update-form">
+                                <input type="hidden" name="id" value="@item.YeuCauTuVanId" />
+
+                                <div class="form-section">
+                                    <label class="form-label">
+                                        <i class="bi bi-toggles"></i>
+                                        Cập nhật trạng thái
+                                    </label>
+                                    <select name="trangThai" class="form-select">
+                                        <option value="Moi" selected="@(item.TrangThai == "Moi" ? "selected" : null)">
+                                            Yêu cầu mới
+                                        </option>
+                                        <option value="DangLienHe" selected="@(item.TrangThai == "DangLienHe" ? "selected" : null)">
+                                            Đang liên hệ
+                                        </option>
+                                        <option value="DaXong" selected="@(item.TrangThai == "DaXong" ? "selected" : null)">
+                                            Đã xử lý xong
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-section">
+                                    <label class="form-label">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Ghi chú xử lý
+                                    </label>
+                                    <textarea name="ghiChuNhanVien"
+                                      class="form-textarea"
+                                      rows="4"
+                                      placeholder="Ghi chú về quá trình liên hệ và xử lý yêu cầu...">@item.GhiChuNhanVien</textarea>
+                                </div>
+
+                                <button type="submit" class="btn-submit">
+                                    <i class="bi bi-save"></i>
+                                    Lưu thay đổi
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* ====== VARIABLES - MÀU SẮC DỄ NHÌN ====== */
+        :root {
+            /* Màu chính - Xanh lá nhẹ nhàng */
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #34d399;
+            /* Màu nền */
+            --bg-main: #f8fafb;
+            --bg-white: #ffffff;
+            --bg-light: #f1f5f9;
+            /* Màu chữ */
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --text-light: #94a3b8;
+            /* Màu trạng thái */
+            --orange: #ff9800;
+            --blue: #2196f3;
+            --green: #10b981;
+            --purple: #9c27b0;
+            /* Border & Shadow */
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 24px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* ====== PAGE WRAPPER ====== */
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ====== PAGE HEADER ====== */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .title-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        /* ====== STATISTICS CARDS ====== */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-md);
+            }
+
+        .stat-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .stat-new .stat-icon-wrapper {
+            background: linear-gradient(135deg, #ff9800, #ff6f00);
+        }
+
+        .stat-processing .stat-icon-wrapper {
+            background: linear-gradient(135deg, #2196f3, #1565c0);
+        }
+
+        .stat-done .stat-icon-wrapper {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .stat-total .stat-icon-wrapper {
+            background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* ====== FILTER BAR ====== */
+        .filter-bar {
+            background: white;
+            border-radius: 14px;
+            padding: 1.25rem 1.75rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+
+            .filter-left i {
+                font-size: 1.25rem;
+                color: var(--primary);
+            }
+
+        .filter-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .filter-select {
+            flex: 1;
+            padding: 0.875rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .filter-select:hover {
+                border-color: var(--primary-light);
+            }
+
+            .filter-select:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            }
+
+        .filter-btn {
+            padding: 0.875rem 1.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            white-space: nowrap;
+        }
+
+            .filter-btn:hover {
+                background: linear-gradient(135deg, var(--primary-dark), #047857);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        /* ====== EMPTY STATE ====== */
+        .empty-state {
+            background: white;
+            border-radius: 14px;
+            padding: 4rem 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .empty-state p {
+            color: var(--text-gray);
+        }
+
+        /* ====== REQUESTS LIST ====== */
+        .requests-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* ====== REQUEST ITEM ====== */
+        .request-item {
+            background: white;
+            border-radius: 14px;
+            border: 2px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            .request-item:hover {
+                box-shadow: var(--shadow-md);
+                transform: translateY(-2px);
+            }
+
+            .request-item.is-new {
+                border-left: 5px solid var(--orange);
+                background: linear-gradient(to right, #fff8e1 0%, white 100%);
+            }
+
+        /* Left Section */
+        .request-left {
+            flex: 1;
+            min-width: 400px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Request Header */
+        .request-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .request-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+            .request-time i {
+                color: var(--primary);
+            }
+
+        /* Badges */
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+
+        .badge-new {
+            background: #fff3e0;
+            color: #e65100;
+            border: 1px solid #ffb74d;
+        }
+
+        .badge-processing {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #64b5f6;
+        }
+
+        .badge-done {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #66bb6a;
+        }
+
+        /* Tour Section */
+        .tour-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .tour-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .tour-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .tour-channel {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        /* Customer Section */
+        .customer-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+        }
+
+        .customer-avatar {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #2196f3, #1565c0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            border: 3px solid white;
+        }
+
+        .customer-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .customer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .contact-item:hover {
+                color: var(--primary);
+            }
+
+            .contact-item i {
+                font-size: 0.9rem;
+            }
+
+        /* Note Display */
+        .note-display {
+            padding: 1rem;
+            background: #e8f5e9;
+            border-left: 3px solid var(--green);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: #2e7d32;
+            line-height: 1.6;
+        }
+
+            .note-display i {
+                color: var(--green);
+                font-size: 1.1rem;
+                flex-shrink: 0;
+                margin-top: 0.1rem;
+            }
+
+        /* Right Section - Form */
+        .request-right {
+            width: 380px;
+            background: var(--bg-light);
+            padding: 1.75rem;
+            border-left: 1px solid var(--border);
+        }
+
+        .update-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+            .form-label i {
+                color: var(--primary);
+            }
+
+        .form-select {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .form-select:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            }
+
+        .form-textarea {
+            padding: 0.875rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            resize: vertical;
+            background: white;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+            .form-textarea:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            }
+
+            .form-textarea::placeholder {
+                color: var(--text-light);
+            }
+
+        .btn-submit {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+            .btn-submit:hover {
+                background: linear-gradient(135deg, var(--primary-dark), #047857);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+        /* ====== RESPONSIVE ====== */
+        @@media (max-width: 1024px) {
+            .request-item {
+                flex-direction: column;
+            }
+
+            .request-left {
+                min-width: auto;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .request-right {
+                width: 100%;
+                border-left: none;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .page-wrapper {
+                padding: 1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-right {
+                max-width: none;
+            }
+
+            .filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .title-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Auto submit khi thay đổi filter
+        document.getElementById('filterStatus')?.addEventListener('change', function() {
+            this.form.submit();
+        });
+
+        // Smooth scroll
+        if (window.location.search.includes('trangThai=')) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Loading state cho submit buttons
+        document.querySelectorAll('.update-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const btn = this.querySelector('.btn-submit');
+                btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Đang lưu...';
+                btn.disabled = true;
+            });
+        });
+
+        // Highlight new requests
+        document.querySelectorAll('.is-new').forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animation = 'pulse 2s ease-in-out infinite';
+            }, index * 100);
+        });
+    </script>
+}
