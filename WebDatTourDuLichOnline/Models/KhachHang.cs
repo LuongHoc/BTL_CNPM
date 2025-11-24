@@ -10,8 +10,9 @@ namespace WebDatTourDuLichOnline.Models
         public string SoDienThoai { get; set; } = null!;
         public string? DiaChi { get; set; }
 
-        public int TaiKhoanId { get; set; }
-        public TaiKhoan TaiKhoan { get; set; } = null!;
+        // Cho phép khách KHÔNG có tài khoản
+        public int? TaiKhoanId { get; set; }
+        public TaiKhoan? TaiKhoan { get; set; }
 
         public ICollection<DonDatTour>? DonDatTours { get; set; }
         public ICollection<DanhGia>? DanhGias { get; set; }
