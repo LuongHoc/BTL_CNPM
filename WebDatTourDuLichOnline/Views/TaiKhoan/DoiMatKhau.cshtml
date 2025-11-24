@@ -2,46 +2,222 @@
 
 @{
     ViewData["Title"] = "Đổi mật khẩu";
+    Layout = null; // Không dùng layout chính
 }
 
-<h2 class="mb-4">Đổi mật khẩu</h2>
-
-@if (ViewBag.ThongBao != null)
-{
-    <div class="alert alert-success">@ViewBag.ThongBao</div>
-}
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="DoiMatKhau" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="mb-3">
-                <label asp-for="MatKhauCu" class="form-label"></label>
-                <input asp-for="MatKhauCu" class="form-control" />
-                <span asp-validation-for="MatKhauCu" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="MatKhauMoi" class="form-label"></label>
-                <input asp-for="MatKhauMoi" class="form-control" />
-                <span asp-validation-for="MatKhauMoi" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="XacNhanMatKhauMoi" class="form-label"></label>
-                <input asp-for="XacNhanMatKhauMoi" class="form-control" />
-                <span asp-validation-for="XacNhanMatKhauMoi" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
-            <a asp-action="HoSo" class="btn btn-secondary ms-2">Quay lại hồ sơ</a>
-        </form>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebDatTourDuLichOnline</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Hero Section với ảnh nền -->
+    <div class="auth-hero">
+        <img src="~/images/hero/dmk.jpg" alt="Travel" class="auth-hero__bg">
+        <div class="auth-hero__overlay"></div>
     </div>
-</div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <!-- Container chính -->
+    <div class="container auth-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="card auth-card shadow-lg">
+                    <div class="row g-0">
+                        <!-- Left Side - Thông tin -->
+                        <div class="col-lg-5 auth-left">
+                            <div class="auth-left-content">
+                                <div class="auth-brand mb-4">
+                                    <i class="bi bi-compass"></i>
+                                    <h3>TourVietPlus</h3>
+                                </div>
+
+                                <h2 class="auth-welcome mb-3">
+                                    Bảo Mật Tài Khoản 🔒
+                                </h2>
+
+                                <p class="auth-description mb-4">
+                                    Thay đổi mật khẩu định kỳ giúp bảo vệ tài khoản của bạn khỏi các truy cập trái phép
+                                </p>
+
+                                <div class="auth-features">
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Mã hóa mật khẩu với chuẩn bảo mật cao</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Bảo vệ thông tin cá nhân tuyệt đối</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Thông báo ngay khi có hoạt động bất thường</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        <span>Hỗ trợ khôi phục tài khoản 24/7</span>
+                                    </div>
+                                </div>
+
+                                <div class="auth-illustration">
+                                    <i class="bi bi-shield-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side - Form đổi mật khẩu -->
+                        <div class="col-lg-7 auth-right">
+                            <div class="auth-form-wrapper">
+                                <div class="auth-header mb-4">
+                                    <h2 class="auth-title">Đổi Mật Khẩu</h2>
+                                    <p class="auth-subtitle">Điền thông tin để bảo mật tài khoản của bạn</p>
+                                </div>
+
+                                <!-- Alert thành công -->
+                                @if (ViewBag.ThongBao != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-check-circle-fill me-2"></i>
+                                        @ViewBag.ThongBao
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                }
+
+                                <!-- Alert nếu có lỗi -->
+                                @if (ViewData.ModelState.ErrorCount > 0)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        <div asp-validation-summary="ModelOnly"></div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                }
+
+                                <!-- Form đổi mật khẩu -->
+                                <form asp-action="DoiMatKhau" method="post" class="auth-form">
+                                    <!-- Mật khẩu hiện tại -->
+                                    <div class="form-floating mb-3 password-field">
+                                        <input asp-for="MatKhauCu"
+                                               type="password"
+                                               class="form-control"
+                                               id="oldPassword"
+                                               placeholder="Mật khẩu hiện tại"
+                                               autocomplete="current-password" />
+                                        <label for="oldPassword">
+                                            <i class="bi bi-lock me-2"></i>Mật khẩu hiện tại
+                                        </label>
+                                        <button type="button" class="password-toggle" onclick="togglePasswordField('oldPassword')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <span asp-validation-for="MatKhauCu" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Mật khẩu mới -->
+                                    <div class="form-floating mb-3 password-field">
+                                        <input asp-for="MatKhauMoi"
+                                               type="password"
+                                               class="form-control"
+                                               id="newPassword"
+                                               placeholder="Mật khẩu mới"
+                                               autocomplete="new-password" />
+                                        <label for="newPassword">
+                                            <i class="bi bi-shield-lock me-2"></i>Mật khẩu mới
+                                        </label>
+                                        <button type="button" class="password-toggle" onclick="togglePasswordField('newPassword')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <span asp-validation-for="MatKhauMoi" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Xác nhận mật khẩu mới -->
+                                    <div class="form-floating mb-3 password-field">
+                                        <input asp-for="XacNhanMatKhauMoi"
+                                               type="password"
+                                               class="form-control"
+                                               id="confirmPassword"
+                                               placeholder="Xác nhận mật khẩu"
+                                               autocomplete="new-password" />
+                                        <label for="confirmPassword">
+                                            <i class="bi bi-shield-check me-2"></i>Xác nhận mật khẩu mới
+                                        </label>
+                                        <button type="button" class="password-toggle" onclick="togglePasswordField('confirmPassword')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <span asp-validation-for="XacNhanMatKhauMoi" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Yêu cầu mật khẩu -->
+                                    <div class="alert alert-info" role="alert">
+                                        <h6 class="alert-heading mb-2">
+                                            <i class="bi bi-info-circle me-2"></i>Yêu cầu mật khẩu:
+                                        </h6>
+                                        <ul class="mb-0 small">
+                                            <li>Tối thiểu 8 ký tự</li>
+                                            <li>Bao gồm chữ hoa và chữ thường</li>
+                                            <li>Có ít nhất một số hoặc ký tự đặc biệt</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Nút cập nhật -->
+                                    <button type="submit" class="btn btn-auth btn-primary w-100 mb-3">
+                                        <i class="bi bi-shield-check me-2"></i>Cập nhật mật khẩu
+                                    </button>
+
+                                    <!-- Link quay lại -->
+                                    <div class="text-center">
+                                        <a asp-action="HoSo" class="auth-link">
+                                            <i class="bi bi-arrow-left me-2"></i>Quay lại hồ sơ
+                                        </a>
+                                    </div>
+                                </form>
+
+                                <!-- Quay về trang chủ -->
+                                <div class="text-center mt-4">
+                                    <a asp-controller="Home" asp-action="Index" class="auth-link">
+                                        <i class="bi bi-house me-2"></i>Quay về trang chủ
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script hiện/ẩn mật khẩu -->
+    <script>
+        function togglePasswordField(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const button = passwordInput.parentElement.querySelector('.password-toggle');
+            const icon = button.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        // Loading animation khi submit
+        document.querySelector('.auth-form').addEventListener('submit', function () {
+            const btn = this.querySelector('.btn-auth');
+            btn.classList.add('loading');
+            btn.disabled = true;
+        });
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>
