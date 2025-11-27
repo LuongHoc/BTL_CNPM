@@ -1,0 +1,627 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\KhachHang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Models\\KhachHang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\DonDatTour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Models\\DonDatTour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\AdminController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Controllers\\AdminController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\TourController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Controllers\\TourController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\Tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebDatTourDuLichOnline\\Models\\Tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ThanhToanThanhCong.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanThanhCong.cshtml",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAqwB4BAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:32:29.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BaoCaoDoanhThu.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoDoanhThu.cshtml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:28:33.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ThanhToanDon.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\ThanhToan\\ThanhToanDon.cshtml",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAqwG0AAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:31:23.001Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ThemTour.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\ThemTour.cshtml",
+              "ViewState": "AgIAACIEAAAAAAAAAAAIwC4EAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T02:21:24.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T13:30:29.317Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:29:35.841Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DanhSachTuVan.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachTuVan.cshtml",
+              "ViewState": "AgIAAG8DAAAAAAAAAAAIwHYDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T13:13:28.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "HoSo.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\HoSo.cshtml",
+              "ViewState": "AgIAAHECAAAAAAAAAAAowIgCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:31:16.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DatTourThanhCong.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Tour\\DatTourThanhCong.cshtml",
+              "ViewState": "AgIAANwAAAAAAAAAAAAqwO4AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:33:29.755Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TaoDon.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\NhanVien\\TaoDon.cshtml",
+              "ViewState": "AgIAADoCAAAAAAAAAAAiwEICAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T02:04:41.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GioiThieu.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Home\\GioiThieu.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAqwCcAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T16:37:58.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DanhSachDon.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\NhanVien\\DanhSachDon.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:29:40.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\NhanVien\\Index.cshtml",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAlwIoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T13:26:45.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:33:58.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:33:56.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DatTour.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Tour\\DatTour.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:33:24.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "KhongDuQuyen.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\KhongDuQuyen.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:31:19.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DonCuaToi.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\TaiKhoan\\DonCuaToi.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:31:12.158Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ChiTiet.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Tour\\ChiTiet.cshtml",
+              "ViewState": "AgIAAGkBAAAAAAAAAAAqwHIBAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T03:54:49.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:30:01.739Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ThemNhanVien.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\ThemNhanVien.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:29:18.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "SuaTour.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\SuaTour.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:29:13.81Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SuaNhanVien.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\SuaNhanVien.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:29:10.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DanhSachNhanVien.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachNhanVien.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:28:58.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DanhSachDon.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachDon.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:28:53.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "BaoCaoTyLeHuy.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\BaoCaoTyLeHuy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-24T06:28:45.224Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "DanhSachTour.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\DanhSachTour.cshtml",
+              "ViewState": "AgIAAH8EAAAAAAAAAAAIwIgEAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T13:51:58.244Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Views\\Admin\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-23T13:41:44.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "KhachHang.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\KhachHang.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Models\\KhachHang.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\KhachHang.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Models\\KhachHang.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA3wBEAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T02:17:00.904Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "DonDatTour.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\DonDatTour.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Models\\DonDatTour.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\DonDatTour.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Models\\DonDatTour.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T02:07:20.223Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "NhanVienController.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Controllers\\NhanVienController.cs",
+              "ViewState": "AgIAAIMBAAAAAAAAAAAcwKsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T02:06:21.184Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "20251122073406_AddYeuCauTuVan.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Migrations\\20251122073406_AddYeuCauTuVan.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T13:47:54.433Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Controllers\\AdminController.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAlwMwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-22T15:41:32.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "TourController.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\TourController.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Controllers\\TourController.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\TourController.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Controllers\\TourController.cs",
+              "ViewState": "AgIAANsAAAAAAAAAAAAAwOgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T13:41:11.414Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBcAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T14:09:54.138Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ApplicationDbContextModelSnapshot.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Migrations\\ApplicationDbContextModelSnapshot.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T13:47:51.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Tour.cs",
+              "DocumentMoniker": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\Tour.cs",
+              "RelativeDocumentMoniker": "WebDatTourDuLichOnline\\Models\\Tour.cs",
+              "ToolTip": "D:\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\WebDatTourDuLichOnline\\Models\\Tour.cs",
+              "RelativeToolTip": "WebDatTourDuLichOnline\\Models\\Tour.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA4wBIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T03:54:40.301Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
