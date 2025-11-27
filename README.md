@@ -11,7 +11,7 @@
 
 - Hoàng Đức Hội – K225480106085
 
-## Lớp: K58KTP – Trường ĐH Kỹ Thuật Công Nghiệp – Khoa Điện tử – CNTT
+## Lớp: K58KTP – Trường ĐH Kỹ Thuật Công Nghiệp Thái Nguyên – Khoa Điện tử – CNTT
 
 # 📌 1. Giới thiệu dự án
 
